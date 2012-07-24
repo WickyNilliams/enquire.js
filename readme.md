@@ -2,7 +2,7 @@
 
 ##In a nutshell...
 
-`enquire.js` is a pure javascript framework for programmatically responding CSS media queries.
+`enquire.js` is a pure javascript framework for programmatically responding to CSS media queries.
 
 `enquire` does not aim to be a replacement for, but rather a supplement to, CSS media queries.
 Some circumstances demand more than what CSS based media queries can offer and this is where `enquire` steps in.
