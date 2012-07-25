@@ -172,4 +172,8 @@ one call to `listen` will have you covered now and in future.
 
 Feel free to make feature or pull requests.
 
+##License
+
+Licence: MIT (http://www.opensource.org/licenses/mit-license.php)
+
 
