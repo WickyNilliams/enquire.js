@@ -174,6 +174,6 @@ Feel free to make feature or pull requests.
 
 ##License
 
-Licence: MIT (http://www.opensource.org/licenses/mit-license.php)
+License: MIT (http://www.opensource.org/licenses/mit-license.php)
 
 
