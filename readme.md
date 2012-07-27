@@ -31,21 +31,23 @@ The main method you will be dealing with is `register`. It's basic signature is 
 `query` is the media query which we wish to handle, and `handler` is an object containing logic to handle the supplied query.
 An example of usage is as follows.
 
-    enquire.register("screen and (max-width:1000px)", {
+```javascript
+enquire.register("screen and (max-width:1000px)", {
 
-        match : function() {},      // required,
-                                    // triggered when the media query transitions *from an unmatched to a matched state*
+    match : function() {},      // required,
+                                // triggered when the media query transitions *from an unmatched to a matched state*
 
-        unmatch : function() {},    // optional,
-                                    // if supplied, triggered when the media query transitions *from a matched state to an unmatched state*.
+    unmatch : function() {},    // optional,
+                                // if supplied, triggered when the media query transitions *from a matched state to an unmatched state*.
 
-        setup : function() {},      // optional,
-                                    // if supplied, triggered once immediately upon registration of the handler
+    setup : function() {},      // optional,
+                                // if supplied, triggered once immediately upon registration of the handler
 
-        deferSetup : true           // optional, defaults to false
-                                    // if set to true, defers execution the setup function until the media query is first matched. still triggered just once
+    deferSetup : true           // optional, defaults to false
+                                // if set to true, defers execution the setup function until the media query is first matched. still triggered just once
 
-    });
+});
+```
 
 
 ##Can I haz more than one handlerz?
@@ -62,21 +64,23 @@ so you can also supply an `Array` as the second parameter to `register` to suppo
 
 You could, if you wish, achieve the same effect by calling register multiple times for the same query:
 
-    var query = "screen and (max-width:1000px)";
+```javascript
+var query = "screen and (max-width:1000px)";
 
-    enquire.register(query, {
-        match : function() {
-            console.log("handler 1 matched");
-        }
-    });
+enquire.register(query, {
+    match : function() {
+        console.log("handler 1 matched");
+    }
+});
 
-    //later in code...
+//later in code...
 
-    enquire.register(query, {
-        match : function() {
-            console.log("handler 2 matched");
-        }
-     });
+enquire.register(query, {
+    match : function() {
+        console.log("handler 2 matched");
+    }
+ });
+```
 
  Whilst the array pattern is generally preferred, this pattern of multiple calls to `register`
  is useful for when you don't want to register all handlers at one time, allowing you to perform work
@@ -92,47 +96,47 @@ You could, if you wish, achieve the same effect by calling register multiple tim
 As well as multiple handlers per query, multiple queries can be registered with `enquire`.
 Calls to `register` can be chained together for this purpose. *In fact, all methods on `enquire` can be chained!*
 
+```javascript
+enquire.register("screen and (max-width:1000px)", {
 
-    enquire.register("screen and (max-width:1000px)", {
+    // contrived example
+    // changes text colour to red on match
+    // and reverts colour on unmatch
 
-        // contrived example
-        // changes text colour to red on match
-        // and reverts colour on unmatch
+    match : function() {
+        $("p").each(function() {
+            var $this = $(this);
+            $this.data("previousColour", $this.css("color")).css("color", "red");
+        });
+    },
 
-        match : function() {
-            $("p").each(function() {
-                var $this = $(this);
-                $this.data("previousColour", $this.css("color")).css("color", "red");
-            });
-        },
+    unmatch : function() {
+        $("p").each(function() {
+            var $this = $(this);
+            $this.css("color", $this.data("previousColour"));
+        });
+    }
 
-        unmatch : function() {
-            $("p").each(function() {
-                var $this = $(this);
-                $this.css("color", $this.data("previousColour"));
-            });
-        }
+}).register("screen and (max-width:500px)", {
 
-    }).register("screen and (max-width:500px)", {
+    // may as well show off deferred setup while we're here!
 
-        // may as well show off deferred setup while we're here!
+    setup : function() {
+        console.log("500px setup, will be deferred");
+    },
 
-        setup : function() {
-            console.log("500px setup, will be deferred");
-        },
+    deferSetup: true,
 
-        deferSetup: true,
+    match : function() {
+        console.log("500px on");
+    },
 
-        match : function() {
-            console.log("500px on");
-        },
+    unmatch : function() {
+        console.log("500px off");
+    }
 
-        unmatch : function() {
-            console.log("500px off");
-        }
-
-    }).listen(); //read on for info on listen()
-
+}).listen(); //read on for info on listen()
+```
 
 
 ##Getting the show on the road
@@ -160,7 +164,9 @@ checking whether any of their states have changed. If, and only if, a query's st
  `listen` delays evaluation of media queries until there have been no resize or orientation events in the last 500ms.
  This value can be configured by supplying a parameter to `listen`:
 
-    enquire.listen(10000); //10 seconds, why not?!
+```javascript
+enquire.listen(10000); //10 seconds, why not?!
+```
 
 `listen` also contains an implicit call to `fire`, so you do not have to do this manually -
 one call to `listen` will have you covered now and in future.
