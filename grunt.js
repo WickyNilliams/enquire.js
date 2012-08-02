@@ -10,7 +10,7 @@ module.exports = function(grunt) {
     meta: {
       banner: '// <%= pkg.name %> v<%= pkg.version %> - <%= pkg.description %>\n' +
               '// Copyright (c) <%= grunt.template.today("yyyy") %> <%= pkg.author.name %> - <%= pkg.homepage %>\n' +
-              '// License: <%= _.map(pkg.licenses, function(x) {return x.type + "(" + x.url + ")";}).join(", ") %>'
+              '// License: <%= _.map(pkg.licenses, function(x) {return x.type + " (" + x.url + ")";}).join(", ") %>'
     
     },
 
@@ -22,14 +22,14 @@ module.exports = function(grunt) {
       build: {
         src: [
           '<banner:meta.banner>',
-          'src/intro.js',
+          'src/include/intro.js',
 
           'src/Util.js',
           'src/QueryHandler.js',
           'src/MediaQuery.js',
           'src/MediaQueryDispatch.js',
 
-          'src/outro.js'
+          'src/include/outro.js'
         ],
         dest: 'dist/<%= pkg.name %>.js'
       }
@@ -39,11 +39,7 @@ module.exports = function(grunt) {
     lint: {
       prebuild : [
         'grunt.js',
-        'src/Util.js',
-        'src/QueryHandler.js',
-        'src/MediaQuery.js',
-        'src/MediaQueryDispatch.js',
-
+        'src/*.js',
         'demo/js/*.js'
       ],
       postbuild : [

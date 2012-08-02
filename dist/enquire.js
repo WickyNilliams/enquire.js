@@ -1,6 +1,6 @@
 // enquire v1.1.0 - Awesome media queries in JavaScript
 // Copyright (c) 2012 Nick Williams - https://www.github.com/WickyNilliams/enquire.js
-// License: MIT(http://www.opensource.org/licenses/mit-license.php)
+// License: MIT (http://www.opensource.org/licenses/mit-license.php)
 
 window.enquire = (function(matchMedia) {
 
