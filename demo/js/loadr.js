@@ -1,3 +1,5 @@
+/*global Modernizr: true */
+
 //bootstrap the test app
 Modernizr.load([
 
@@ -18,6 +20,6 @@ Modernizr.load([
     },
 
     //load everything else
-    "../src/enquire.js",
+    "../dist/enquire.js",
     "js/app.js"
 ]);

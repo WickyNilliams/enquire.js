@@ -1,0 +1,24 @@
+{
+	"name" : "enquire",
+	"version" : "1.1.0",
+	"description" : "Awesome media queries in JavaScript",
+	"homepage" : "https://www.github.com/WickyNilliams/enquire.js",
+	"author" : {
+		"name" : "Nick Williams"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git://github.com/cowboy/grunt.git"
+	},
+	"bugs" : {
+		"url" : "https://github.com/WickyNilliams/enquire.js/issues"
+	},
+	"licenses": [{
+      "type": "MIT",
+      "url": "http://www.opensource.org/licenses/mit-license.php"
+    }],
+	"dependencies" : {
+		"grunt" : "*",
+		"grunt-jasmine-task" : "*"
+	}
+}

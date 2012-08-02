@@ -1,3 +1,6 @@
+/*jshint devel:true */
+/*global $:true, enquire:true */
+
 $(function() {
 
     // enquire.register is the method you will be interested in.
