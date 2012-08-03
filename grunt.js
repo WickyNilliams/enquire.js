@@ -9,7 +9,7 @@ module.exports = function(grunt) {
     meta: {
       banner: '// <%= pkg.name %> v<%= pkg.version %> - <%= pkg.description %>\n' +
               '// Copyright (c) <%= grunt.template.today("yyyy") %> <%= pkg.author.name %> - <%= pkg.homepage %>\n' +
-              '// License: <%= _.map(pkg.licenses, function(x) {return x.type + " (" + x.url + ")";}).join(", ") %>'
+              '// License: <%= _.map(pkg.licenses, function(x) {return x.type + " (" + x.url + ")";}).join(", ") %>\n'
     
     },
 

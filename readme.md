@@ -24,8 +24,8 @@ The most you will need to do is provide a [polyfill for matchMedia](https://gith
 
 Downloads are located in the `dist` folder. Alternatively you can build from source by running the grunt task.
  
- * [Development](dist/enquire.js) - unminified
- * [Production](dist/enquire.min.js) - minified
+ * [Development](https://github.com/WickyNilliams/enquire.js/raw/master/dist/enquire.js) - unminified
+ * [Production](https://github.com/WickyNilliams/enquire.js/raw/master/dist/enquire.min.js) - minified
 
 ##Basic Usage
 

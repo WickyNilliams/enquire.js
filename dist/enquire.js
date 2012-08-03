@@ -2,6 +2,7 @@
 // Copyright (c) 2012 Nick Williams - https://www.github.com/WickyNilliams/enquire.js
 // License: MIT (http://www.opensource.org/licenses/mit-license.php)
 
+
 window.enquire = (function(matchMedia) {
 
     "use strict";
