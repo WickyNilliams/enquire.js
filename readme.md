@@ -14,13 +14,13 @@ In a responsive design, you may want to do some complex things with your markup 
 
 `enquire` makes it trivial to do all of these things and more!
 
-##Dependencies
+###Dependencies
 
 None!
 
 The most you will need to do is provide a [polyfill for matchMedia](https://github.com/paulirish/matchMedia.js/) support if you wish to support older browsers.
 
-##Download
+###Downloads
 
 Downloads are located in the `dist` folder. Alternatively you can build from source by running the grunt task.
  
