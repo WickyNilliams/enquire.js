@@ -1,7 +1,6 @@
 /*global module:false*/
 module.exports = function(grunt) {
 
-  grunt.loadNpmTasks('grunt-rigger');
   grunt.loadNpmTasks('grunt-jasmine-task');
 
   // Project configuration.

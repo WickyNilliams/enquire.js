@@ -20,6 +20,13 @@ None!
 
 The most you will need to do is provide a [polyfill for matchMedia](https://github.com/paulirish/matchMedia.js/) support if you wish to support older browsers.
 
+##Download
+
+Downloads are located in the `dist` folder. Alternatively you can build from source by running the grunt task.
+ 
+ * [Development](dist/enquire.js) - unminified
+ * [Production](dist/enquire.min.js) - minified
+
 ##Basic Usage
 
 ###enquire.register
