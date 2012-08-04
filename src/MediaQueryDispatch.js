@@ -82,7 +82,7 @@
          */
         listen : function(timeout) {
 
-            var evt = window.addEventListener || window.attachEvent,
+            var eventWireUp = window.addEventListener || window.attachEvent,
                 self = this;
 
             timeout = timeout || 500;
@@ -96,7 +96,7 @@
             function wireFire(event) {
                 var timer;
 
-                evt(event, function(e) {
+                eventWireUp(event, function(e) {
                     if(timer) {
 						clearTimeout(timer);
 					}

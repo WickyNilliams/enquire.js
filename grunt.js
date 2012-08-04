@@ -13,9 +13,10 @@ module.exports = function(grunt) {
     
     },
 
-    jasmine : {
-      src : ['spec/SpecRunner.html']
-    },
+    // jasmine : {
+    //   src : ['spec/SpecRunner.html'],
+    //   errorReporting: true
+    // },
 
     concat: {
       build: {
@@ -39,6 +40,7 @@ module.exports = function(grunt) {
       prebuild : [
         'grunt.js',
         'src/*.js',
+        'spec/*.js',
         'demo/js/*.js'
       ],
       postbuild : [
@@ -85,7 +87,7 @@ module.exports = function(grunt) {
   });
 
   // Default task.
-  grunt.registerTask('default', 'lint:prebuild jasmine concat min lint:postbuild');
+  grunt.registerTask('default', 'lint:prebuild concat min lint:postbuild');
 
 
 };
