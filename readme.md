@@ -6,19 +6,10 @@
 
 `enquire` does not aim to be a replacement for, but rather a supplement to, CSS media queries.
 Some circumstances demand more than what CSS based media queries can offer and this is where `enquire` steps in.
-In a responsive design, you may want to do some complex things with your markup e.g:
-
- * On a mobile device, generate a new a touch friendly main menu from your current menu
- * Replace images with higher resolution variants for screens with high DPI
- * Shuffle content around on smaller screens
-
-`enquire` makes it trivial to do all of these things and more!
 
 ###Dependencies
 
-None!
-
-The most you will need to do is provide a [polyfill for matchMedia](https://github.com/paulirish/matchMedia.js/) support if you wish to support older browsers.
+None! The most you will need to do is provide a [polyfill for matchMedia](https://github.com/paulirish/matchMedia.js/) support if you wish to support older browsers.
 
 ###Downloads
 
@@ -62,10 +53,12 @@ enquire.register("screen and (max-width:1000px)", {
 It can be cumbersome to have all your logic in one handler,
 so you can also supply an `Array` as the second parameter to `register` to support multiple handlers per query:
 
+```javascript
      enquire.register("screen and (max-width:1000px)", [
         { match : function() { console.log("handler 1 matched"); } },
         { match : function() { console.log("handler 2 matched"); } }
      ]);
+```javascript
 
 ###Alternatively...
 
