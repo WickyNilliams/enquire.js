@@ -876,7 +876,7 @@ header .strapline {
   text-shadow: none;
   margin-bottom: 0;
 }
-header iframe.twitter-share-button {
+header .twitter-share-button {
   position: absolute;
   top: 50%;
   right: 0;
