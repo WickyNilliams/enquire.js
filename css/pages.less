@@ -121,8 +121,13 @@ ol.counter-style {
 	padding: 0 4%;
 }
 
+.js a.twitter-share-button {
+	display: none;
+}
+
 header {
 	
+	position: relative;
 	text-align: center;
 
 	&.block{
@@ -143,6 +148,12 @@ header {
 		font-size: 1.5em;
 		text-shadow:none;
 		margin-bottom: 0;
+	}
+
+	iframe.twitter-share-button {
+		position: absolute;
+		top: 50%;
+		right: 0;
 	}
 }
 

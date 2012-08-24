@@ -854,7 +854,11 @@ ol.counter-style  > li:before {
   border-bottom: 0.2em dashed rgba(218, 237, 226, 0.1);
   padding: 0 4%;
 }
+.js a.twitter-share-button {
+  display: none;
+}
 header {
+  position: relative;
   text-align: center;
 }
 header.block {
@@ -871,6 +875,11 @@ header .strapline {
   font-size: 1.5em;
   text-shadow: none;
   margin-bottom: 0;
+}
+header iframe.twitter-share-button {
+  position: absolute;
+  top: 50%;
+  right: 0;
 }
 article p {
   line-height: 2;
