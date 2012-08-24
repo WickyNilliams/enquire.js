@@ -21,7 +21,7 @@ $(function() {
 				}
 			},
 			{
-				load : "js/vendor/scrollspy.js",
+				load : "js/vendor/bootstrap-scrollspy.js",
 				callback : function() {
 					$("body").scrollspy({offset: 50});
 				}
