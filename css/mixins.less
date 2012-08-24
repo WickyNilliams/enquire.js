@@ -1,0 +1,83 @@
+/////////////////////////////
+/// MIXINS
+/////////////////////////////
+
+#glyphs {
+
+	.up-triangle() {
+	    content: ('\25B2');
+	}
+	.right-triangle() {
+	    content: ('\25BA');
+	}
+	.down-triangle() {
+	    content: ('\25BC');
+	}
+	.left-triangle() {
+	    content: ('\25C4');
+	}
+
+}
+
+#pos {
+
+	.center {
+		display: block;
+		margin: 0 auto;
+	}
+
+	.fixed-center(@width : 960px) { 
+		width: @width;
+		.center;
+	}
+
+	.fluid-center(@max : 960px) {
+		max-width: @max;
+		.center;
+	} 
+}
+
+#fonts {
+	.body {
+		font-family: Verdana, Geneva, Arial, Helvetica, sans-serif
+	}
+
+	.title {
+		font-family: 'Yesteryear', cursive;
+	}
+
+	.heading {
+		font-family: 'Lato', Verdana, Geneva, Arial, Helvetica, sans-serif;
+	}
+}
+
+.text-overflow() {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.transition(@properties : all, @duration: 0.2s, @timing: ease-out) {
+    -webkit-transition: @properties @duration @timing;
+    -moz-transition: @properties @duration @timing;
+    -o-transition: @properties @duration @timing;
+    transition: @properties @duration @timing;
+}
+
+.selection(@bg: black, @color: white, @textShadow: none) {
+	::selection {
+		background-color: @bg !important;
+		color: @color !important;
+		text-shadow: @textShadow;
+	}
+	::-moz-selection {
+		background-color: @bg !important;
+		color: @color !important;
+		text-shadow: @textShadow;
+	}
+}
+
+.border-box() {
+	*, *:after, *:before { -moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box; }
+
+}
