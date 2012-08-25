@@ -253,10 +253,15 @@ header .strapline {
   text-shadow: none;
   margin-bottom: 0;
 }
-header .twitter-share-button {
+header .buttons {
   position: absolute;
-  top: 50%;
   right: 0;
+  top: 50%;
+}
+header .buttons > .btn {
+  display: block;
+  padding: 0.2em 0;
+  width: 107px;
 }
 article p {
   line-height: 2;
