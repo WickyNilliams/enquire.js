@@ -123,11 +123,9 @@ $(function() {
     // you can do that also. Seems a little pointless, but who am I to judge :)
 
     $("#dynamic").click(function() {
-        enquire.register("screen and (max-width:500px)", {
-            match: function(e) {
-                console.log("dynamic handler matched!");
-                console.dir(e);
-            }
+        enquire.register("screen and (max-width:500px)", function(e) {
+            console.log("dynamic handler matched!");
+            console.dir(e);
         });
     });
 });

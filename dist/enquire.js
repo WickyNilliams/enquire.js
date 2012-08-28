@@ -1,4 +1,4 @@
-// enquire v1.1.0 - Awesome media queries in JavaScript
+// enquire v1.1.0 - Awesome Media Queries in JavaScript
 // Copyright (c) 2012 Nick Williams - https://www.github.com/WickyNilliams/enquire.js
 // License: MIT (http://www.opensource.org/licenses/mit-license.php)
 
@@ -34,6 +34,16 @@ window.enquire = (function(matchMedia) {
      */
     function isArray(target) {
         return Object.prototype.toString.apply(target) === "[object Array]";
+    }
+
+    /**
+     * Helper function for determining whether target object is a function
+     *
+     * @param target the object under test
+     * @return {Boolean} true if function, false otherwise
+     */
+    function isFunction(target) {
+        return typeof target === "function";
     }
 
     /**
@@ -216,6 +226,12 @@ MediaQuery.prototype = {
             }
 
             query = queries[q];
+
+            if(isFunction(options)) {
+                options = {
+                    match : options
+                };
+            }
 
             if(!isArray(options)) {
                 options = [options];

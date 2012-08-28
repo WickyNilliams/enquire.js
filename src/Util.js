@@ -27,3 +27,13 @@
     function isArray(target) {
         return Object.prototype.toString.apply(target) === "[object Array]";
     }
+
+    /**
+     * Helper function for determining whether target object is a function
+     *
+     * @param target the object under test
+     * @return {Boolean} true if function, false otherwise
+     */
+    function isFunction(target) {
+        return typeof target === "function";
+    }

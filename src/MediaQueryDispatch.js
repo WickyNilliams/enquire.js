@@ -37,9 +37,18 @@
 
             query = queries[q];
 
+            //normalise to object
+            if(isFunction(options)) {
+                options = {
+                    match : options
+                };
+            }
+
+            //normalise to array
             if(!isArray(options)) {
                 options = [options];
             }
+
             each(options, function(handler) {
                 query.addHandler(handler);
             });

@@ -76,6 +76,7 @@ module.exports = function(grunt) {
         matchMedia: true,
         each: true,
         isArray: true,
+        isFunction: true,
         QueryHandler: true,
         MediaQuery: true,
         MediaQueryDispatch: true
