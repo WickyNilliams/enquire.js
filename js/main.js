@@ -4,7 +4,7 @@
 
 $(function() {
 
-	var $toc = $("<div class='toc nav sidebar' data-spy='affix' data-offset-top='110' data-offsetop-bottom='200'><h2 class='title'>Jump To&hellip;</h2></div>"),
+	var $toc = $("<div class='toc nav sidebar' data-spy='affix' data-offset-top='110' data-offsetop-bottom='200'><h2 class='section-title'>Jump To&hellip;</h2></div>"),
 		$main = $("[role=main], .main");
 
 
