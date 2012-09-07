@@ -8,14 +8,12 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 
     <title>enquire.js - Awesome Media Queries in JavaScript</title>
+    
     <meta name="description" content="">
-
     <meta name="viewport" content="width=device-width">
 
     <link href="http://fonts.googleapis.com/css?family=Lato:100|Yesteryear" rel="stylesheet" type="text/css">
-
     <link rel="stylesheet" href="css/enquire.min.css">
-
     <script src="js/vendor/modernizr-2.5.3.min.js"></script>
 </head>
 <body data-spy="scroll">
@@ -213,7 +211,7 @@ enquire.register("screen and (max-width:1000px)", {
 
         <section>
 
-            <h2 >Get The Show On The Road</h2>
+            <h2 class="section-title">Get The Show On The Road</h2>
 
             <p>
                 You may have noticed the call to <code class="language-javascript">listen()</code> in the last example, so let's talk about that. After you've registered your handlers you need to get <code class="language-javascript">enquire</code> up and running. For this you have two options, <code class="language-javascript">fire</code> or <code class="language-javascript">listen</code>.
@@ -250,7 +248,7 @@ enquire.listen(10000); // 10 seconds, why not?!
         </section>
 
         <section>
-            <h2 id="legacy-support">Legacy Support</h2>
+            <h2 id="legacy-support" class="section-title">Legacy Support</h2>
             <p>
                 enquire relies on the <code class="language-javascript">matchMedia</code> API, which <a href="http://caniuse.com/matchmedia">isn't universally supported in browsers</a>. Fear not, using a <a href="https://github.com/paulirish/matchMedia.js/">matchMedia polyfill</a> is more than sufficient for enquire's purposes.
             </p>
@@ -272,7 +270,7 @@ Modernizr.load([
         </section>
 
         <section>
-            <h2 class="license">License</h2>
+            <h2 class="section-title">License</h2>
 
             <p>Licensed under the <a href="http://www.opensource.org/licenses/mit-license.php">MIT License</a>.</p>
         </section>
