@@ -2,13 +2,15 @@
 /**
  * Represents a single media query and manages it's state
  *
- * @param query
+ * @param {string} query the media query string
+ * @param {boolean} [isUnconditional=false] whether the media query should run regardless of whether the conditions are met. Primarily for helping older browsers deal with mobile-first design
  * @constructor
  */
-function MediaQuery(query) {
+function MediaQuery(query, isUnconditional) {
     this.query = query;
     this.handlers = [];
-    this.matched = this.matchMedia();
+    this.matched = false;
+    this.isUnconditional = isUnconditional;
 }
 MediaQuery.prototype = {
 
@@ -30,14 +32,25 @@ MediaQuery.prototype = {
      * @param {function} handler.matched callback for when query is activated
      * @param {function} [handler.unmatch] callback for when query is deactivated
      * @param {function} [handler.setup] callback for immediate-execution when a query handler is registered
-     * @param {boolean} [handler.deferSetup=false]
+     * @param {boolean} [handler.deferSetup=false] should the setup callback be deferred until the first time the handler is matched
      */
     addHandler : function(handler) {
         var queryHandler = new QueryHandler(handler);
         this.handlers.push(queryHandler);
+    },
 
-        if(this.matched) {
-            queryHandler.on();
+    /*
+     * assesses the query, turning on all handlers if it matches, turning them off if it doesn't match
+     *
+     * @function
+     */
+    assess : function() {
+
+        if(this.matchMedia() || this.isUnconditional) {
+            this.match();
+        }
+        else {
+            this.unmatch();
         }
     },
 
@@ -72,9 +85,7 @@ MediaQuery.prototype = {
         }
 
         each(this.handlers, function(handler){
-            if(handler.off) {
-				handler.off(e);
-            }
+			handler.off(e);
         });
         this.matched = false;
     }

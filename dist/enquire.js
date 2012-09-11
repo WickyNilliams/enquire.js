@@ -1,4 +1,4 @@
-// enquire v1.1.0 - Awesome Media Queries in JavaScript
+// enquire v1.2.1 - Awesome Media Queries in JavaScript
 // Copyright (c) 2012 Nick Williams - https://www.github.com/WickyNilliams/enquire.js
 // License: MIT (http://www.opensource.org/licenses/mit-license.php)
 
@@ -110,13 +110,15 @@ window.enquire = (function(matchMedia) {
 /**
  * Represents a single media query and manages it's state
  *
- * @param query
+ * @param {string} query the media query string
+ * @param {boolean} [isUnconditional=false] whether the media query should run regardless of whether the conditions are met. Primarily for helping older browsers deal with mobile-first design
  * @constructor
  */
-function MediaQuery(query) {
+function MediaQuery(query, isUnconditional) {
     this.query = query;
     this.handlers = [];
-    this.matched = this.matchMedia();
+    this.matched = false;
+    this.isUnconditional = isUnconditional;
 }
 MediaQuery.prototype = {
 
@@ -138,14 +140,25 @@ MediaQuery.prototype = {
      * @param {function} handler.matched callback for when query is activated
      * @param {function} [handler.unmatch] callback for when query is deactivated
      * @param {function} [handler.setup] callback for immediate-execution when a query handler is registered
-     * @param {boolean} [handler.deferSetup=false]
+     * @param {boolean} [handler.deferSetup=false] should the setup callback be deferred until the first time the handler is matched
      */
     addHandler : function(handler) {
         var queryHandler = new QueryHandler(handler);
         this.handlers.push(queryHandler);
+    },
 
-        if(this.matched) {
-            queryHandler.on();
+    /*
+     * assesses the query, turning on all handlers if it matches, turning them off if it doesn't match
+     *
+     * @function
+     */
+    assess : function() {
+
+        if(this.matchMedia() || this.isUnconditional) {
+            this.match();
+        }
+        else {
+            this.unmatch();
         }
     },
 
@@ -180,9 +193,7 @@ MediaQuery.prototype = {
         }
 
         each(this.handlers, function(handler){
-            if(handler.off) {
-				handler.off(e);
-            }
+			handler.off(e);
         });
         this.matched = false;
     }
@@ -196,11 +207,14 @@ MediaQuery.prototype = {
      */
     function MediaQueryDispatch () {
         if(!matchMedia) {
-            throw new Error("matchMedia is required for media query dispatcher");
+            throw new Error("matchMedia is required");
         }
+
+        var capabilityTest = new MediaQuery("only all");
 
         this.queries = [];
         this.listening = false;
+        this.browserIsIncapable = !capabilityTest.matchMedia();
     }
 
     MediaQueryDispatch.prototype = {
@@ -210,32 +224,37 @@ MediaQuery.prototype = {
          *
          * @function
          * @param {string} q the media query
-         * @param {object || Array} options either a single query handler object or a an array of query handlers
+         * @param {object || Array || Function} options either a single query handler object, a function, or an array of query handlers
          * @param {function} options.match fired when query matched
          * @param {function} [options.unmatch] fired when a query is no longer matched
          * @param {function} [options.setup] fired when handler first triggered
          * @param {boolean} [options.deferSetup=false] whether setup should be run immediately or deferred until query is first matched
+         * @param {boolean} [shouldDegrade=false] whether this particular media query should always run on incapable browsers
          */
-        register : function(q, options) {
+        register : function(q, options, shouldDegrade) {
 
             var queries = this.queries,
-                query;
+                query,
+                isUnconditional = shouldDegrade && this.browserIsIncapable;
 
             if(!queries.hasOwnProperty(q)) {
-                queries[q] = new MediaQuery(q);
+                queries[q] = new MediaQuery(q, isUnconditional);
             }
 
             query = queries[q];
 
+            //normalise to object
             if(isFunction(options)) {
                 options = {
                     match : options
                 };
             }
 
+            //normalise to array
             if(!isArray(options)) {
                 options = [options];
             }
+
             each(options, function(handler) {
                 query.addHandler(handler);
             });
@@ -261,12 +280,7 @@ MediaQuery.prototype = {
 					continue;
 				}
 
-                var mq = queries[mediaQuery];
-                if(mq.matchMedia()){
-					mq.match(e);
-                } else{
-					mq.unmatch(e);
-				}
+                queries[mediaQuery].assess();
             }
             return this;
         },
@@ -274,6 +288,7 @@ MediaQuery.prototype = {
         /**
          * sets up listeners for resize and orientation events
          *
+         * @function
          * @param {int} [timeout=500] the time (in milliseconds) after which the queries should be handled
          */
         listen : function(timeout) {
@@ -303,7 +318,7 @@ MediaQuery.prototype = {
                 });
             }
 
-            //handle initial load then wait for events
+            //handle initial load then listen
             self.fire();
             wireFire("resize");
             wireFire("orientationChange");

@@ -5,7 +5,7 @@ $(function() {
 
     // enquire.register is the method you will be interested in.
     // It takes a media query string as it's first param
-    // and a handler or array of handlers (more on this next) asd it's second param
+    // and a handler or array of handlers (more on this next) as it's second param
 
     enquire.register("screen and (max-width:1000px)", {
 

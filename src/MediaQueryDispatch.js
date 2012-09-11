@@ -6,11 +6,14 @@
      */
     function MediaQueryDispatch () {
         if(!matchMedia) {
-            throw new Error("matchMedia is required for media query dispatcher");
+            throw new Error("matchMedia is required");
         }
+
+        var capabilityTest = new MediaQuery("only all");
 
         this.queries = [];
         this.listening = false;
+        this.browserIsIncapable = !capabilityTest.matchMedia();
     }
 
     MediaQueryDispatch.prototype = {
@@ -20,19 +23,21 @@
          *
          * @function
          * @param {string} q the media query
-         * @param {object || Array} options either a single query handler object or a an array of query handlers
+         * @param {object || Array || Function} options either a single query handler object, a function, or an array of query handlers
          * @param {function} options.match fired when query matched
          * @param {function} [options.unmatch] fired when a query is no longer matched
          * @param {function} [options.setup] fired when handler first triggered
          * @param {boolean} [options.deferSetup=false] whether setup should be run immediately or deferred until query is first matched
+         * @param {boolean} [shouldDegrade=false] whether this particular media query should always run on incapable browsers
          */
-        register : function(q, options) {
+        register : function(q, options, shouldDegrade) {
 
             var queries = this.queries,
-                query;
+                query,
+                isUnconditional = shouldDegrade && this.browserIsIncapable;
 
             if(!queries.hasOwnProperty(q)) {
-                queries[q] = new MediaQuery(q);
+                queries[q] = new MediaQuery(q, isUnconditional);
             }
 
             query = queries[q];
@@ -74,12 +79,7 @@
 					continue;
 				}
 
-                var mq = queries[mediaQuery];
-                if(mq.matchMedia()){
-					mq.match(e);
-                } else{
-					mq.unmatch(e);
-				}
+                queries[mediaQuery].assess();
             }
             return this;
         },
@@ -87,6 +87,7 @@
         /**
          * sets up listeners for resize and orientation events
          *
+         * @function
          * @param {int} [timeout=500] the time (in milliseconds) after which the queries should be handled
          */
         listen : function(timeout) {
@@ -116,7 +117,7 @@
                 });
             }
 
-            //handle initial load then wait for events
+            //handle initial load then listen
             self.fire();
             wireFire("resize");
             wireFire("orientationChange");
