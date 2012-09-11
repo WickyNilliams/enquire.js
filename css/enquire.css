@@ -732,8 +732,9 @@ ol.counter-style  > li:before {
   display: none;
 }
 .title {
-  margin-bottom: 0;
+  margin: 0;
   font-family: 'Yesteryear', cursive;
+  color: #ea2e49;
   font-size: 7em;
   text-shadow: 1px 1px 0 #daede2, 2px 2px 0 #daede2, 3px 3px 0 #daede2, 4px 4px 0 #daede2;
 }
@@ -749,6 +750,7 @@ header.block {
   padding-bottom: 1.5%;
 }
 header .strapline {
+  color: #daede2;
   font-size: 1.5em;
   text-shadow: none;
   margin-bottom: 0;

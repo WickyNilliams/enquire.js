@@ -9,7 +9,7 @@
 
     <title>enquire.js - Awesome Media Queries in JavaScript</title>
     
-    <meta name="description" content="">
+    <meta name="description" content="enquire.js is a tiny, pure javascript library for responding to media queries programmatically. It's totally awesome">
     <meta name="viewport" content="width=device-width">
 
     <link href="http://fonts.googleapis.com/css?family=Lato:100|Yesteryear" rel="stylesheet" type="text/css">
@@ -26,8 +26,8 @@
     </a>
     
 <header class="block">
-    <h1 class="title">enquire.js</h1>
-    <h2 class="strapline">Awesome Media Queries in JavaScript</h2>
+    <p class="title">enquire.js</p>
+    <h1 class="strapline">Awesome Media Queries in JavaScript</h1>
 
     <div class="buttons hide-phone">
         <div class="btn">
@@ -53,18 +53,18 @@
             <h2 class="section-title">The Lowdown</h2>
 
             <p>
-                A lightweight JavaScript library for handling CSS media queries.
+                A <strong>lightweight, pure</strong> JavaScript library for <strong>responding to CSS media queries</strong>.
             </p>
 
             <ul>
-                <li>Deal with your media queries being matched (and even <em>un</em>matched!)</li>
+                <li>Respond to media queries being matched (and even <em>un</em>matched!)</li>
                 <li>Respond to browser events with aplomb</li>
                 <li>And if you want to get really fancy, run one-time setup routines</li>
             </ul>
 
             <h3>Dependencies?</h3>
 
-            <p>None! Not even jQuery.</p>
+            <p>None! <em>Not even jQuery</em>.</p>
             <p>
                 The <em>most</em> you will need to do is provide a <code class="language-javascript">matchMedia</code> polyfill if you wish to <a href="#legacy-support">support older browsers</a>.
             </p>
@@ -105,11 +105,11 @@
             </p>
 
 <pre class="language-javascript"><code>
-enquire.register(query /* string */, handler /* object || array */);
+enquire.register(query /* string */, handler /* object || array || function */);
 </code></pre>
 
             <p>
-                <code class="language-javascript">query</code> is the media query  you wish to handle, and <code class="language-javascript">handler</code> is an object containing any logic to handle the query. An example of usage is as follows:
+                <code class="language-javascript">query</code> is the media query  you wish to handle, and <code class="language-javascript">handler</code> contains any logic to handle the query. An example of usage is as follows:
             </p>
 
 <pre class="language-javascript"><code>
@@ -137,7 +137,7 @@ enquire.register("screen and (max-width:1000px)", {
         <section>
 
             <h2 class="section-title">Delving Deeper</h2>
-            <h3>Can I haz more than one handlerz?</h3>
+            <h3>Can I Haz More Than One Handlerz?</h3>
 
             <p>You can indeed! It can be cumbersome to have all your logic in one handler, so you can also supply an <code class="language-javascript">Array</code> as the second parameter to <code class="language-javascript">register</code> to support multiple handlers per query:</p>
 
@@ -252,7 +252,9 @@ enquire.listen(10000); // 10 seconds, why not?!
             <p>
                 enquire relies on the <code class="language-javascript">matchMedia</code> API, which <a href="http://caniuse.com/matchmedia">isn't universally supported in browsers</a>. Fear not, using a <a href="https://github.com/paulirish/matchMedia.js/">matchMedia polyfill</a> is more than sufficient for enquire's purposes.
             </p>
-            <p>If you are using <a href="http://modernizr.com">Modernizr</a> (and you should be!) it's as easy as this:</p>
+            <p>
+                If you are using <a href="http://modernizr.com">Modernizr</a> (and you should be!) it's as easy as this:
+            </p>
 <pre class="language-javascript"><code>
 Modernizr.load([
     //first test need for polyfill
@@ -267,6 +269,20 @@ Modernizr.load([
 </code></pre>
         
         <p>This is the approach that this site adopts.</p>
+
+            <h3>What About Mobile-First?</h3>
+            <p>
+                If you're taking a mobile-first approach you will typically run into issues with legacy browsers not understanding complex media queries, meaning that browsers such as <abbr title="Internet Explorer 8">IE8</abbr> will be served the mobile versions of the site. This is often undesirable. Again, enquire has you covered here!
+            </p>
+<pre class="language-javascript"><code>
+enquire.register("screen and (min-width:900px)", function() {
+    //execute some code for large-screen devices
+}, true);
+</code></pre>
+            <p>
+                The optional third parameter, <code class="language-javascript">shouldDegrade</code>, causes the media query to short-circuit, and the handler be executed unconditionally for those browsers which are incapable of interpretting the query. When first loaded, enquire runs a quick test to determine the capability of the browser. If the browser is deemed incapable <em>and</em> the <code class="language-javascript">shouldDegrade</code> flag is set to <code class="language-javascript">true</code>, the handler will always be executed. This way, modern browsers will still follow the mobile-first paradigm, whilst older browsers will always be served the desktop version.
+            </p>
+
         </section>
 
         <section>
