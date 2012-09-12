@@ -1,4 +1,4 @@
-// enquire v1.2.1 - Awesome Media Queries in JavaScript
+// enquire v1.3.0 - Awesome Media Queries in JavaScript
 // Copyright (c) 2012 Nick Williams - https://www.github.com/WickyNilliams/enquire.js
 // License: MIT (http://www.opensource.org/licenses/mit-license.php)
 
@@ -58,9 +58,10 @@ window.enquire = (function(matchMedia) {
      */
     function QueryHandler(options) {
         this.initialised = false;
-        this.onMatch = options.match;
-        this.onUnmatch = options.unmatch;
-        this.onSetup = options.setup;
+        this.options = options;
+        // this.onMatch = options.match;
+        // this.onUnmatch = options.unmatch;
+        // this.onSetup = options.setup;
 
         if(!options.deferSetup) {
 			this.setup();
@@ -74,8 +75,8 @@ window.enquire = (function(matchMedia) {
          * @function
          */
         setup : function() {
-            if(this.onSetup){
-                this.onSetup();
+            if(this.options.setup){
+                this.options.setup();
             }
             this.initialised = true;
         },
@@ -90,7 +91,7 @@ window.enquire = (function(matchMedia) {
             if(!this.initialised){
                 this.setup();
             }
-            this.onMatch(e);
+            this.options.match(e);
         },
 
         /**
@@ -100,8 +101,8 @@ window.enquire = (function(matchMedia) {
          * @param [e] the browser event which triggered a match
          */
         off : function(e) {
-            if(this.onUnmatch){
-                this.onUnmatch(e);
+            if(this.options.unmatch){
+                this.options.unmatch(e);
             }
         }
 

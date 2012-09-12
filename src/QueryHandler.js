@@ -11,9 +11,10 @@
      */
     function QueryHandler(options) {
         this.initialised = false;
-        this.onMatch = options.match;
-        this.onUnmatch = options.unmatch;
-        this.onSetup = options.setup;
+        this.options = options;
+        // this.onMatch = options.match;
+        // this.onUnmatch = options.unmatch;
+        // this.onSetup = options.setup;
 
         if(!options.deferSetup) {
 			this.setup();
@@ -27,8 +28,8 @@
          * @function
          */
         setup : function() {
-            if(this.onSetup){
-                this.onSetup();
+            if(this.options.setup){
+                this.options.setup();
             }
             this.initialised = true;
         },
@@ -43,7 +44,7 @@
             if(!this.initialised){
                 this.setup();
             }
-            this.onMatch(e);
+            this.options.match(e);
         },
 
         /**
@@ -53,8 +54,8 @@
          * @param [e] the browser event which triggered a match
          */
         off : function(e) {
-            if(this.onUnmatch){
-                this.onUnmatch(e);
+            if(this.options.unmatch){
+                this.options.unmatch(e);
             }
         }
 
