@@ -2,7 +2,7 @@
 
 `enquire.js` is a lightweight, pure javascript framework for programmatically responding to CSS media queries. 
 
-**`enquire.js` now has a full suite of unit tests! Huzzah!**
+**Now with a full suite of unit tests! Huzzah!**
 
 ##Download
 
@@ -52,7 +52,7 @@ This should be enough to get you going, **but please read the full [enquire.js d
 
 * Got an awesome idea? 
 * Found a not-so-awesome bug? 
-* Wish to use an inappropriate medium of communication to get my attention?!
+* Wish to get my attention through an inappropriate communication medium?!
 
 Then please don't hesitate to raise an issue, they will *all* be looked at and tended to.
 
