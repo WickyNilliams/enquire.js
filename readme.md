@@ -1,6 +1,8 @@
 #enquire.js
 
-`enquire.js` is a pure javascript framework for programmatically responding to CSS media queries.
+`enquire.js` is a lightweight, pure javascript framework for programmatically responding to CSS media queries. 
+
+**`enquire.js` now has a full suite of unit tests! Huzzah!**
 
 ##Download
 
@@ -44,7 +46,17 @@ enquire.register("screen and (max-width:1000px)", {
 }).fire();
 ```
 
-This should be enough to get you going, **but please read the full [documentation](http://wickynilliams.github.com/enquire.js/) if you wish to learn about the other cool features**.
+This should be enough to get you going, **but please read the full [enquire.js documentation](http://wickynilliams.github.com/enquire.js/) if you wish to learn about the other cool features**.
+
+##Contributing
+
+* Got an awesome idea? 
+* Found a not-so-awesome bug? 
+* Wish to use an inappropriate medium of communication to get my attention?!
+
+Then please don't hesitate to raise an issue, they will *all* be looked at and tended to.
+
+And for all the cool cats who are prepared to give their time to contribute code, feel free to open a pull request. If you could write unit tests to accompany your pull request that would be pretty sweet, but no worries if not - if it's good enough to be merged in, it's good enough for me to spend a little time to write tests on your behalf :-)
 
 ##License
 
