@@ -1,13 +1,13 @@
-
+    
 /**
- * Represents a single media query and manages it's state
+ * Represents a single media query, manages it's state and registered handlers for this query
  *
  * @param {string} query the media query string
  * @param {boolean} [isUnconditional=false] whether the media query should run regardless of whether the conditions are met. Primarily for helping older browsers deal with mobile-first design
  * @constructor
  */
 function MediaQuery(query, isUnconditional) {
-    this.query = query;
+    this.mql = matchMedia(query);
     this.handlers = [];
     this.matched = false;
     this.isUnconditional = isUnconditional;
@@ -21,7 +21,7 @@ MediaQuery.prototype = {
      * @returns {boolean} true if match, false otherwise
      */
     matchMedia : function() {
-        return matchMedia(this.query).matches;
+        return this.mql.matches;
     },
 
     /**

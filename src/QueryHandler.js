@@ -12,9 +12,6 @@
     function QueryHandler(options) {
         this.initialised = false;
         this.options = options;
-        // this.onMatch = options.match;
-        // this.onUnmatch = options.unmatch;
-        // this.onSetup = options.setup;
 
         if(!options.deferSetup) {
 			this.setup();

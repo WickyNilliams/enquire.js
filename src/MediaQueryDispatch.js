@@ -10,7 +10,6 @@
         }
 
         var capabilityTest = new MediaQuery("only all");
-
         this.queries = [];
         this.listening = false;
         this.browserIsIncapable = !capabilityTest.matchMedia();

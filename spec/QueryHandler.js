@@ -1,82 +1,79 @@
-/*global describe: true, beforeEach: true, afterEach: true, it: true, expect: true, QueryHandler:true */
+/*global describe: true, beforeEach: true, afterEach: true, it: true, expect: true, jasmine:true, QueryHandler:true */
 
-describe("Specs for QueryHandler type", function() {
+describe("QueryHandler", function() {
 
 	var options;
 
 	beforeEach(function() {
-		options = {
-			match : function () {},
-			unmatch : function() {},
-			setup : function() {}
-		};
+		options = jasmine.createSpyObj("options", ["match", "unmatch", "setup"]);
 	});
 
 	afterEach(function() {
-		options = null;
+		//tear down
 	});
 
-
 	it("is initialised if setup not deferred", function() {
+		//arrange & act
 		var handler = new QueryHandler(options);
 		
+		//assert
 		expect(handler.initialised).toBe(true);
 	});
 
 	it("is not initialised if setup deferred", function () {
+
+		//arrange
 		options.deferSetup = true;
+
+		//act
 		var handler = new QueryHandler(options);
 
+		//assert
 		expect(handler.initialised).toBe(false);
 	});
 
-	it("stores supplied handlers", function() {
+	it("stores supplied handler", function() {
+		//arrange & act
 		var handler = new QueryHandler(options);
 
-		expect(handler.onSetup).toBe(options.setup);
-		expect(handler.onMatch).toBe(options.match);
-		expect(handler.onUnmatch).toEqual(options.unmatch);
+		//assert
+		expect(handler.options).toBe(options);
 	});
 
 	it("calls setup handler and sets to initialised during setup", function() {
-		var setupWasCalled = false;
-
+		
+		//arrange
 		options.deferSetup = true;
-		options.setup = function() {
-			setupWasCalled = true;
-		};
-
 		var handler = new QueryHandler(options);
+
+		//act
 		handler.setup();
 
-		expect(setupWasCalled).toBe(true);
+		//assert
+		expect(options.setup).toHaveBeenCalled();
 		expect(handler.initialised).toBe(true);
 	});
 
 	it("calls match handler when turned on", function() {
-		var matchWasCalled = false;
-		
-		options.match = function() {
-			matchWasCalled = true;
-		};
-
+		//arrange
 		var handler = new QueryHandler(options);
+
+		//act
 		handler.on();
 
-		expect(matchWasCalled).toBe(true);
+		//assert
+		expect(options.match).toHaveBeenCalled();
 	});
 
 	it("calls unmatch handler when turned off", function() {
-		var unmatchWasCalled = false;
-		
-		options.unmatch = function() {
-			unmatchWasCalled = true;
-		};
-
+		//arrange
 		var handler = new QueryHandler(options);
+
+		//act
 		handler.off();
 
-		expect(unmatchWasCalled).toBe(true);
+		//assert
+		expect(options.unmatch).toHaveBeenCalled();
 	});
 
 });
