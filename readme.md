@@ -11,20 +11,23 @@ Downloads are located in the `dist` folder. Alternatively you can build from sou
  * [Development](https://github.com/WickyNilliams/enquire.js/raw/master/dist/enquire.js) - unminified
  * [Production](https://github.com/WickyNilliams/enquire.js/raw/master/dist/enquire.min.js) - minified
 
-##Install via [Bower](http://twitter.github.com/bower/)
+##Install via Bower
 
 enquire.js is available via the [bower](http://twitter.github.com/bower/) package repository:
 
+```bash
     bower install enquire
+```bash
 
 ##Build From Source
 
 If you want build from source and run the tests:
 
+```bash
     git clone git://github.com/WickyNilliams/enquire.js.git
     npm install
     grunt
-
+```bash
 
 ##Full Details
 
