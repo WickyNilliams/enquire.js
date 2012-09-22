@@ -41,6 +41,11 @@ module.exports = function(grunt) {
       ]
     },
 
+    jasmine : {
+      src : 'src/*.js',
+      specs : 'spec/*.js'
+    },
+
     min: {
       standard: {
         src: ['<banner:meta.banner>', '<config:concat.build.dest>'],
@@ -49,7 +54,7 @@ module.exports = function(grunt) {
     },
 
     watch: {
-      files: '<config:lint.files>',
+      files: '<config:lint.prebuild>',
       tasks: 'lint jasmine'
     },
 
@@ -80,8 +85,10 @@ module.exports = function(grunt) {
     uglify: {}
   });
 
+  grunt.loadNpmTasks('grunt-jasmine-runner');
+
   // Default task.
-  grunt.registerTask('default', 'lint:prebuild concat min lint:postbuild');
+  grunt.registerTask('default', 'lint:prebuild jasmine concat min lint:postbuild');
 
 
 };
