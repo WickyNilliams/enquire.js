@@ -113,7 +113,7 @@ window.enquire = (function(matchMedia) {
  * @constructor
  */
 function MediaQuery(query, isUnconditional) {
-    this.mql = matchMedia(query);
+    this.query = query;
     this.handlers = [];
     this.matched = false;
     this.isUnconditional = isUnconditional;
@@ -127,7 +127,7 @@ MediaQuery.prototype = {
      * @returns {boolean} true if match, false otherwise
      */
     matchMedia : function() {
-        return this.mql.matches;
+        return matchMedia(this.query).matches;
     },
 
     /**

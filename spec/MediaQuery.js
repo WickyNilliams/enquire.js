@@ -1,4 +1,4 @@
-/*global describe: true, beforeEach: true, afterEach: true, it: true, expect: true, jasmine:true, MediaQuery:true */
+/*global describe: true, beforeEach: true, afterEach: true, it: true, expect: true, jasmine:true, spyOn:true, MediaQuery:true */
 
 (function(global) {
 	describe("MediaQuery", function() {
@@ -100,6 +100,15 @@
 
 			//assert
 			expect(handler.match).toHaveBeenCalled();
+		});
+
+		it("calls matchMedia every time to workaround polyfill issue", function() {
+			spyOn(global, "matchMedia").andReturn({matches:true});
+
+			mq.matchMedia();
+			mq.matchMedia();
+
+			expect(global.matchMedia.calls.length).toBe(2);
 		});
 
 	});
