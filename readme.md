@@ -4,26 +4,33 @@
 
 **Now with a full suite of unit tests! Huzzah!**
 
-##Download
+##Getting enquire.js
 
-Downloads are located in the `dist` folder. Alternatively you can build from source by running the grunt task.
+###Download
+
+Get the latest build, ready to go:
  
  * [Development](https://github.com/WickyNilliams/enquire.js/raw/master/dist/enquire.js) - unminified
  * [Production](https://github.com/WickyNilliams/enquire.js/raw/master/dist/enquire.min.js) - minified
 
-##Install via Bower
+###Install via Bower
 
-enquire.js is available via the [bower](http://twitter.github.com/bower/) package repository:
+To install via the [bower](http://twitter.github.com/bower/) package repository, enter the following at the command line:
 
     bower install enquire
 
-##Build From Source
+Easy as that :-)
 
-If you want build from source and run the tests:
+###Build From Source
+
+If you want build from source (and run all unit tests etc):
 
     git clone git://github.com/WickyNilliams/enquire.js.git
+    cd enquire.js
     npm install
     grunt
+
+Booya!
 
 ##Full Details
 
@@ -34,10 +41,10 @@ Visit the [enquire.js project page](http://wickynilliams.github.com/enquire.js/)
 The main method you will be dealing with is `register`. It's basic signature is as follows:
 
 ```javascript
-enquire.register(query /* string */, handler /* object || array */);
+enquire.register(query /* string */, handler /* object || array  || function */);
 ```
 
-`query` is the media query  you wish to handle, and `handler` is an object containing any logic to handle the query. An example of usage is as follows:
+`query` is the CSS media query you wish to respond to, and `handler` is an object containing any logic to handle the query. An example of usage is as follows:
 
 ```javascript
 enquire.register("screen and (max-width:1000px)", {
@@ -59,12 +66,12 @@ enquire.register("screen and (max-width:1000px)", {
 }).fire();
 ```
 
-This should be enough to get you going, **but please read the full [enquire.js documentation](http://wickynilliams.github.com/enquire.js/) if you wish to learn about the other cool features**.
+This should be enough to get you going, but **please read the full [enquire.js documentation](http://wickynilliams.github.com/enquire.js/)** if you wish to learn about the other cool features.
 
 ##Contributing
 
 * Got an awesome idea? 
-* Found a not-so-awesome bug? 
+* Found a *not-so-*awesome bug? 
 * Wish to get my attention through an inappropriate communication medium?!
 
 Then please don't hesitate to raise an issue, they will *all* be looked at and tended to.
