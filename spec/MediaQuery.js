@@ -23,6 +23,30 @@
 			expect(mq.handlers.length).toBe(1);
 		});
 
+		it("can remove handlers", function() {
+			//arrange
+			var handler2 = jasmine.createSpyObj("handler", ["match", "unmatch"]),
+				splice = spyOn(Array.prototype, "splice").andCallThrough(),
+				equals = spyOn(global.QueryHandler.prototype, "equals").andCallThrough(),
+				destroy = spyOn(global.QueryHandler.prototype, "destroy"),
+				length;
+
+			mq.addHandler(handler);
+			mq.addHandler(handler2);
+
+			length = mq.handlers.length;
+
+			//act
+			mq.removeHandler(handler);
+
+			//assert
+			expect(mq.handlers.length).toBe(length-1);
+			expect(equals.calls.length).not.toBe(length); //ensure early exit
+			expect(destroy.calls.length).toBe(1); //destroy called just once
+			expect(splice.calls.length).toBe(1); //splice called just once
+			expect(splice).toHaveBeenCalledWith(0,1); //splice called with correct args
+		});
+
 		it("turns on handler if not yet matching", function() {
 			//arrange
 			mq.addHandler(handler);

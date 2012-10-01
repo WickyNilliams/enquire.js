@@ -5,7 +5,7 @@ describe("QueryHandler", function() {
 	var options;
 
 	beforeEach(function() {
-		options = jasmine.createSpyObj("options", ["match", "unmatch", "setup"]);
+		options = jasmine.createSpyObj("options", ["match", "unmatch", "setup", "destroy"]);
 	});
 
 	afterEach(function() {
@@ -75,5 +75,44 @@ describe("QueryHandler", function() {
 		//assert
 		expect(options.unmatch).toHaveBeenCalled();
 	});
+
+	it("can test for equality", function() {
+		//arrange
+		var handler = new QueryHandler(options),
+			equalityByObject,
+			equalityByFunction;
+
+		//act
+		equalityByObject = handler.equals(options);
+		equalityByFunction = handler.equals(options.match);
+
+		//assert
+		expect(equalityByObject).toBe(true);
+		expect(equalityByFunction).toBe(true);
+	});
+
+	it("calls through to destroy if supplied", function() {
+		//arrange
+		var handler = new QueryHandler(options);
+
+		//act
+		handler.destroy();
+
+		//assert
+		expect(options.destroy).toHaveBeenCalled();
+	});
+
+	it("calls through to unmatch if destroy not available", function() {
+		//arrange
+		var spy     = jasmine.createSpyObj("options", ["match", "unmatch"]),
+			handler = new QueryHandler(spy);
+
+		//act
+		handler.destroy();
+
+		//assert
+		expect(spy.unmatch).toHaveBeenCalled();
+	});
+
 
 });

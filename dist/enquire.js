@@ -1,4 +1,4 @@
-// enquire v1.3.0 - Awesome Media Queries in JavaScript
+// enquire v1.4.0 - Awesome Media Queries in JavaScript
 // Copyright (c) 2012 Nick Williams - https://www.github.com/WickyNilliams/enquire.js
 // License: MIT (http://www.opensource.org/licenses/mit-license.php)
 
@@ -101,6 +101,32 @@ window.enquire = (function(matchMedia) {
             if(this.options.unmatch){
                 this.options.unmatch(e);
             }
+        },
+
+        /**
+         * called when a handler is to be destroyed.
+         * delegates to the destroy or unmatch callbacks, depending on availability.
+         *
+         * @function
+         */
+        destroy : function() {
+            if(this.options.destroy) {
+                this.options.destroy();
+            }
+            else {
+                this.off();
+            }
+        },
+
+        /**
+         * determines equality by reference.
+         * if object is supplied compare options, if function, compare match callback
+         *
+         * @function
+         * @param {object || function} [target] the target for comparison
+         */
+        equals : function(target) {
+            return this.options === target || this.options.match === target;
         }
 
     };
@@ -108,15 +134,16 @@ window.enquire = (function(matchMedia) {
 /**
  * Represents a single media query, manages it's state and registered handlers for this query
  *
+ * @constructor
  * @param {string} query the media query string
  * @param {boolean} [isUnconditional=false] whether the media query should run regardless of whether the conditions are met. Primarily for helping older browsers deal with mobile-first design
- * @constructor
  */
 function MediaQuery(query, isUnconditional) {
     this.query = query;
+    this.isUnconditional = isUnconditional;
+    
     this.handlers = [];
     this.matched = false;
-    this.isUnconditional = isUnconditional;
 }
 MediaQuery.prototype = {
 
@@ -135,14 +162,29 @@ MediaQuery.prototype = {
      *
      * @function
      * @param {object} handler
-     * @param {function} handler.matched callback for when query is activated
+     * @param {function} handler.match callback for when query is activated
      * @param {function} [handler.unmatch] callback for when query is deactivated
      * @param {function} [handler.setup] callback for immediate-execution when a query handler is registered
      * @param {boolean} [handler.deferSetup=false] should the setup callback be deferred until the first time the handler is matched
      */
     addHandler : function(handler) {
-        var queryHandler = new QueryHandler(handler);
-        this.handlers.push(queryHandler);
+        this.handlers.push(new QueryHandler(handler));
+    },
+
+    /**
+     * removes the given handler from the collection, and calls it's destroy methods
+     *
+     * @function
+     * @param {object || function} handler the handler to remove
+     */
+    removeHandler : function(handler) {
+        var handlers = this.handlers;
+        each(handlers, function(h, i) {
+            if(h.equals(handler)) {
+                h.destroy();
+                return !handlers.splice(i,1); //remove from array and exit each early
+            }
+        });
     },
 
     /*
@@ -151,7 +193,6 @@ MediaQuery.prototype = {
      * @function
      */
     assess : function() {
-
         if(this.matchMedia() || this.isUnconditional) {
             this.match();
         }
@@ -195,7 +236,6 @@ MediaQuery.prototype = {
         });
         this.matched = false;
     }
-
 };
     /**
      * Allows for reigstration of query handlers.
@@ -209,7 +249,7 @@ MediaQuery.prototype = {
         }
 
         var capabilityTest = new MediaQuery("only all");
-        this.queries = [];
+        this.queries = {};
         this.listening = false;
         this.browserIsIncapable = !capabilityTest.matchMedia();
     }
@@ -217,7 +257,7 @@ MediaQuery.prototype = {
     MediaQueryDispatch.prototype = {
 
         /**
-         * Registers a handler for the media query
+         * Registers a handler for the given media query
          *
          * @function
          * @param {string} q the media query
@@ -229,16 +269,12 @@ MediaQuery.prototype = {
          * @param {boolean} [shouldDegrade=false] whether this particular media query should always run on incapable browsers
          */
         register : function(q, options, shouldDegrade) {
-
             var queries = this.queries,
-                query,
                 isUnconditional = shouldDegrade && this.browserIsIncapable;
 
             if(!queries.hasOwnProperty(q)) {
                 queries[q] = new MediaQuery(q, isUnconditional);
             }
-
-            query = queries[q];
 
             //normalise to object
             if(isFunction(options)) {
@@ -246,17 +282,40 @@ MediaQuery.prototype = {
                     match : options
                 };
             }
-
             //normalise to array
             if(!isArray(options)) {
                 options = [options];
             }
-
             each(options, function(handler) {
-                query.addHandler(handler);
+                queries[q].addHandler(handler);
             });
 
             return this;
+        },
+
+        /**
+         * unregisters a query and all it's handlers, or a specific handler for a query
+         *
+         * @function
+         * @param {string} q the media query to target
+         * @param {object || function} [handler] specific handler to unregister
+         */
+        unregister : function(q, handler) {
+            var queries = this.queries;
+
+            if(!queries.hasOwnProperty(q)) {
+                return this;
+            }
+            
+            if(!handler) {
+                each(this.queries[q].handlers, function(handler) {
+                    handler.destroy();
+                });
+                delete queries[q];
+            }
+            else {
+                queries[q].removeHandler(handler);
+            }
         },
 
         /**
@@ -268,16 +327,13 @@ MediaQuery.prototype = {
          * an event can be supplied to propagate to the various media query handlers
          */
         fire : function(e) {
-
             var queries = this.queries,
                 mediaQuery;
 
             for(mediaQuery in queries) {
-                if(!queries.hasOwnProperty(mediaQuery)) {
-					continue;
+                if(queries.hasOwnProperty(mediaQuery)) {
+                    queries[mediaQuery].assess();
 				}
-
-                queries[mediaQuery].assess();
             }
             return this;
         },
@@ -289,7 +345,6 @@ MediaQuery.prototype = {
          * @param {int} [timeout=500] the time (in milliseconds) after which the queries should be handled
          */
         listen : function(timeout) {
-
             var eventWireUp = window.addEventListener || window.attachEvent,
                 self = this;
 
@@ -321,9 +376,7 @@ MediaQuery.prototype = {
             wireFire("orientationChange");
 
             this.listening = true;
-
             return this;
-
         }
     };
 

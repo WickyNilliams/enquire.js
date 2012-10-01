@@ -2,15 +2,16 @@
 /**
  * Represents a single media query, manages it's state and registered handlers for this query
  *
+ * @constructor
  * @param {string} query the media query string
  * @param {boolean} [isUnconditional=false] whether the media query should run regardless of whether the conditions are met. Primarily for helping older browsers deal with mobile-first design
- * @constructor
  */
 function MediaQuery(query, isUnconditional) {
     this.query = query;
+    this.isUnconditional = isUnconditional;
+    
     this.handlers = [];
     this.matched = false;
-    this.isUnconditional = isUnconditional;
 }
 MediaQuery.prototype = {
 
@@ -29,14 +30,29 @@ MediaQuery.prototype = {
      *
      * @function
      * @param {object} handler
-     * @param {function} handler.matched callback for when query is activated
+     * @param {function} handler.match callback for when query is activated
      * @param {function} [handler.unmatch] callback for when query is deactivated
      * @param {function} [handler.setup] callback for immediate-execution when a query handler is registered
      * @param {boolean} [handler.deferSetup=false] should the setup callback be deferred until the first time the handler is matched
      */
     addHandler : function(handler) {
-        var queryHandler = new QueryHandler(handler);
-        this.handlers.push(queryHandler);
+        this.handlers.push(new QueryHandler(handler));
+    },
+
+    /**
+     * removes the given handler from the collection, and calls it's destroy methods
+     *
+     * @function
+     * @param {object || function} handler the handler to remove
+     */
+    removeHandler : function(handler) {
+        var handlers = this.handlers;
+        each(handlers, function(h, i) {
+            if(h.equals(handler)) {
+                h.destroy();
+                return !handlers.splice(i,1); //remove from array and exit each early
+            }
+        });
     },
 
     /*
@@ -45,7 +61,6 @@ MediaQuery.prototype = {
      * @function
      */
     assess : function() {
-
         if(this.matchMedia() || this.isUnconditional) {
             this.match();
         }
@@ -89,5 +104,4 @@ MediaQuery.prototype = {
         });
         this.matched = false;
     }
-
 };

@@ -10,7 +10,7 @@
         }
 
         var capabilityTest = new MediaQuery("only all");
-        this.queries = [];
+        this.queries = {};
         this.listening = false;
         this.browserIsIncapable = !capabilityTest.matchMedia();
     }
@@ -18,7 +18,7 @@
     MediaQueryDispatch.prototype = {
 
         /**
-         * Registers a handler for the media query
+         * Registers a handler for the given media query
          *
          * @function
          * @param {string} q the media query
@@ -30,16 +30,12 @@
          * @param {boolean} [shouldDegrade=false] whether this particular media query should always run on incapable browsers
          */
         register : function(q, options, shouldDegrade) {
-
             var queries = this.queries,
-                query,
                 isUnconditional = shouldDegrade && this.browserIsIncapable;
 
             if(!queries.hasOwnProperty(q)) {
                 queries[q] = new MediaQuery(q, isUnconditional);
             }
-
-            query = queries[q];
 
             //normalise to object
             if(isFunction(options)) {
@@ -47,17 +43,40 @@
                     match : options
                 };
             }
-
             //normalise to array
             if(!isArray(options)) {
                 options = [options];
             }
-
             each(options, function(handler) {
-                query.addHandler(handler);
+                queries[q].addHandler(handler);
             });
 
             return this;
+        },
+
+        /**
+         * unregisters a query and all it's handlers, or a specific handler for a query
+         *
+         * @function
+         * @param {string} q the media query to target
+         * @param {object || function} [handler] specific handler to unregister
+         */
+        unregister : function(q, handler) {
+            var queries = this.queries;
+
+            if(!queries.hasOwnProperty(q)) {
+                return this;
+            }
+            
+            if(!handler) {
+                each(this.queries[q].handlers, function(handler) {
+                    handler.destroy();
+                });
+                delete queries[q];
+            }
+            else {
+                queries[q].removeHandler(handler);
+            }
         },
 
         /**
@@ -69,16 +88,13 @@
          * an event can be supplied to propagate to the various media query handlers
          */
         fire : function(e) {
-
             var queries = this.queries,
                 mediaQuery;
 
             for(mediaQuery in queries) {
-                if(!queries.hasOwnProperty(mediaQuery)) {
-					continue;
+                if(queries.hasOwnProperty(mediaQuery)) {
+                    queries[mediaQuery].assess();
 				}
-
-                queries[mediaQuery].assess();
             }
             return this;
         },
@@ -90,7 +106,6 @@
          * @param {int} [timeout=500] the time (in milliseconds) after which the queries should be handled
          */
         listen : function(timeout) {
-
             var eventWireUp = window.addEventListener || window.attachEvent,
                 self = this;
 
@@ -122,8 +137,6 @@
             wireFire("orientationChange");
 
             this.listening = true;
-
             return this;
-
         }
     };

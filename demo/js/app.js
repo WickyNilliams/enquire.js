@@ -3,6 +3,20 @@
 
 $(function() {
 
+    var unregisterHandler = {
+        match : function() {
+            console.log("the handler for testing unregistration was matched");
+        },
+        unmatch : function() {
+            console.log("the handler for testing unregistration was unmatched");
+        },
+        destroy : function() {
+            $("#unregister").remove();
+            console.log("this handler was destroyed!");
+        }
+    },
+    unregisterQuery = "screen and (max-width:700px)";
+
     // enquire.register is the method you will be interested in.
     // It takes a media query string as it's first param
     // and a handler or array of handlers (more on this next) as it's second param
@@ -107,7 +121,9 @@ $(function() {
             }
         }
 
-    ]).listen(400);
+    ])
+    .register(unregisterQuery, unregisterHandler)
+    .listen(400);
 
     // A call to listen() will register handlers for the browser's resize and orientation change events.
     // Registered queries will then be evaluated each time an event is fired. listen() also makes a call to fire(), read more on that below
@@ -118,7 +134,6 @@ $(function() {
     // to have each query evaluated and (potentially) executed just the once. e.g:
     // enquire.fire();
 
-
     // If for some reason you want your handlers dynamically registered,
     // you can do that also. Seems a little pointless, but who am I to judge :)
 
@@ -127,5 +142,9 @@ $(function() {
             console.log("dynamic handler matched!");
             console.dir(e);
         });
+    });
+
+    $("#unregister").click(function() {
+        enquire.unregister(unregisterQuery, unregisterHandler);
     });
 });

@@ -54,6 +54,32 @@
             if(this.options.unmatch){
                 this.options.unmatch(e);
             }
+        },
+
+        /**
+         * called when a handler is to be destroyed.
+         * delegates to the destroy or unmatch callbacks, depending on availability.
+         *
+         * @function
+         */
+        destroy : function() {
+            if(this.options.destroy) {
+                this.options.destroy();
+            }
+            else {
+                this.off();
+            }
+        },
+
+        /**
+         * determines equality by reference.
+         * if object is supplied compare options, if function, compare match callback
+         *
+         * @function
+         * @param {object || function} [target] the target for comparison
+         */
+        equals : function(target) {
+            return this.options === target || this.options.match === target;
         }
 
     };
