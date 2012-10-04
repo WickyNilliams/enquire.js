@@ -98,6 +98,30 @@
             }
             return this;
         },
+        
+        /**
+         * Resets all queries to unmatched state and call fire method
+         * this is used to call handlers with a custom call
+         *
+         * @function
+         * @param {Event} [e] if fired as a result of a browser event,
+         * an event can be supplied to propagate to the various media query handlers
+         */
+        reset : function(e) {
+
+            var queries = this.queries,
+                mediaQuery;
+
+            for(mediaQuery in queries) {
+                if(!queries.hasOwnProperty(mediaQuery)) {
+                    continue;
+                }
+
+                queries[mediaQuery].unmatch();
+            }
+            this.fire();
+            return this;
+        },
 
         /**
          * sets up listeners for resize and orientation events
