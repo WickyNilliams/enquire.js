@@ -20,6 +20,11 @@ module.exports = function(grunt) {
         src: '<config:less.all.dest>',
         dest: 'css/<%= pkg.name %>.min.css'
       }
+    },
+
+    watch : {
+      files : 'less/**/*.less',
+      tasks : 'default'
     }
 
   });

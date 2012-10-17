@@ -6,6 +6,7 @@
 .selection(@primaryColor, @bodyColor, 1px 1px 1px @bgColor);
 
 body {
+	-webkit-font-smoothing: antialiased;
 	padding: 0 2.5%;
 	font-size: 15px;
 	#fonts > .body;
@@ -28,6 +29,44 @@ a, a:visited {
 		outline: none;
 		text-shadow: 1px 1px 1px @bgColor !important;
 	}
+}
+
+pre, code {
+	color: #f8f8f2;
+	text-shadow: 0 1px rgba(0,0,0,0.3);
+	font-family: Consolas, Monaco, 'Andale Mono', monospace;
+	direction: ltr;
+	text-align: left;
+	white-space: pre;
+	word-spacing: normal;
+	
+	-moz-tab-size: 4;
+	-o-tab-size: 4;
+	tab-size: 4;
+	
+	-webkit-hyphens: none;
+	-moz-hyphens: none;
+	-ms-hyphens: none;
+	hyphens: none;
+}
+
+pre,
+:not(pre) > code {
+	background: darken(@bgColor, 4);
+	background: rgba(0,0,0,0.15);
+	box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.25), 0 1px 0 fade(@bodyColor, 10);
+	border-radius: .3em;
+}
+
+:not(pre) > code {
+	padding: .3em .3em .2em;
+}
+
+pre {
+	overflow: auto;	
+	word-wrap: normal;
+	padding: 1em;
+	margin: 1em 0;
 }
 
 
@@ -161,8 +200,10 @@ header {
 	}
 
 	.strapline {
+		#fonts > .heading; 
+		display: block;
 		color: @bodyColor;
-		font-size: 1.5em;
+		font-size: 0.25em;
 		text-shadow:none;
 		margin-bottom: 0;
 	}
@@ -182,7 +223,7 @@ header {
 
 
 article {
-	p { line-height: 1.8; }
+	p { line-height: 1.6; }
 }
 
 ol.quick-start {
@@ -221,7 +262,6 @@ ol.quick-start {
 
 .toc {
 
-
 	// 175px is 13.3% 1310px (the point at which this is included on page)
 	width: 13.3%;
 	min-width: 175px;
@@ -234,7 +274,7 @@ ol.quick-start {
 
 	&.affix-top {
 		position: absolute;
-		top: 147px;
+		top: 150px;
 	}
 
 
@@ -272,9 +312,7 @@ ol.quick-start {
 	}
 }
 
-footer { 
-
-	#fonts > .heading;
+footer {
 	padding: 2.5%;
 	text-align: center;
 

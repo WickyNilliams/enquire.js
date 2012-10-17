@@ -12,7 +12,7 @@
     <meta name="description" content="enquire.js is a tiny, pure javascript library for responding to media queries programmatically. It's totally awesome">
     <meta name="viewport" content="width=device-width">
 
-    <link href="http://fonts.googleapis.com/css?family=Lato:100|Yesteryear" rel="stylesheet" type="text/css">
+    <link href="http://fonts.googleapis.com/css?family=Lato:300|Yesteryear" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="css/enquire.min.css">
     <script src="js/vendor/modernizr-2.5.3.min.js"></script>
 </head>
@@ -26,8 +26,11 @@
     </a>
     
 <header class="block">
-    <p class="title">enquire.js</p>
-    <h1 class="strapline">Awesome Media Queries in JavaScript</h1>
+    
+    <h1 class="title">
+        enquire.js
+        <span class="strapline">Awesome Media Queries in JavaScript</span>        
+    </h1>
 
     <div class="buttons hide-phone">
         <div class="btn">
@@ -50,10 +53,10 @@
     <article class="clearfix">
 
         <section id="what">
-            <h2 class="section-title">The Lowdown</h2>
+            <h2 id="lowdown" class="section-title">The Lowdown</h2>
 
             <p>
-                A <strong>lightweight, pure</strong> JavaScript library for <strong>responding to CSS media queries</strong>.
+                <strong>A lightweight, pure JavaScript library for responding to CSS media queries</strong>.
             </p>
 
             <ul>
@@ -79,8 +82,10 @@
         </section>
 
         <section>
-            <h2 class="section-title">Downloads &amp; All That Jazz</h2>
-            <p>Grab the code, ready to go, from one of the locations below:</p>
+            <h2 id="downloads" class="section-title" data-toc-title="Downloads">Downloads &amp; All That Jazz</h2>
+
+            <h3>Latest Build</h3>
+            <p>Grab the latest code, ready to go, from one of the locations below:</p>
             <ul>
                 <li>
                     <a href="https://github.com/WickyNilliams/enquire.js/raw/master/dist/enquire.js">Development</a> &mdash; unminified
@@ -92,11 +97,28 @@
             <p>
                 If you wish to peruse/fork the source, feel free to do so over on <a href="https://www.github.com/WickyNilliams/enquire.js">GitHub</a>.
             </p>
+
+            <h3>Install via Bower</h3>
+
+            <p>To install via the <a href="http://twitter.github.com/bower/">bower package manager</a>, enter the following at the command line:</p>
+
+<pre><code>bower install enquire</code></pre>
+
+            <h3>Build From Source</h3>
+
+            <p>If you want build from source (and run all unit tests etc):</p>
+
+<pre><code>git clone git://github.com/WickyNilliams/enquire.js.git
+cd enquire.js
+npm install
+grunt
+</code></pre>
+
         </section>
 
         <section>
 
-            <h2 class="section-title">The Basics</h2>
+            <h2 id="basics" class="section-title">The Basics</h2>
 
             <h3>enquire.register</h3>
 
@@ -105,11 +127,11 @@
             </p>
 
 <pre class="language-javascript"><code>
-enquire.register(query /* string */, handler /* object || array || function */);
+enquire.register(mediaQuery /* string */, handler /* object || array || function */);
 </code></pre>
 
             <p>
-                <code class="language-javascript">query</code> is the media query  you wish to handle, and <code class="language-javascript">handler</code> contains any logic to handle the query. An example of usage is as follows:
+                <code class="language-javascript">query</code> is the media query you wish to handle, and <code class="language-javascript">handler</code> contains any logic to handle the media query. An example of usage is as follows:
             </p>
 
 <pre class="language-javascript"><code>
@@ -117,29 +139,70 @@ enquire.register("screen and (max-width:1000px)", {
 
     match : function() {},      // REQUIRED
                                 // Triggered when the media query transitions 
-                                // *from an unmatched to a matched state*
+                                // *from an unmatched state to a matched state*
 
     unmatch : function() {},    // OPTIONAL
                                 // If supplied, triggered when the media query transitions 
                                 // *from a matched state to an unmatched state*.
 
     setup : function() {},      // OPTIONAL
-                                // If supplied, triggered once immediately upon registration of the handler
+                                // If supplied, a one-time setup function 
+                                // triggered when the handler is first registered.                           
 
     deferSetup : true           // OPTIONAL, defaults to false
-                                // If set to true, defers execution the setup function 
-                                // until the media query is first matched. still triggered just once
-});
+                                // If set to true, defers execution the setup function until
+                                // the media query is first matched. Setup is still triggered just once.
+
+    destroy : function() {}     //OPTIONAL
+                                // If supplied, triggered when a hander is unregistered (covered later). 
+                                // Enables you to provide lifecycle to responsive widgets. 
+                                // Put cleanup logic here.
+
+}).listen(); // More on this next
 </code></pre>
 
         </section>
 
         <section>
 
-            <h2 class="section-title">Delving Deeper</h2>
+            <h2 id="responding-to-queries" class="section-title">Responding To Queries</h2>
+
+            <p>
+                You may have noticed the call to <code class="language-javascript">listen()</code> in the last example, so let's talk about that. After you've registered your handlers you need to get <code class="language-javascript">enquire</code> up and running. For this you have two options, <code class="language-javascript">fire</code> or <code class="language-javascript">listen</code>.
+            </p>
+
+            <p>
+                A little note: the <code class="language-javascript">match</code> or <code class="language-javascript">unmatch</code> functions are called if, and only if, a media query's state has changed - that is, matched to unmatched, or unmatched to matched. This is true for both <code class="language-javascript">fire</code> and <code class="language-javascript">listen</code>.
+            </p>
+
+            <h3>enquire.fire</h3>
+
+            <p>
+                <code class="language-javascript">fire</code> evaluates each of the registered media queries and handlers as they are at that point in time time. This triggers the relevant callbacks for each of the media query's handlers, as per the conditions above. <code class="language-javascript">fire</code> is handy if you don't care about browser events and want your handlers to be triggered just once on page load.
+            </p>
+
+            <h3>enquire.listen</h3>
+
+            <p>
+                <code class="language-javascript">listen</code> registers event handlers for the browser's <strong>resize</strong> and <strong>orientationChange</strong> events. Each time one of these events is triggered, <code class="language-javascript">enquire</code> makes a call to <code class="language-javascript">fire()</code>, causing all media queries and handlers to be re-evaluated.
+            </p>
+
+            <p>
+                To avoid spamming <code class="language-javascript">enquire</code> with browser events (e.g. if the browser window is rapidly changing size), <code class="language-javascript">listen</code> throttles events so that <code class="language-javascript">fire</code> is only called if there have been no resize or orientation events in the last 500<abbr title="milliseconds">ms</abbr>. This value can be altered by supplying a number of milliseconds as a parameter to <code class="language-javascript">listen</code>:
+            </p>
+
+<pre class="language-javascript"><code>
+enquire.listen(10000); // 10 seconds, why not?!
+</code></pre>
+
+        </section>
+
+        <section>
+
+            <h2 id="delving-deeper" class="section-title">Delving Deeper</h2>
             <h3>Can I Haz More Than One Handlerz?</h3>
 
-            <p>You can indeed! It can be cumbersome to have all your logic in one handler, so you can also supply an <code class="language-javascript">Array</code> as the second parameter to <code class="language-javascript">register</code> to support multiple handlers per query:</p>
+            <p>You can indeed! It can be cumbersome to have all your logic in one handler, so you can also supply an array as the second parameter to <code class="language-javascript">register</code> in order to support multiple handlers per media query:</p>
 
 <pre class="language-javascript"><code>
 enquire.register("screen and (max-width:1000px)", [
@@ -151,7 +214,7 @@ enquire.register("screen and (max-width:1000px)", [
             <h4>Alternatively&hellip;</h4>
 
             <p>
-                You could, if you wish, achieve the same effect by calling register multiple times for the same query:
+                You could, if you wish, achieve the same effect by calling register multiple times for the same media query:
             </p>
 
 <pre class="language-javascript"><code>
@@ -177,13 +240,13 @@ enquire.register(query, {
             </p>
 
             <p>
-                This won't overwrite any previous handler for the query as <code class="language-javascript">enquire</code> uses the media query itself as a lookup key on it's internal dictionary. Thus, the second handler is appended to the list of handlers already registered for that query.
+                This won't overwrite any previous handler for the media query as <code class="language-javascript">enquire</code> uses the media query itself as a lookup key on it's internal dictionary. Thus, the second handler is appended to the list of handlers already registered for that media query.
             </p>
 
             <h3>Multiple Queries, Sir?</h3>
 
             <p>
-                As well as multiple handlers per query, multiple queries can be registered with <code class="language-javascript">enquire</code>. Calls to <code class="language-javascript">register</code> can be chained together for this purpose.
+                As well as multiple handlers per media query, multiple media queries can be registered with <code class="language-javascript">enquire</code>. Calls to <code class="language-javascript">register</code> can be chained together for this purpose.
             </p> 
 
 <pre class="language-javascript"><code>
@@ -199,53 +262,94 @@ enquire.register("screen and (max-width:1000px)", {
         console.log("handler max-width 500px");
     }
 
-}).listen(); //read on for info on listen()
+}).listen();
 </code></pre>
 
             <h3>Setup</h3>
             <p>
-                Supplying a setup function with your query handler allows you to get all your expensive <abbr title="Document Object Model">DOM</abbr> manipulation out of the way up-front. <strong>The setup function is called once and once only</strong>. By default it is called when a query is first registered. You can defer setup until the first time the media query matches by setting the <code class="language-javascript">deferSetup</code> flag to <code class="language-javascript">true</code>.
+                Supplying a setup callback with your query handler allows you to get all your expensive <abbr title="Document Object Model">DOM</abbr> manipulation out of the way up-front. <strong>The setup callback is called once and once only</strong>. By default it is called when the handler is first registered. You can defer setup until the first time the media query matches by setting the <code class="language-javascript">deferSetup</code> flag to <code class="language-javascript">true</code>.
             </p>
 
-        </section>
-
-        <section>
-
-            <h2 class="section-title">Get The Show On The Road</h2>
-
+            <h3>Unregister Handlers</h3>
             <p>
-                You may have noticed the call to <code class="language-javascript">listen()</code> in the last example, so let's talk about that. After you've registered your handlers you need to get <code class="language-javascript">enquire</code> up and running. For this you have two options, <code class="language-javascript">fire</code> or <code class="language-javascript">listen</code>.
+                Sometimes you may wish to unregister a handler or group of handlers. For that we have the <code class="language-javascript">unregister</code> method.
             </p>
-
-            <p>
-                A little note: the <code class="language-javascript">match</code> or <code class="language-javascript">unmatch</code> functions are called if, and only if, a query's state has changed  - that is, matched to unmatched, or unmatched to matched. This is true for both <code class="language-javascript">fire</code> and <code class="language-javascript">listen</code>.
-            </p>
-
-            <h3>enquire.fire</h3>
-
-            <p>
-                <code class="language-javascript">fire</code> evaluates each of the registered media queries at that time, triggering the relevant functions for each of the query's handlers, as per the conditions above. <code class="language-javascript">fire</code> is handy if you don't care about browser events and want your handlers to be triggered just once on page load.
-            </p>
-
-            <h3>enquire.listen</h3>
-
-            <p>
-                <code class="language-javascript">listen</code> registers event handlers for the browser's resize and orientation change events. Each time one of these events is triggered, <code class="language-javascript">enquire</code> will iterate over each media query calling the relevant methods as per the conditions above.
-            </p>
-
-            <p>
-                To avoid spamming <code class="language-javascript">enquire</code> with browser events (e.g. if the browser window is rapidly changing size), <code class="language-javascript">listen</code> delays evaluation of media queries until there have been no resize or orientation events in the last 500<abbr title="milliseconds">ms</abbr>. This value can be altered by supplying a parameter to <code class="language-javascript">listen</code>:
-            </p>
-
 <pre class="language-javascript"><code>
-enquire.listen(10000); // 10 seconds, why not?!
+enquire.unregister(mediaQuery /* string */, handler /* function || object */);
 </code></pre>
 
             <p>
-                <code class="language-javascript">listen</code> also contains an implicit call to <code class="language-javascript">fire</code>, so you do not have to do this manually - one call to <code class="language-javascript">listen</code> will have you covered now and in future.
+                The first parameter that <code class="language-javascript">ungreigster</code> accepts is the media query, and the second is a reference to the specific handler you wish to unregister. The second parameter can be optionally excluded which unregisters <em>all</em> handlers for the supplied media query. When a handler is unregistered its <code class="language-javascript">destroy</code> callback is executed. If a handler does not have a <code class="language-javascript">destroy</code> callback then the <code class="language-javascript">unmatch</code> callback is fired instead. Once a handler is unregistered it will no longer respond to changes to a media query's state.
+            </p>
+            <p>
+                The following example shows how unregister can be used and the effects it has on handlers:
             </p>
 
-        </section>
+<pre class="language-javascript">
+    <code>
+
+var mediaQuery = "screen and (max-width:320px)",
+
+    handler1 = {                                    // handler1 has no destroy or unmatch callback,
+        match : function() {                        // so nothing happens when it gets unregistered    
+            console.log("handler1 matched");
+        }
+    },
+
+    handler2 = {                                    // handler2 doesn't have a destroy callback,
+        match : function() {                        // so unmatch is called as a fall back
+            console.log("handler2 matched");
+        },
+        unmatch : function() {
+            console.log("handler2 unmatched");
+        }
+    },
+
+    handler3 = {                                    // handler3 has both unmatch and destory callbacks,
+        match : function() {                        // destroy will be called when it is unregistered
+            console.log("handler3 matched");
+        },
+        unmatch : function() {
+            console.log("handler3 unmatched");
+        },
+        destroy : function() {
+            console.log("handler3 destroyed");
+        }
+    };
+
+enquire.register(mediaQuery, [ handler1, handler2, handler3 ]);
+
+enquire.unregister(mediaQuery, handler3);           // unregister just handler3
+                                                    // logs "handler3 destroyed"
+enquire.unregister(mediaQuery);                     // unregister all handlers for this media query. 
+                                                    // logs "handler2 unmatched"
+    </code>
+</pre>
+
+            <p>
+                
+            </p>
+
+            <h3>Mobile-First</h3>
+            <p>
+                If you're taking a mobile-first approach you will typically run into issues with incapable legacy browsers not understanding CSS3 media queries, meaning that browsers such as <abbr title="Internet Explorer 8">IE8</abbr> will be served the mobile versions of the site. Again, enquire has you covered here!
+            </p>
+
+            <p>
+                <code class="language-javascript">register</code> can accept an optional third parameter, <code class="language-javascript">shouldDegrade</code>. When this is passed as <code class="language-javascript">true</code> (it defaults to <code class="language-javascript">false</code>) it signifies to enquire that <em>if the browser is incapable of understanding CSS3 media queries, then always consider this query a match</em>. 
+
+            </p>
+<pre class="language-javascript"><code>
+enquire.register("screen and (min-width:900px)", function() {
+    
+    //execute some code for large-screen devices
+
+}, true); // note the `true`!
+</code></pre>
+            <p>
+                Because this only affects incapable browsers, modern browsers will respect the media query and behave as you would expect. This allows you to adopt the mobile-first paradigm, whilst still serving a desktop experience to incapable browsers.
+            </p>
+        </section>        
 
         <section>
             <h2 id="legacy-support" class="section-title">Legacy Support</h2>
@@ -268,25 +372,12 @@ Modernizr.load([
 ]);
 </code></pre>
         
-        <p>This is the approach that this site adopts.</p>
-
-            <h3>What About Mobile-First?</h3>
-            <p>
-                If you're taking a mobile-first approach you will typically run into issues with legacy browsers not understanding complex media queries, meaning that browsers such as <abbr title="Internet Explorer 8">IE8</abbr> will be served the mobile versions of the site. This is often undesirable. Again, enquire has you covered here!
-            </p>
-<pre class="language-javascript"><code>
-enquire.register("screen and (min-width:900px)", function() {
-    //execute some code for large-screen devices
-}, true);
-</code></pre>
-            <p>
-                The optional third parameter, <code class="language-javascript">shouldDegrade</code>, causes the media query to short-circuit, and the handler be executed unconditionally for those browsers which are incapable of interpretting the query. When first loaded, enquire runs a quick test to determine the capability of the browser. If the browser is deemed incapable <em>and</em> the <code class="language-javascript">shouldDegrade</code> flag is set to <code class="language-javascript">true</code>, the handler will always be executed. This way, modern browsers will still follow the mobile-first paradigm, whilst older browsers will always be served the desktop version.
-            </p>
+            <p>This is the approach that this site adopts.</p>
 
         </section>
 
         <section>
-            <h2 class="section-title">License</h2>
+            <h2 id="license" class="section-title">License</h2>
 
             <p>Licensed under the <a href="http://www.opensource.org/licenses/mit-license.php">MIT License</a>.</p>
         </section>
