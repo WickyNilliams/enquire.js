@@ -1,27 +1,25 @@
 /*jshint devel:true */
-/*global $:true, enquire:true */
+/*global $:true, enquire:true, verbose:true */
 
 $(function() {
 
-    var unregisterHandler = {
-        match : function() {
-            console.log("the handler for testing unregistration was matched");
-        },
-        unmatch : function() {
-            console.log("the handler for testing unregistration was unmatched");
-        },
+
+    var unregisterHandler = verbose("unregister test", {
+        match : function() {},
+        unmatch : function() {},
         destroy : function() {
             $("#unregister").remove();
-            console.log("this handler was destroyed!");
         }
-    },
+    }),
     unregisterQuery = "screen and (max-width:700px)";
 
+
+    
     // enquire.register is the method you will be interested in.
     // It takes a media query string as it's first param
     // and a handler or array of handlers (more on this next) as it's second param
 
-    enquire.register("screen and (max-width:1000px)", {
+    enquire.register("screen and (max-width:1000px)", verbose("1000px", {
 
         // The match and unmatch functions are triggered when the
         // given query transitions between a matched and unmatched state.
@@ -29,16 +27,13 @@ $(function() {
 
         match : function() {
             $("p").css("font-weight", "bold");
-            console.log("1000px on");
         },
 
         unmatch : function() {
             $("p").css("font-weight", "normal");
-
-            console.log("1000px off");
         }
 
-    }).register("screen and (max-width:500px)", [
+    })).register("screen and (max-width:500px)", [
 
         // Multiple handlers can be registered for a single query,
         // either with array (as here) or with multiple calls to register using the same query each time.
@@ -62,15 +57,10 @@ $(function() {
 
         // And to prove this, a second handler for the query!
 
-        {
-            match : function() {
-                console.log("500px on");
-            },
-
-            unmatch : function() {
-                console.log("500px off");
-            }
-        }
+        verbose("500px", {
+            match : function() {},
+            unmatch : function() {}
+        })
 
     ]).register("screen and (max-width:600px)", [
 
@@ -105,21 +95,17 @@ $(function() {
         // Setup will then be run the first time a query is matched.
         // Note that if the query is matched when the handler is registered, it will be executed immediately
 
-        {
+        verbose("600px", {
             setup : function() {
                 console.log("600px setup - should be deferred!");
             },
 
             deferSetup : true,
 
-            match : function() {
-                console.log("600px on");
-            },
+            match : function() {},
 
-            unmatch : function() {
-                console.log("600px off");
-            }
-        }
+            unmatch : function() {}
+        })
 
     ])
     .register(unregisterQuery, unregisterHandler)
@@ -138,10 +124,7 @@ $(function() {
     // you can do that also. Seems a little pointless, but who am I to judge :)
 
     $("#dynamic").click(function() {
-        enquire.register("screen and (max-width:500px)", function(e) {
-            console.log("dynamic handler matched!");
-            console.dir(e);
-        });
+        enquire.register("screen and (max-width:500px)", verbose("dynamic handler", function() {}));
     });
 
     $("#unregister").click(function() {
