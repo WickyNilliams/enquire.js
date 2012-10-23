@@ -24,9 +24,9 @@
          *
          * @function
          */
-        setup : function() {
+        setup : function(e) {
             if(this.options.setup){
-                this.options.setup();
+                this.options.setup(e);
             }
             this.initialised = true;
         },
@@ -39,7 +39,7 @@
          */
         on : function(e) {
             if(!this.initialised){
-                this.setup();
+                this.setup(e);
             }
             this.options.match(e);
         },

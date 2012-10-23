@@ -1,6 +1,6 @@
 {
   "name": "enquire",
   "description" : "Awesome Media Queries in JavaScript",
-  "version": "1.4.0",
-  "main": ["./dist/enquire.js", "./dist/enquire.min.js"]
+  "version": "1.4.1",
+  "main": ["./dist/enquire.js"]
 }

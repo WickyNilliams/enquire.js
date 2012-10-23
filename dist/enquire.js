@@ -1,4 +1,4 @@
-// enquire v1.4.0 - Awesome Media Queries in JavaScript
+// enquire v1.4.1 - Awesome Media Queries in JavaScript
 // Copyright (c) 2012 Nick Williams - https://www.github.com/WickyNilliams/enquire.js
 // License: MIT (http://www.opensource.org/licenses/mit-license.php)
 
@@ -14,7 +14,7 @@ window.enquire = (function(matchMedia) {
      * @param fn
      */
     function each(collection, fn) {
-        var i = 0,
+        var i      = 0,
             length = collection.length,
             cont;
 
@@ -71,9 +71,9 @@ window.enquire = (function(matchMedia) {
          *
          * @function
          */
-        setup : function() {
+        setup : function(e) {
             if(this.options.setup){
-                this.options.setup();
+                this.options.setup(e);
             }
             this.initialised = true;
         },
@@ -86,7 +86,7 @@ window.enquire = (function(matchMedia) {
          */
         on : function(e) {
             if(!this.initialised){
-                this.setup();
+                this.setup(e);
             }
             this.options.match(e);
         },
@@ -192,12 +192,12 @@ MediaQuery.prototype = {
      *
      * @function
      */
-    assess : function() {
+    assess : function(e) {
         if(this.matchMedia() || this.isUnconditional) {
-            this.match();
+            this.match(e);
         }
         else {
-            this.unmatch();
+            this.unmatch(e);
         }
     },
 
@@ -269,7 +269,7 @@ MediaQuery.prototype = {
          * @param {boolean} [shouldDegrade=false] whether this particular media query should always run on incapable browsers
          */
         register : function(q, options, shouldDegrade) {
-            var queries = this.queries,
+            var queries         = this.queries,
                 isUnconditional = shouldDegrade && this.browserIsIncapable;
 
             if(!queries.hasOwnProperty(q)) {
@@ -332,7 +332,7 @@ MediaQuery.prototype = {
 
             for(mediaQuery in queries) {
                 if(queries.hasOwnProperty(mediaQuery)) {
-                    queries[mediaQuery].assess();
+                    queries[mediaQuery].assess(e);
 				}
             }
             return this;

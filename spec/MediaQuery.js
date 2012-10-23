@@ -7,7 +7,7 @@
 			mq;
 
 		beforeEach(function() {
-			mq = new MediaQuery("max-width:1000px");
+			mq      = new MediaQuery("max-width:1000px");
 			handler = jasmine.createSpyObj("handler", ["match", "unmatch", "setup"]);
 		});
 
@@ -26,9 +26,9 @@
 		it("can remove handlers", function() {
 			//arrange
 			var handler2 = jasmine.createSpyObj("handler", ["match", "unmatch"]),
-				splice = spyOn(Array.prototype, "splice").andCallThrough(),
-				equals = spyOn(global.QueryHandler.prototype, "equals").andCallThrough(),
-				destroy = spyOn(global.QueryHandler.prototype, "destroy"),
+				splice   = spyOn(Array.prototype, "splice").andCallThrough(),
+				equals   = spyOn(global.QueryHandler.prototype, "equals").andCallThrough(),
+				destroy  = spyOn(global.QueryHandler.prototype, "destroy"),
 				length;
 
 			mq.addHandler(handler);
@@ -73,8 +73,6 @@
 			expect(mq.matched).toBe(true);
 		});
 
-
-
 		it("turns off handler if already matching", function() {
 			//arrange
 			mq.addHandler(handler);
@@ -112,6 +110,22 @@
 			//assert
 			expect(handler.unmatch).toHaveBeenCalled();
 			expect(mq.matched).toBe(false);
+		});
+
+		it("will propagate browser event to query handlers", function() {
+			//arrange
+			var evt = {};
+			spyOn(mq, "unmatch");
+			spyOn(mq, "match");
+
+			//act
+			mq.assess(evt);
+			mq.isUnconditional = true; // forces match to be called
+			mq.assess(evt);
+
+			//assert
+			expect(mq.unmatch).toHaveBeenCalledWith(evt);
+			expect(mq.match).toHaveBeenCalledWith(evt);
 		});
 
 		it("can be short-circuited with isUnconditional flag", function() {

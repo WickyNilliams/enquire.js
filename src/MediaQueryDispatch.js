@@ -30,7 +30,7 @@
          * @param {boolean} [shouldDegrade=false] whether this particular media query should always run on incapable browsers
          */
         register : function(q, options, shouldDegrade) {
-            var queries = this.queries,
+            var queries         = this.queries,
                 isUnconditional = shouldDegrade && this.browserIsIncapable;
 
             if(!queries.hasOwnProperty(q)) {
@@ -93,7 +93,7 @@
 
             for(mediaQuery in queries) {
                 if(queries.hasOwnProperty(mediaQuery)) {
-                    queries[mediaQuery].assess();
+                    queries[mediaQuery].assess(e);
 				}
             }
             return this;

@@ -60,12 +60,12 @@ MediaQuery.prototype = {
      *
      * @function
      */
-    assess : function() {
+    assess : function(e) {
         if(this.matchMedia() || this.isUnconditional) {
-            this.match();
+            this.match(e);
         }
         else {
-            this.unmatch();
+            this.unmatch(e);
         }
     },
 

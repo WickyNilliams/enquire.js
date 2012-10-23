@@ -8,7 +8,7 @@
 
 		it("throws if matchMedia is not present", function() {
 			//arrange
-			var matchMedia = global.matchMedia;
+			var matchMedia    = global.matchMedia;
 			global.matchMedia = undefined;
 
 			//act & assert
@@ -109,6 +109,21 @@
 			//assert
 			expect(assessSpy).toHaveBeenCalled();
 			expect(assessSpy.calls.length).toBe(2);
+		});
+
+		it("will propagate browser event to media query", function() {
+			//arrange
+			var mqd       = new MediaQueryDispatch(),
+				assessSpy = spyOn(global.MediaQuery.prototype, "assess"),
+				evt       = {};
+
+			mqd.register("a", {});
+				
+			//act
+			mqd.fire(evt);
+
+			//assert
+			expect(assessSpy).toHaveBeenCalledWith(evt);
 		});
 
 		it("will listen for browser events", function() {

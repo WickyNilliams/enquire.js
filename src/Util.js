@@ -6,7 +6,7 @@
      * @param fn
      */
     function each(collection, fn) {
-        var i = 0,
+        var i      = 0,
             length = collection.length,
             cont;
 
