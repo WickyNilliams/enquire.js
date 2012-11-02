@@ -1,4 +1,4 @@
-// enquire v1.4.1 - Awesome Media Queries in JavaScript
+// enquire v1.5.0 - Awesome Media Queries in JavaScript
 // Copyright (c) 2012 Nick Williams - https://www.github.com/WickyNilliams/enquire.js
 // License: MIT (http://www.opensource.org/licenses/mit-license.php)
 
@@ -130,7 +130,6 @@ window.enquire = (function(matchMedia) {
         }
 
     };
-    
 /**
  * Represents a single media query, manages it's state and registered handlers for this query
  *
@@ -164,11 +163,15 @@ MediaQuery.prototype = {
      * @param {object} handler
      * @param {function} handler.match callback for when query is activated
      * @param {function} [handler.unmatch] callback for when query is deactivated
-     * @param {function} [handler.setup] callback for immediate-execution when a query handler is registered
-     * @param {boolean} [handler.deferSetup=false] should the setup callback be deferred until the first time the handler is matched
+     * @param {function} [handler.setup] callback for immediate execution when a query handler is registered
+     * @param {boolean} [handler.deferSetup=false] should the setup callback be deferred until the first time the handler is matched?
+     * @param {boolean} [turnOn=false] should the handler be turned on if the query is matching?
      */
-    addHandler : function(handler) {
-        this.handlers.push(new QueryHandler(handler));
+    addHandler : function(handler, turnOn) {
+        var qh = new QueryHandler(handler);
+        this.handlers.push(qh);
+
+        turnOn && this.matched && qh.on();
     },
 
     /**
@@ -270,7 +273,8 @@ MediaQuery.prototype = {
          */
         register : function(q, options, shouldDegrade) {
             var queries         = this.queries,
-                isUnconditional = shouldDegrade && this.browserIsIncapable;
+                isUnconditional = shouldDegrade && this.browserIsIncapable,
+                listening       = this.listening;
 
             if(!queries.hasOwnProperty(q)) {
                 queries[q] = new MediaQuery(q, isUnconditional);
@@ -287,7 +291,7 @@ MediaQuery.prototype = {
                 options = [options];
             }
             each(options, function(handler) {
-                queries[q].addHandler(handler);
+                queries[q].addHandler(handler, listening);
             });
 
             return this;
@@ -316,6 +320,8 @@ MediaQuery.prototype = {
             else {
                 queries[q].removeHandler(handler);
             }
+
+            return this;
         },
 
         /**

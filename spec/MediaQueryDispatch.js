@@ -7,30 +7,30 @@
 		var query = "max-width:1000px";
 
 		it("throws if matchMedia is not present", function() {
-			//arrange
+			// Arrange
 			var matchMedia    = global.matchMedia;
 			global.matchMedia = undefined;
 
-			//act & assert
+			// Act & assert
 			expect(function() {
 				var a = new MediaQueryDispatch();
 			}).toThrow("matchMedia is required");
 
-			//cleanup
+			// cleanup
 			global.matchMedia = matchMedia;
 		});
 
 		it("tests for browser capability", function() {
-			//arrange
+			// Arrange
 			var browserIsCapable = true,
 				mqd;
 
 			spyOn(global.MediaQuery.prototype, "matchMedia").andReturn(true);
 
-			//act
+			// Act
 			mqd = new MediaQueryDispatch();
 
-			//assert
+			// Assert
 			expect(global.MediaQuery.prototype.matchMedia).toHaveBeenCalled();
 			expect(mqd.browserIsIncapable).toBe(!browserIsCapable);
 		});
@@ -38,14 +38,14 @@
 		//todo: test for isUnconditional
 
 		it("allows a match function to be registered", function() {
-			//arrange
+			// Arrange
 			var mqd = new MediaQueryDispatch(),
 				mediaQuery;
 				
-			//act
+			// Act
 			mqd.register(query, function(){});
 
-			//assert
+			// Assert
 			mediaQuery = mqd.queries[query];
 			expect(mediaQuery).not.toBe(undefined);
 			expect(mediaQuery.handlers.length).toBe(1);
@@ -53,94 +53,113 @@
 		});
 
 		it("allows handler objects to be registered", function() {
-			//arrange
+			// Arrange
 			var mqd = new MediaQueryDispatch(),
 				mediaQuery;
 				
-			//act
+			// Act
 			mqd.register(query, {});
 
-			//assert
+			// Assert
 			mediaQuery = mqd.queries[query];
 			expect(mediaQuery.handlers.length).toBe(1);
 		});
 
 		it("allows arrays of handlers to be registered", function() {
-			//arrange
+			// Arrange
 			var mqd      = new MediaQueryDispatch(),
 				handlers = [{}, {}, {}],
 				mediaQuery;
 				
-			//act
+			// Act
 			mqd.register(query, handlers);
 
-			//assert
+			// Assert
 			mediaQuery = mqd.queries[query];
 			expect(mediaQuery.handlers.length).toBe(handlers.length);
 		});
 
 		it("allows multiple handlers for same query to be registered at different times", function() {
-			//arrange
+			// Arrange
 			var mqd            = new MediaQueryDispatch(),
 				instanceSpy    = jasmine.createSpyObj("mediaQueryInstance", ["addHandler"]),
 				constructorSpy = spyOn(global, "MediaQuery").andReturn(instanceSpy),
 				i;
 
-			//act
+			// Act
 			mqd.register(query, {});
 			mqd.register(query, {});
 
-			//assert
+			// Assert
 			expect(constructorSpy.calls.length).toBe(1);
 			expect(instanceSpy.addHandler.calls.length).toBe(2);
 		});
 
+		it("turns on a handler being registered if the query is matched and is currently listening", function() {
+			// Arrange
+			var mqd = new MediaQueryDispatch(),
+				addSpy = spyOn(global.MediaQuery.prototype, "addHandler"),
+				handler = {};
+
+			mqd.listening = true;
+
+			// Act
+			mqd.register("a", handler);
+
+			// Assert
+			expect(addSpy).toHaveBeenCalledWith(handler, true);
+		});
+
 		it("calls assess on each media query when fired", function() {
-			//arrange
+			// Arrange
 			var mqd       = new MediaQueryDispatch(),
 				assessSpy = spyOn(global.MediaQuery.prototype, "assess");
 
 			mqd.register("a", {});
 			mqd.register("b", {});
 				
-			//act
+			// Act
 			mqd.fire();
 
-			//assert
+			// Assert
 			expect(assessSpy).toHaveBeenCalled();
 			expect(assessSpy.calls.length).toBe(2);
 		});
 
 		it("will propagate browser event to media query", function() {
-			//arrange
+			// Arrange
 			var mqd       = new MediaQueryDispatch(),
 				assessSpy = spyOn(global.MediaQuery.prototype, "assess"),
 				evt       = {};
 
 			mqd.register("a", {});
 				
-			//act
+			// Act
 			mqd.fire(evt);
 
-			//assert
+			// Assert
 			expect(assessSpy).toHaveBeenCalledWith(evt);
 		});
 
 		it("will listen for browser events", function() {
-			//arrange
+			// Arrange
 			var mqd         = new MediaQueryDispatch(),
 				addEventSpy = spyOn(global, "addEventListener");
+
+			spyOn(mqd, "fire");
 	
-			//act
+			// Act
 			mqd.listen();
 
+			// Assert
+			expect(mqd.fire).toHaveBeenCalled();
 			expect(addEventSpy.calls.length).toBe(2);
 			expect(addEventSpy).toHaveBeenCalledWith("resize", jasmine.any(Function));
 			expect(addEventSpy).toHaveBeenCalledWith("orientationChange", jasmine.any(Function));
 		});
 
 		it("allows entire queries to be unregistered", function() {
-			//arrange
+			// Arrange
 			var mqd      = new MediaQueryDispatch(),
 				destroy  = spyOn(global.QueryHandler.prototype, "destroy"),
 				handlers = [
@@ -150,16 +169,16 @@
 
 			mqd.register(query, handlers);
 			
-			//act
+			// Act
 			mqd.unregister(query);
 
-			//assert
+			// Assert
 			expect(destroy.calls.length).toBe(handlers.length);
 			expect(mqd.queries[query]).toBe(undefined);
 		});
 
 		it("allows individual handlers to be unregistered", function() {
-			//arrange
+			// Arrange
 			var mqd       = new MediaQueryDispatch(),
 				removeSpy = spyOn(global.MediaQuery.prototype, "removeHandler"),
 				handlers  = [
@@ -167,27 +186,27 @@
 					jasmine.createSpyObj("handler2", ["match"])
 				];
 			
-			//act
+			// Act
 			mqd.register(query, handlers);
 			mqd.unregister(query, handlers[1]);
 
-			//assert
+			// Assert
 			expect(removeSpy.calls.length).toBe(1);
 		});
 
 		it("returns if unregistering unrecognised media query", function() {
-			//arrange
+			// Arrange
 			var mqd        = new MediaQueryDispatch(),
 				removeSpy  = spyOn(global.MediaQuery.prototype, "removeHandler"),
 				destroySpy = spyOn(global.QueryHandler.prototype, "destroy"),
 				handler    = jasmine.createSpyObj("handler1", ["match"]),
 				result;
 			
-			//act
+			// Act
 			mqd.register(query, handler);
 			result = mqd.unregister("klgfjglkfdsajflkj", handler);
 
-			//assert
+			// Assert
 			expect(removeSpy).not.toHaveBeenCalled();
 			expect(destroySpy).not.toHaveBeenCalled();
 			expect(result).toBe(mqd);

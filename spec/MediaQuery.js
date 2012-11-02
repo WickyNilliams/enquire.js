@@ -12,19 +12,43 @@
 		});
 
 		it("can accept new handlers", function() {
-			//arrange
+			// Arrange
 			var originalLength = mq.handlers.length;
 
-			//act
+			// Act
 			mq.addHandler(handler);
 
-			//assert
+			// Assert
 			expect(originalLength).toBe(0);
 			expect(mq.handlers.length).toBe(1);
 		});
 
+		it("will turn on handler when added, if query is already matched and is listening", function() {
+			// Arrange
+			var originalLength = mq.handlers.length,
+				handler2 = jasmine.createSpyObj("handler2", ["match", "unmatch", "setup"]),
+				handler3 = jasmine.createSpyObj("handler3", ["match", "unmatch", "setup"]);
+
+			// Act
+
+			// not matched and not listening
+			mq.addHandler(handler);
+
+			// matched but not listening
+			mq.matched = true;
+			mq.addHandler(handler2);
+
+			// matched and listening
+			mq.addHandler(handler3, true);
+
+			// Assert
+			expect(handler.match).not.toHaveBeenCalled();
+			expect(handler2.match).not.toHaveBeenCalled();
+			expect(handler3.match).toHaveBeenCalled();
+		});
+
 		it("can remove handlers", function() {
-			//arrange
+			// Arrange
 			var handler2 = jasmine.createSpyObj("handler", ["match", "unmatch"]),
 				splice   = spyOn(Array.prototype, "splice").andCallThrough(),
 				equals   = spyOn(global.QueryHandler.prototype, "equals").andCallThrough(),
@@ -36,107 +60,107 @@
 
 			length = mq.handlers.length;
 
-			//act
+			// Act
 			mq.removeHandler(handler);
 
-			//assert
+			// Assert
 			expect(mq.handlers.length).toBe(length-1);
-			expect(equals.calls.length).not.toBe(length); //ensure early exit
-			expect(destroy.calls.length).toBe(1); //destroy called just once
-			expect(splice.calls.length).toBe(1); //splice called just once
-			expect(splice).toHaveBeenCalledWith(0,1); //splice called with correct args
+			expect(equals.calls.length).not.toBe(length); // ensure early exit
+			expect(destroy.calls.length).toBe(1); // destroy called just once
+			expect(splice.calls.length).toBe(1); // splice called just once
+			expect(splice).toHaveBeenCalledWith(0,1); // splice called with correct args
 		});
 
 		it("turns on handler if not yet matching", function() {
-			//arrange
+			// Arrange
 			mq.addHandler(handler);
 			mq.matched = false;
 			
-			//act
+			// Act
 			mq.match();
 
-			//assert
+			// Assert
 			expect(handler.match).toHaveBeenCalled();
 			expect(mq.matched).toBe(true);
 		});
 
 		it("does not turn on handler if already matching", function() {
-			//arrange
+			// Arrange
 			mq.addHandler(handler);
 			mq.matched = true;
 			
-			//act
+			// Act
 			mq.match();
 
-			//assert
+			// Assert
 			expect(handler.match).not.toHaveBeenCalled();
 			expect(mq.matched).toBe(true);
 		});
 
 		it("turns off handler if already matching", function() {
-			//arrange
+			// Arrange
 			mq.addHandler(handler);
 			mq.matched = true;
 			
-			//act
+			// Act
 			mq.unmatch();
 
-			//assert
+			// Assert
 			expect(handler.unmatch).toHaveBeenCalled();
 			expect(mq.matched).toBe(false);
 		});
 
 		it("does not turn off handler if not yet matching", function() {
-			//arrange
+			// Arrange
 			mq.addHandler(handler);
 			mq.matched = false;
 			
-			//act
+			// Act
 			mq.unmatch();
 
-			//assert
+			// Assert
 			expect(handler.unmatch).not.toHaveBeenCalled();
 			expect(mq.matched).toBe(false);
 		});
 
 		it("will call unmatch if media query doesn't match", function() {
-			//arrange
+			// Arrange
 			mq.addHandler(handler);
 			mq.matched = true;
 
-			//act
+			// Act
 			mq.assess();
 
-			//assert
+			// Assert
 			expect(handler.unmatch).toHaveBeenCalled();
 			expect(mq.matched).toBe(false);
 		});
 
 		it("will propagate browser event to query handlers", function() {
-			//arrange
+			// Arrange
 			var evt = {};
 			spyOn(mq, "unmatch");
 			spyOn(mq, "match");
 
-			//act
+			// Act
 			mq.assess(evt);
 			mq.isUnconditional = true; // forces match to be called
 			mq.assess(evt);
 
-			//assert
+			// Assert
 			expect(mq.unmatch).toHaveBeenCalledWith(evt);
 			expect(mq.match).toHaveBeenCalledWith(evt);
 		});
 
 		it("can be short-circuited with isUnconditional flag", function() {
-			//arrange
+			// Arrange
 			mq.isUnconditional = true;
 
-			//act
+			// Act
 			mq.addHandler(handler);
 			mq.assess();
 
-			//assert
+			// Assert
 			expect(handler.match).toHaveBeenCalled();
 		});
 

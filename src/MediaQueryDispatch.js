@@ -31,7 +31,8 @@
          */
         register : function(q, options, shouldDegrade) {
             var queries         = this.queries,
-                isUnconditional = shouldDegrade && this.browserIsIncapable;
+                isUnconditional = shouldDegrade && this.browserIsIncapable,
+                listening       = this.listening;
 
             if(!queries.hasOwnProperty(q)) {
                 queries[q] = new MediaQuery(q, isUnconditional);
@@ -48,7 +49,7 @@
                 options = [options];
             }
             each(options, function(handler) {
-                queries[q].addHandler(handler);
+                queries[q].addHandler(handler, listening);
             });
 
             return this;
@@ -77,6 +78,8 @@
             else {
                 queries[q].removeHandler(handler);
             }
+
+            return this;
         },
 
         /**

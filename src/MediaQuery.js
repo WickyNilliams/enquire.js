@@ -1,4 +1,3 @@
-    
 /**
  * Represents a single media query, manages it's state and registered handlers for this query
  *
@@ -32,11 +31,15 @@ MediaQuery.prototype = {
      * @param {object} handler
      * @param {function} handler.match callback for when query is activated
      * @param {function} [handler.unmatch] callback for when query is deactivated
-     * @param {function} [handler.setup] callback for immediate-execution when a query handler is registered
-     * @param {boolean} [handler.deferSetup=false] should the setup callback be deferred until the first time the handler is matched
+     * @param {function} [handler.setup] callback for immediate execution when a query handler is registered
+     * @param {boolean} [handler.deferSetup=false] should the setup callback be deferred until the first time the handler is matched?
+     * @param {boolean} [turnOn=false] should the handler be turned on if the query is matching?
      */
-    addHandler : function(handler) {
-        this.handlers.push(new QueryHandler(handler));
+    addHandler : function(handler, turnOn) {
+        var qh = new QueryHandler(handler);
+        this.handlers.push(qh);
+
+        turnOn && this.matched && qh.on();
     },
 
     /**
