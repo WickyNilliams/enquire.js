@@ -1,5 +1,7 @@
 #[enquire.js](http://wickynilliams.github.com/enquire.js/) - Awesome Media Queries in JavaScript
 
+[![Build Status](https://travis-ci.org/WickyNilliams/enquire.js.png)](https://travis-ci.org/WickyNilliams/enquire.js)
+
 `enquire.js` is a lightweight, pure javascript framework for programmatically responding to CSS media queries. 
 
 **Now with a full suite of unit tests! Huzzah!**
