@@ -20,5 +20,8 @@
 	"dependencies" : {
 		"grunt" : "*",
 		"grunt-jasmine-runner" : "*"
-	}
+	},
+ 	"scripts" : {
+    	"test": "grunt travis --verbose"
+  }
 }

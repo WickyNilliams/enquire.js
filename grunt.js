@@ -90,6 +90,7 @@ module.exports = function(grunt) {
 
   // Default task.
   grunt.registerTask('default', 'lint:prebuild jasmine concat min lint:postbuild');
+  grunt.registerTask('travis', 'lint:prebuild jasmine');
 
 
 };
