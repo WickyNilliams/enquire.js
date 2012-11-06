@@ -77,7 +77,7 @@ This should be enough to get you going, but **please read the full [enquire.js d
 ##Contributing
 
 * Got an awesome idea? 
-* Found a *not-so-*awesome bug? 
+* Found a *not-so*-awesome bug? 
 * Wish to get my attention through an inappropriate communication medium?!
 
 Then please don't hesitate to raise an issue, they will *all* be looked at and tended to.
