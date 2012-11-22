@@ -1,4 +1,4 @@
-// enquire v1.5.0 - Awesome Media Queries in JavaScript
+// enquire v1.5.1 - Awesome Media Queries in JavaScript
 // Copyright (c) 2012 Nick Williams - https://www.github.com/WickyNilliams/enquire.js
 // License: MIT (http://www.opensource.org/licenses/mit-license.php)
 
@@ -142,7 +142,7 @@ function MediaQuery(query, isUnconditional) {
     this.isUnconditional = isUnconditional;
     
     this.handlers = [];
-    this.matched = false;
+    this.matched = this.matchMedia();
 }
 MediaQuery.prototype = {
 

@@ -11,6 +11,5 @@ Modernizr.load([
     'js/libs/jquery.1.7.1.js',
     
     "../dist/enquire.js",
-    'js/verbose.js',
-    "js/app.js"
+    "js/test-suite.js"
 ]);

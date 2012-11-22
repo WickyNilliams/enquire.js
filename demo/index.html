@@ -4,20 +4,54 @@
     <title>Media Query test</title>
     <meta name="viewport" content="width=device-width">
     <script type="text/javascript" src="js/libs/modernizr.js"></script>
+    <style>
+        .main {max-width: 960px; margin: 0 auto;  text-align: center;}
+        iframe { 
+            display: inline-block;
+            -webkit-transition : all 0.3s ease;
+            -ms-transition     : all 0.3s ease;
+            -moz-transition    : all 0.3s ease;
+            -o-transition      : all 0.3s ease;
+            transition         : all 0.3s ease;
+        }
+
+
+    </style>
 </head>
 <body>
-    <p style="color: #8a2be2;">Lorem ipsum blah de blah</p>
-    <p style="color: #15B503;">Lorem ipsum and all that jazz</p>
 
-    <div>
-        <button id="dynamic">Dynamically add media query</button>
+    <div class="main">
+        <iframe id="suite" src="test-suite.html" frameborder="0" height="600" width="550">
+            <!-- gets dynamically resized -->            
+        </iframe>    
     </div>
+    
+    
+    <script src="js/libs/jquery.1.7.1.js"></script>
+    <script>
 
-    <div>
-        <button id="unregister">unregister media query</button>
-    </div>
+        function queueResizes($target, sizes, attr) {
+            var i    = 0,
+                step = 600;
+            
+            attr = attr || "width";
 
-    <script type="text/javascript" src="js/loadr.js"></script>
+            function factory(size) {
+                return function() {
+                    $target.css(attr, size);
+                }
+            }
+
+            for(i = 0; i < sizes.length; i++) {
+                setTimeout(factory(sizes[i]), (i + 1) * step);
+            }
+        }
+
+        $(function() {
+            queueResizes($("#suite"), [400, 650, 550]);
+        });
+
+    </script>
 
 </body>
 </html>

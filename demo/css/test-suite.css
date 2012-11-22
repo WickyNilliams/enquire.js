@@ -1,0 +1,67 @@
+body {
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    color: #333;
+}
+.main {
+    max-width: 960px;
+    margin: 0 auto;
+}
+
+.box {
+    border: 1px solid #666;
+    border-radius: 5px;
+    margin: 10px 0;
+}
+
+small {
+    color: #666;
+    
+}
+
+.test-group {
+    padding: 1em;
+    background-color: #eee;
+}
+
+.test-group-title {
+    margin-top: 0;
+    font-size: 1.3em;
+}
+
+.test {
+    box-shadow: 1px 1px 4px -1px #666;    
+}
+
+.test-pass {
+    border-color: rgb(0, 200, 0);
+    background-color: red;
+    background-color: rgba(0, 200, 0, 0.1);
+}
+
+.test-fail {
+    border-color: rgb(200, 0, 0);
+    background-color: red;
+    background-color: rgba(200, 0, 0, 0.1);
+}
+
+.test-condition:before {
+    color: #999;
+    padding: 0 1em;
+    font-size: 1.2em;
+    content: "\2714";
+    float: left;
+}
+
+.test-pass .test-condition:before {
+    color: rgb(0, 200, 0);
+    text-shadow: 1px 1px #000;
+}
+
+.test-fail .test-condition:before {
+    color: rgb(200, 0, 0);
+    text-shadow: 1px 1px #000;
+}
+
+.test-fail .test-condition:before {
+    content: "\2718";
+}

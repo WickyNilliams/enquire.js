@@ -11,6 +11,18 @@
 			handler = jasmine.createSpyObj("handler", ["match", "unmatch", "setup"]);
 		});
 
+		it("checks whether matches during construction", function() {
+			// Arrange
+			var matchMediaSpy = spyOn(global.MediaQuery.prototype, "matchMedia");
+
+			// Act
+			var mq = new MediaQuery("max-width:1000px");
+
+			// Assert
+			expect(matchMediaSpy).toHaveBeenCalled();
+
+		});
+
 		it("can accept new handlers", function() {
 			// Arrange
 			var originalLength = mq.handlers.length;

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Media Query test</title>
+    <meta name="viewport" content="width=device-width">
+    <script type="text/javascript" src="js/libs/modernizr.js"></script>
+    <link rel="stylesheet" href="css/test-suite.css">
+</head>
+<body>
+    <div class="main">
+    
+        <div id="test1" class="test-group box">        
+            <h2 class="test-group-title">
+                screen and (min-width: 600px)
+            </h2>
+            
+            <div class="test box setup">
+                <div class="test-condition">
+                    <p>
+                        Setup
+                    </p>
+                </div>
+            </div>   
+            
+            <div class="test box match">
+                <div class="test-condition">
+                    <p>
+                        Match
+                    </p>
+                </div>
+            </div>
+            
+            <div class="test box unmatch">
+                <div class="test-condition">
+                    <p>
+                        Unmatch
+                    </p>
+                </div>
+            </div>         
+            
+        </div>
+    
+        <div id="test2" class="test-group box">        
+            <h2 class="test-group-title">
+                screen and (max-width: 500px)
+            </h2>
+            
+            <div class="test box setup">
+                <div class="test-condition">
+                    <p>
+                        Setup 
+                        <small>Setup is deferred</small>
+                    </p>
+                </div>
+            </div>
+            
+            <div class="test box destroy">
+                <div class="test-condition">
+                    <p>
+                        Destroy 
+                        <button class="destroy-trigger">Kill 'em</button>
+                    </p>
+                    
+                </div>
+            </div>
+            
+        </div>    
+        
+            
+    </div>
+    
+    <script src="js/loadr.js"></script>
+
+</body>
+</html>

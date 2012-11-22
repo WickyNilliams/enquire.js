@@ -95,19 +95,20 @@
 			expect(instanceSpy.addHandler.calls.length).toBe(2);
 		});
 
-		it("turns on a handler being registered if the query is matched and is currently listening", function() {
+		it("tells media query addHandler whether currently listrning", function() {
 			// Arrange
 			var mqd = new MediaQueryDispatch(),
 				addSpy = spyOn(global.MediaQuery.prototype, "addHandler"),
-				handler = {};
+				handler = {},
+				listening = true;
 
-			mqd.listening = true;
+			mqd.listening = listening;
 
 			// Act
 			mqd.register("a", handler);
 
 			// Assert
-			expect(addSpy).toHaveBeenCalledWith(handler, true);
+			expect(addSpy).toHaveBeenCalledWith(handler, listening);
 		});
 
 		it("calls assess on each media query when fired", function() {
