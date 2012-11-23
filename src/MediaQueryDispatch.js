@@ -6,10 +6,10 @@
      */
     function MediaQueryDispatch () {
         if(!matchMedia) {
-            throw new Error("matchMedia is required");
+            throw new Error('matchMedia is required');
         }
 
-        var capabilityTest = new MediaQuery("only all");
+        var capabilityTest = new MediaQuery('only all');
         this.queries = {};
         this.listening = false;
         this.browserIsIncapable = !capabilityTest.matchMedia();
@@ -36,6 +36,8 @@
 
             if(!queries.hasOwnProperty(q)) {
                 queries[q] = new MediaQuery(q, isUnconditional);
+
+                this.listening && queries[q].assess();
             }
 
             //normalise to object
@@ -124,9 +126,7 @@
                 var timer;
 
                 eventWireUp(event, function(e) {
-                    if(timer) {
-						clearTimeout(timer);
-					}
+                    timer && clearTimeout(timer);
 
                     timer = setTimeout(function() {
                         self.fire(e);
@@ -136,8 +136,8 @@
 
             //handle initial load then listen
             self.fire();
-            wireFire("resize");
-            wireFire("orientationChange");
+            wireFire('resize');
+            wireFire('orientationChange');
 
             this.listening = true;
             return this;

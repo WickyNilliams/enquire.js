@@ -10,7 +10,7 @@ function MediaQuery(query, isUnconditional) {
     this.isUnconditional = isUnconditional;
     
     this.handlers = [];
-    this.matched = this.matchMedia();
+    this.matched = false;
 }
 MediaQuery.prototype = {
 

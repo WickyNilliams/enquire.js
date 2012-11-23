@@ -1,4 +1,4 @@
-/*jshint devel:true, expr:true */
+/*jshint devel:true */
 
 ////////////////////////////////
 //// ENQUIRE TEST SUITE
@@ -9,54 +9,52 @@
 
 (function(enquire, $){
 
+	'use strict';
+
 	enquire.listen(100);
 
 	function pass($test) {
-		$test.is(".test") && $test.addClass("test-pass");
+		$test.is('.test') && $test.addClass('test-pass');
 	}
 
-	function fail($test) {
-		$test.is(".test") && $test.addClass("test-fail");
-	}
+	var $test1 = $('#test1'),
+		$test2 = $('#test2');
 
-	var $test1 = $("#test1"),
-		$test2 = $("#test2");
-
-	enquire.register("screen and (min-width:600px)", {
+	enquire.register('screen and (min-width:600px)', {
 
 		match : function() {
-			pass($test1.find(".match"));
+			pass($test1.find('.match'));
 		},
 
 		unmatch : function() {
-			pass($test1.find(".unmatch"));
+			pass($test1.find('.unmatch'));
 		},
 
 		setup : function() {
-			pass($test1.find(".setup"));
+			pass($test1.find('.setup'));
 		},
 
 		destroy : function() {
-			pass($test1.find(".destroy"));
+			pass($test1.find('.destroy'));
 		}
 
-	}).register("screen and (max-width: 500px)", {
+	}).register('screen and (max-width: 500px)', {
 
 		match : function(){},
 
 		setup : function() {
-			pass($test2.find(".setup"));
+			pass($test2.find('.setup'));
 		},
 
 		deferSetup : true,
 
 		destroy : function() {
-			pass($test2.find(".destroy"));
+			pass($test2.find('.destroy'));
 		}
 	});
 
-	$(".destroy-trigger").one("click", function() {
-		enquire.unregister("screen and (max-width: 500px)");
+	$('.destroy-trigger').one('click', function() {
+		enquire.unregister('screen and (max-width: 500px)');
 		$(this).remove();
 	});
 

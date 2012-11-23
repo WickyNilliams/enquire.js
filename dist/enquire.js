@@ -1,4 +1,4 @@
-// enquire v1.5.1 - Awesome Media Queries in JavaScript
+// enquire v1.5.2 - Awesome Media Queries in JavaScript
 // Copyright (c) 2012 Nick Williams - https://www.github.com/WickyNilliams/enquire.js
 // License: MIT (http://www.opensource.org/licenses/mit-license.php)
 
@@ -142,7 +142,7 @@ function MediaQuery(query, isUnconditional) {
     this.isUnconditional = isUnconditional;
     
     this.handlers = [];
-    this.matched = this.matchMedia();
+    this.matched = false;
 }
 MediaQuery.prototype = {
 
@@ -248,10 +248,10 @@ MediaQuery.prototype = {
      */
     function MediaQueryDispatch () {
         if(!matchMedia) {
-            throw new Error("matchMedia is required");
+            throw new Error('matchMedia is required');
         }
 
-        var capabilityTest = new MediaQuery("only all");
+        var capabilityTest = new MediaQuery('only all');
         this.queries = {};
         this.listening = false;
         this.browserIsIncapable = !capabilityTest.matchMedia();
@@ -278,6 +278,8 @@ MediaQuery.prototype = {
 
             if(!queries.hasOwnProperty(q)) {
                 queries[q] = new MediaQuery(q, isUnconditional);
+
+                this.listening && queries[q].assess();
             }
 
             //normalise to object
@@ -366,9 +368,7 @@ MediaQuery.prototype = {
                 var timer;
 
                 eventWireUp(event, function(e) {
-                    if(timer) {
-						clearTimeout(timer);
-					}
+                    timer && clearTimeout(timer);
 
                     timer = setTimeout(function() {
                         self.fire(e);
@@ -378,8 +378,8 @@ MediaQuery.prototype = {
 
             //handle initial load then listen
             self.fire();
-            wireFire("resize");
-            wireFire("orientationChange");
+            wireFire('resize');
+            wireFire('orientationChange');
 
             this.listening = true;
             return this;
