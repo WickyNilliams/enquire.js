@@ -111,10 +111,18 @@
          * @param {int} [timeout=500] the time (in milliseconds) after which the queries should be handled
          */
         listen : function(timeout) {
-            var eventWireUp = window.addEventListener || window.attachEvent,
-                self = this;
+            var resize      = 'resize',
+                orientation = 'orientationChange',
+                eventWireUp = window.addEventListener || window.attachEvent,
+                self        = this;
 
             timeout = timeout || 500;
+
+            // fix up event names
+            if(window.attachEvent) {
+                resize      = 'on' + resize;
+                orientation = 'on' + orientation;
+            }
 
             //prevent multiple event handlers
             if(this.listening) {
@@ -136,8 +144,8 @@
 
             //handle initial load then listen
             self.fire();
-            wireFire('resize');
-            wireFire('orientationChange');
+            wireFire(resize);
+            wireFire(orientation);
 
             this.listening = true;
             return this;
