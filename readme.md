@@ -2,9 +2,11 @@
 
 [![Build Status](https://travis-ci.org/WickyNilliams/enquire.js.png)](https://travis-ci.org/WickyNilliams/enquire.js)
 
-`enquire.js` is a lightweight, pure javascript framework for programmatically responding to CSS media queries. 
+`enquire.js` is a lightweight, pure javascript library (with **no dependencies*) for programmatically responding to media queries. 
 
 **Now with a full suite of unit tests! Huzzah!**
+
+**Now with an automated functional test suite! Joy!**
 
 ##Getting enquire.js
 
@@ -78,7 +80,7 @@ This should be enough to get you going, but **please read the full [enquire.js d
 
 * Got an awesome idea? 
 * Found a *not-so*-awesome bug? 
-* Wish to get my attention through an inappropriate communication medium?!
+* Wish to get my attention through an inappropriate communication channel?!
 
 Then please don't hesitate to raise an issue, they will *all* be looked at and tended to.
 
