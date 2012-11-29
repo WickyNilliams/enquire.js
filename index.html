@@ -60,23 +60,23 @@
             </p>
 
             <ul>
-                <li>Respond to media queries being matched (and even <em>un</em>matched!)</li>
-                <li>Respond to browser events with aplomb</li>
-                <li>And if you want to get really fancy, run one-time setup routines</li>
+                <li>Execute javascript callbacks for matching media queries</li>
+                <li>Listen to browser resize and orientation change events to execute callbacks as media queries are matched (and <em>un</em>matched!)</li>
+                <li>Run one-time setup callbacks</li>
+                <li>Unregister media queries and have a callback to perform any necessary cleanup</li>
             </ul>
 
             <h3>Dependencies?</h3>
 
             <p>None! <em>Not even jQuery</em>.</p>
             <p>
-                The <em>most</em> you will need to do is provide a <code class="language-javascript">matchMedia</code> polyfill if you wish to <a href="#legacy-support">support older browsers</a>.
+                The <em>most</em> you will need to do is provide a <code class="language-javascript">matchMedia</code> polyfill if you wish to <a href="#legacy-support">support old/incapable browsers</a>.
             </p>
 
             <h3>Use Cases</h3>
             <ul>
-                <li>Responsive Design</li>
-                <li>Mobile-first Design</li>
-                <li>Assist older browsers with media queries</li>
+                <li>Responsive Design &mdash; simplify altering your menu for use on small-screen devices.</li>
+                <li>Mobile-first Design &mdash; to load in new content and resources for large-screen devices.</li>
             </ul>
 
         </section>
@@ -387,7 +387,7 @@ Modernizr.load([
 </div>
 
 <footer class="block">
-    <small>Copyright &copy; Nick Williams 2012</small>
+    <small>Copyright &copy; <a href="http://www.twitter.com/WickyNilliams" rel="author">Nick Williams</a> 2012</small>
 </footer>
 
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
