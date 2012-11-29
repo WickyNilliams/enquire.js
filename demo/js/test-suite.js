@@ -17,25 +17,28 @@
 		$test.is('.test') && $test.addClass('test-pass');
 	}
 
-	var $test1 = $('#test1'),
-		$test2 = $('#test2');
+	function fail($test) {
+		$test.is('.test') && $test.addClass('test-fail');
+	}
+
+	if(enquire.browserIsIncapable) {
+		$(document.body).addClass('incapable');
+	}
+
+	var $tests = $('.test-group');
 
 	enquire.register('screen and (min-width:600px)', {
 
 		match : function() {
-			pass($test1.find('.match'));
+			pass($tests.find('.match'));
 		},
 
 		unmatch : function() {
-			pass($test1.find('.unmatch'));
+			pass($tests.find('.unmatch'));
 		},
 
 		setup : function() {
-			pass($test1.find('.setup'));
-		},
-
-		destroy : function() {
-			pass($test1.find('.destroy'));
+			pass($tests.find('.setup'));
 		}
 
 	}).register('screen and (max-width: 500px)', {
@@ -43,18 +46,32 @@
 		match : function(){},
 
 		setup : function() {
-			pass($test2.find('.setup'));
+			pass($tests.find('.deferred-setup'));
 		},
 
-		deferSetup : true,
+		deferSetup : true
+
+	}).register('screen and (min-width: 1px)', {
+
+		match : function() {},
 
 		destroy : function() {
-			pass($test2.find('.destroy'));
+			pass($tests.find('.destroy'));
 		}
-	});
+
+	}).register('screen and (max-width:1px)', {
+
+		match : function() {
+			var $degrade = $tests.find('.should-degrade'),
+				action = enquire.browserIsIncapable ? pass : fail;
+
+			action($degrade);
+		}
+
+	}, true);
 
 	$('.destroy-trigger').one('click', function() {
-		enquire.unregister('screen and (max-width: 500px)');
+		enquire.unregister('screen and (min-width: 1px)');
 		$(this).remove();
 	});
 

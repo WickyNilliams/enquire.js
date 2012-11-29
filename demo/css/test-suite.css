@@ -7,6 +7,18 @@ body {
     margin: 0 auto;
 }
 
+.center {
+    text-align: center;
+}
+
+.incapable-only {
+    display: none;
+}
+
+.incapable .incapable-only {
+    display: block;
+}
+
 .box {
     border: 1px solid #666;
     border-radius: 5px;
@@ -34,14 +46,12 @@ small {
 
 .test-pass {
     border-color: rgb(0, 200, 0);
-    background-color: red;
-    background-color: rgba(0, 200, 0, 0.1);
+    background-color: rgb(214, 234, 214);
 }
 
 .test-fail {
     border-color: rgb(200, 0, 0);
-    background-color: red;
-    background-color: rgba(200, 0, 0, 0.1);
+    background-color: rgb(234, 214, 234);
 }
 
 .test-condition:before {
@@ -64,4 +74,13 @@ small {
 
 .test-fail .test-condition:before {
     content: "\2718";
+}
+
+iframe { 
+    display: inline-block;
+    -webkit-transition : all 0.3s ease;
+    -ms-transition     : all 0.3s ease;
+    -moz-transition    : all 0.3s ease;
+    -o-transition      : all 0.3s ease;
+    transition         : all 0.3s ease;
 }

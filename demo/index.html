@@ -4,52 +4,48 @@
     <title>Media Query test</title>
     <meta name="viewport" content="width=device-width">
     <script type="text/javascript" src="js/libs/modernizr.js"></script>
-    <style>
-        .main {max-width: 960px; margin: 0 auto;  text-align: center;}
-        iframe { 
-            display: inline-block;
-            -webkit-transition : all 0.3s ease;
-            -ms-transition     : all 0.3s ease;
-            -moz-transition    : all 0.3s ease;
-            -o-transition      : all 0.3s ease;
-            transition         : all 0.3s ease;
-        }
-
-
-    </style>
+    <link rel="stylesheet" href="css/test-suite.css">
 </head>
 <body>
 
-    <div class="main">
-        <iframe id="suite" src="test-suite.html" frameborder="0" height="600" width="550">
-            <!-- gets dynamically resized -->            
+    <div class="main center">    
+    
+        <h1>Enquire.js Test Suite</h1>
+        <h2>Simple automated functional tests</h2>
+    
+        <!-- this gets programmatically resized to trigger media queries -->
+        <iframe id="suite" src="test-suite.html" frameborder="0" height="600" width="550">            
         </iframe>    
     </div>
     
     
-    <script src="js/libs/jquery.1.7.1.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.1/jquery.min.js"></script>
     <script>
 
-        function queueResizes($target, sizes, attr) {
-            var i    = 0,
-                step = 600;
-            
-            attr = attr || "width";
+        (function($) {
 
-            function factory(size) {
-                return function() {
-                    $target.css(attr, size);
+            function queueResizes($target, sizes, attr, step) {
+                var i    = 0;
+                
+                step = step || 600;
+                attr = attr || "width";
+
+                function factory(size) {
+                    return function() {
+                        $target.css(attr, size);
+                    }
+                }
+
+                for(i = 0; i < sizes.length; i++) {
+                    setTimeout(factory(sizes[i]), (i + 1) * step);
                 }
             }
 
-            for(i = 0; i < sizes.length; i++) {
-                setTimeout(factory(sizes[i]), (i + 1) * step);
-            }
-        }
+            $(function() {
+                queueResizes($("#suite"), [400, 650, 550]);
+            });
 
-        $(function() {
-            queueResizes($("#suite"), [400, 650, 550]);
-        });
+        }(jQuery));        
 
     </script>
 

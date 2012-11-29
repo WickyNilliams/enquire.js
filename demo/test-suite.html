@@ -9,10 +9,7 @@
 <body>
     <div class="main">
     
-        <div id="test1" class="test-group box">        
-            <h2 class="test-group-title">
-                screen and (min-width: 600px)
-            </h2>
+        <div class="test-group box">
             
             <div class="test box setup">
                 <div class="test-condition">
@@ -20,7 +17,15 @@
                         Setup
                     </p>
                 </div>
-            </div>   
+            </div>
+            
+           <div class="test box deferred-setup">
+               <div class="test-condition">
+                   <p>
+                       Deferred setup
+                   </p>
+               </div>
+           </div>   
             
             <div class="test box match">
                 <div class="test-condition">
@@ -36,22 +41,6 @@
                         Unmatch
                     </p>
                 </div>
-            </div>         
-            
-        </div>
-    
-        <div id="test2" class="test-group box">        
-            <h2 class="test-group-title">
-                screen and (max-width: 500px)
-            </h2>
-            
-            <div class="test box setup">
-                <div class="test-condition">
-                    <p>
-                        Setup 
-                        <small>Setup is deferred</small>
-                    </p>
-                </div>
             </div>
             
             <div class="test box destroy">
@@ -59,8 +48,13 @@
                     <p>
                         Destroy 
                         <button class="destroy-trigger">Kill 'em</button>
-                    </p>
-                    
+                    </p>                    
+                </div>
+            </div>
+            
+            <div class="test box should-degrade incapable-only">
+                <div class="test-condition">
+                    <p>Degrade <small>only passes for incapable browsers</small></p>
                 </div>
             </div>
             
