@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/WickyNilliams/enquire.js.png)](https://travis-ci.org/WickyNilliams/enquire.js)
 
-`enquire.js` is a lightweight, pure javascript library (with **no dependencies*) for programmatically responding to media queries. 
+`enquire.js` is a lightweight, pure javascript library (with **no dependencies**) for programmatically responding to media queries. 
 
 **Now with a full suite of unit tests! Huzzah!**
 
