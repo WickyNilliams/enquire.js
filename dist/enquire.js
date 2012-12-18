@@ -1,4 +1,4 @@
-// enquire v1.5.3 - Awesome Media Queries in JavaScript
+// enquire v1.5.4 - Awesome Media Queries in JavaScript
 // Copyright (c) 2012 Nick Williams - https://www.github.com/WickyNilliams/enquire.js
 // License: MIT (http://www.opensource.org/licenses/mit-license.php)
 
@@ -353,17 +353,14 @@ MediaQuery.prototype = {
          * @param {int} [timeout=500] the time (in milliseconds) after which the queries should be handled
          */
         listen : function(timeout) {
-            var resize      = 'resize',
-                orientation = 'orientationChange',
-                eventWireUp = window.addEventListener || window.attachEvent,
-                self        = this;
+            var self = this;
 
             timeout = timeout || 500;
 
-            // fix up event names
-            if(window.attachEvent) {
-                resize      = 'on' + resize;
-                orientation = 'on' + orientation;
+            // any browser that doesn't implement this
+            // will not have media query support
+            if(!window.addEventListener) {
+                return;
             }
 
             //prevent multiple event handlers
@@ -371,11 +368,11 @@ MediaQuery.prototype = {
 				return this;
 			}
 
-            //creates closure for separate timed event
+            //creates closure for separate timed events
             function wireFire(event) {
                 var timer;
 
-                eventWireUp(event, function(e) {
+                window.addEventListener(event, function(e) {
                     timer && clearTimeout(timer);
 
                     timer = setTimeout(function() {
@@ -386,8 +383,8 @@ MediaQuery.prototype = {
 
             //handle initial load then listen
             self.fire();
-            wireFire(resize);
-            wireFire(orientation);
+            wireFire('resize');
+            wireFire('orientationChange');
 
             this.listening = true;
             return this;

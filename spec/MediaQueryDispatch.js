@@ -112,6 +112,23 @@
 			expect(addSpy).toHaveBeenCalledWith(handler, listening);
 		});
 
+		it('assesses a new media query if already listening', function() {
+			// Arrange
+			var mqd = new MediaQueryDispatch(),
+				assessSpy = spyOn(global.MediaQuery.prototype, 'assess'),
+				handler = jasmine.createSpyObj('handler1', ['match']);
+
+			spyOn(global.MediaQuery.prototype, 'matchMedia').andReturn(true);
+			mqd.listening = true;
+
+			// Act
+			mqd.register('something', handler);
+
+
+			// Assert
+			expect(assessSpy).toHaveBeenCalled();
+		});
+
 		it('calls assess on each media query when fired', function() {
 			// Arrange
 			var mqd       = new MediaQueryDispatch(),
@@ -194,23 +211,6 @@
 
 			// Assert
 			expect(removeSpy.calls.length).toBe(1);
-		});
-
-		it('assesses a new media query if already listening', function() {
-			// Arrange
-			var mqd = new MediaQueryDispatch(),
-				assessSpy = spyOn(global.MediaQuery.prototype, 'assess'),
-				handler = jasmine.createSpyObj('handler1', ['match']);
-
-			spyOn(global.MediaQuery.prototype, 'matchMedia').andReturn(true);
-			mqd.listening = true;
-
-			// Act
-			mqd.register('something', handler);
-
-
-			// Assert
-			expect(assessSpy).toHaveBeenCalled();
 		});
 
 		it('returns if unregistering unrecognised media query', function() {
