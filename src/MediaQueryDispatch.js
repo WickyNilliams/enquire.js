@@ -1,6 +1,6 @@
     /**
-     * Allows for reigstration of query handlers.
-     * Manages the  query handler's state and is responsible for wiring up browser events
+     * Allows for registration of query handlers.
+     * Manages the query handler's state and is responsible for wiring up browser events
      *
      * @constructor
      */
@@ -9,10 +9,9 @@
             throw new Error('matchMedia is required');
         }
 
-        var capabilityTest = new MediaQuery('only all');
         this.queries = {};
         this.listening = false;
-        this.browserIsIncapable = !capabilityTest.matchMedia();
+        this.browserIsIncapable = !matchMedia('only all').matches;
     }
 
     MediaQueryDispatch.prototype = {
@@ -36,8 +35,6 @@
 
             if(!queries.hasOwnProperty(q)) {
                 queries[q] = new MediaQuery(q, isUnconditional);
-
-                this.listening && queries[q].assess();
             }
 
             //normalise to object
@@ -72,79 +69,13 @@
             }
             
             if(!handler) {
-                each(this.queries[q].handlers, function(handler) {
-                    handler.destroy();
-                });
+                queries[q].clear();
                 delete queries[q];
             }
             else {
                 queries[q].removeHandler(handler);
             }
 
-            return this;
-        },
-
-        /**
-         * Tests all media queries and calls relevant methods depending whether
-         * transitioning from unmatched->matched or matched->unmatched
-         *
-         * @function
-         * @param {Event} [e] if fired as a result of a browser event,
-         * an event can be supplied to propagate to the various media query handlers
-         */
-        fire : function(e) {
-            var queries = this.queries,
-                mediaQuery;
-
-            for(mediaQuery in queries) {
-                if(queries.hasOwnProperty(mediaQuery)) {
-                    queries[mediaQuery].assess(e);
-				}
-            }
-            return this;
-        },
-
-        /**
-         * sets up listeners for resize and orientation events
-         *
-         * @function
-         * @param {int} [timeout=500] the time (in milliseconds) after which the queries should be handled
-         */
-        listen : function(timeout) {
-            var self = this;
-
-            timeout = timeout || 500;
-
-            // any browser that doesn't implement this
-            // will not have media query support
-            if(!window.addEventListener) {
-                return;
-            }
-
-            //prevent multiple event handlers
-            if(this.listening) {
-				return this;
-			}
-
-            //creates closure for separate timed events
-            function wireFire(event) {
-                var timer;
-
-                window.addEventListener(event, function(e) {
-                    timer && clearTimeout(timer);
-
-                    timer = setTimeout(function() {
-                        self.fire(e);
-                    }, timeout);
-                });
-            }
-
-            //handle initial load then listen
-            self.fire();
-            wireFire('resize');
-            wireFire('orientationChange');
-
-            this.listening = true;
             return this;
         }
     };

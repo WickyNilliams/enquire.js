@@ -27,13 +27,13 @@
 			var browserIsCapable = true,
 				mqd;
 
-			spyOn(global.MediaQuery.prototype, 'matchMedia').andReturn(true);
+			spyOn(global, 'matchMedia').andReturn({matches: browserIsCapable});
 
 			// Act
 			mqd = new MediaQueryDispatch();
 
 			// Assert
-			expect(global.MediaQuery.prototype.matchMedia).toHaveBeenCalled();
+			expect(global.matchMedia).toHaveBeenCalled();
 			expect(mqd.browserIsIncapable).toBe(!browserIsCapable);
 		});
 
@@ -94,87 +94,6 @@
 			// Assert
 			expect(constructorSpy.calls.length).toBe(1);
 			expect(instanceSpy.addHandler.calls.length).toBe(2);
-		});
-
-		it('tells media query addHandler whether currently listening', function() {
-			// Arrange
-			var mqd = new MediaQueryDispatch(),
-				addSpy = spyOn(global.MediaQuery.prototype, 'addHandler'),
-				handler = {},
-				listening = true;
-
-			mqd.listening = listening;
-
-			// Act
-			mqd.register('a', handler);
-
-			// Assert
-			expect(addSpy).toHaveBeenCalledWith(handler, listening);
-		});
-
-		it('assesses a new media query if already listening', function() {
-			// Arrange
-			var mqd = new MediaQueryDispatch(),
-				assessSpy = spyOn(global.MediaQuery.prototype, 'assess'),
-				handler = jasmine.createSpyObj('handler1', ['match']);
-
-			spyOn(global.MediaQuery.prototype, 'matchMedia').andReturn(true);
-			mqd.listening = true;
-
-			// Act
-			mqd.register('something', handler);
-
-
-			// Assert
-			expect(assessSpy).toHaveBeenCalled();
-		});
-
-		it('calls assess on each media query when fired', function() {
-			// Arrange
-			var mqd       = new MediaQueryDispatch(),
-				assessSpy = spyOn(global.MediaQuery.prototype, 'assess');
-
-			mqd.register('a', {});
-			mqd.register('b', {});
-				
-			// Act
-			mqd.fire();
-
-			// Assert
-			expect(assessSpy).toHaveBeenCalled();
-			expect(assessSpy.calls.length).toBe(2);
-		});
-
-		it('will propagate browser event to media query', function() {
-			// Arrange
-			var mqd       = new MediaQueryDispatch(),
-				assessSpy = spyOn(global.MediaQuery.prototype, 'assess'),
-				evt       = {};
-
-			mqd.register('a', {});
-				
-			// Act
-			mqd.fire(evt);
-
-			// Assert
-			expect(assessSpy).toHaveBeenCalledWith(evt);
-		});
-
-		it('will listen for browser events', function() {
-			// Arrange
-			var mqd         = new MediaQueryDispatch(),
-				addEventSpy = spyOn(global, 'addEventListener');
-
-			spyOn(mqd, 'fire');
-	
-			// Act
-			mqd.listen();
-
-			// Assert
-			expect(mqd.fire).toHaveBeenCalled();
-			expect(addEventSpy.calls.length).toBe(2);
-			expect(addEventSpy).toHaveBeenCalledWith('resize', jasmine.any(Function));
-			expect(addEventSpy).toHaveBeenCalledWith('orientationChange', jasmine.any(Function));
 		});
 
 		it('allows entire queries to be unregistered', function() {

@@ -11,6 +11,8 @@ module.exports = function(grunt) {
     
     },
 
+    path : 'dist/<%= pkg.name %>',
+
     concat: {
       build: {
         src: [
@@ -24,7 +26,7 @@ module.exports = function(grunt) {
 
           'src/include/outro.js'
         ],
-        dest: 'dist/<%= pkg.name %>.js'
+        dest: '<%= path %>.js'
       }
     },
 
@@ -49,7 +51,7 @@ module.exports = function(grunt) {
     min: {
       standard: {
         src: ['<banner:meta.banner>', '<config:concat.build.dest>'],
-        dest: 'dist/<%= pkg.name %>.min.js'
+        dest: '<%= path %>.min.js'
       }
     },
 

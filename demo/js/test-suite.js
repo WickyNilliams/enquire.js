@@ -11,8 +11,6 @@
 
 	'use strict';
 
-	enquire.listen(100);
-
 	function pass($test) {
 		$test.is('.test') && $test.addClass('test-pass');
 	}
