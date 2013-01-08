@@ -2,7 +2,7 @@
 	"name" : "enquire",
 	"version" : "1.5.4",
 	"description" : "Awesome Media Queries in JavaScript",
-	"homepage" : "https://www.github.com/WickyNilliams/enquire.js",
+	"homepage" : "http://wicky.nillia.ms/enquire.js",
 	"author" : {
 		"name" : "Nick Williams"
 	},
