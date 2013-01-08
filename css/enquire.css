@@ -845,21 +845,30 @@ footer small {
   color: rgba(218, 237, 226, 0.5);
 }
 @media (max-width: 480px) {
-  
+  h2 {
+    font-size: 2em;
+    margin-bottom: 0.5em;
+  }
+  h3 {
+    font-size: 1.6em;
+  }
+  article p {
+    font-size: 0.95em;
+  }
 }
 @media (max-width: 800px) {
   body {
     padding: 0;
   }
   header .buttons {
-    display: none;
+    margin: 1em;
+    position: static;
+  }
+  header .buttons .btn {
+    display: inline-block;
   }
   header .title {
     font-size: 6em;
-  }
-  article p {
-    font-size: 14px;
-    line-height: 1.6;
   }
 }
 @media (min-width: 1200px) {

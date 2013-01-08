@@ -9,7 +9,7 @@
 
     <title>Awesome Media Queries in JavaScript - enquire.js</title>
     
-    <meta name="description" content="enquire.js is a tiny, pure javascript library for responding to media queries programmatically. It's totally awesome">
+    <meta name="description" content="enquire.js is a lightweight, pure JavaScript library for responding to CSS media queries. It's totally awesome">
     <meta name="viewport" content="width=device-width">
 
     <link href="http://fonts.googleapis.com/css?family=Lato:300|Yesteryear" rel="stylesheet" type="text/css">
@@ -21,18 +21,18 @@
     <p class="chromeframe">Your browser is <em>ancient!</em> <a href="http://browsehappy.com/">Upgrade to a different browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to experience this site.</p>
     <![endif]-->
 
-    <a class="hide-phone github-ribbon" href="https://github.com/WickyNilliams/enquire.js">
+    <a class="github-ribbon" href="https://github.com/WickyNilliams/enquire.js">
         <img src="https://s3.amazonaws.com/github/ribbons/forkme_right_red_aa0000.png" alt="Fork me on GitHub">
     </a>
     
 <header class="block">
     
-    <h1 class="title">
+    <h1 class="title">  
         enquire.js
         <span class="strapline">Awesome Media Queries in JavaScript</span>        
     </h1>
 
-    <div class="buttons hide-phone">
+    <div class="buttons">
         <div class="btn">
             <a href="https://twitter.com/share" class="twitter-share-button" data-counturl="http://wickynilliams.github.com/enquire.js" data-via="WickyNilliams">Tweet</a>
         <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");
@@ -76,7 +76,7 @@
             <h3>Use Cases</h3>
             <ul>
                 <li>Responsive Design &mdash; simplify altering your menu for use on small-screen devices.</li>
-                <li>Mobile-first Design &mdash; to load in new content and resources for large-screen devices.</li>
+                <li>Mobile-first Design &mdash; load in new content and resources for large-screen devices.</li>
             </ul>
 
         </section>
@@ -106,7 +106,7 @@
 
             <h3>Build From Source</h3>
 
-            <p>If you want build from source (and run all unit tests etc):</p>
+            <p>If you would like to build from source (and run all unit tests etc), enter the following at the command line:</p>
 
 <pre><code>git clone git://github.com/WickyNilliams/enquire.js.git
 cd enquire.js
@@ -123,7 +123,7 @@ grunt
             <h3>enquire.register</h3>
 
             <p>
-                The main method you will be dealing with is <code class="language-javascript">register</code>. It's basic signature is as follows:
+                The main method you will be dealing with is <code class="language-javascript">register</code>. Its basic signature is as follows:
             </p>
 
 <pre class="language-javascript"><code>
@@ -188,7 +188,7 @@ enquire.register("screen and (max-width:1000px)", {
             </p>
 
             <p>
-                To avoid spamming <code class="language-javascript">enquire</code> with browser events (e.g. if the browser window is rapidly changing size), <code class="language-javascript">listen</code> throttles events so that <code class="language-javascript">fire</code> is only called if there have been no resize or orientation events in the last 500<abbr title="milliseconds">ms</abbr>. This value can be altered by supplying a number of milliseconds as a parameter to <code class="language-javascript">listen</code>:
+                To avoid spamming <code class="language-javascript">enquire</code> with browser events (e.g. if the browser window is rapidly changing size), <code class="language-javascript">listen</code> throttles events so that <code class="language-javascript">fire</code> is only called if there have been no resize or orientation events in the last 500<abbr title="milliseconds">ms</abbr>. To alter the throttle, pass in the number of milliseconds as a paramater to <code class="language-javascript">listen</code>:
             </p>
 
 <pre class="language-javascript"><code>
@@ -236,11 +236,11 @@ enquire.register(query, {
 </code></pre>
 
             <p>
-                Whilst the array pattern is generally preferred, this pattern of multiple calls to <code class="language-javascript">register</code> is useful for when you don't want to register all handlers at one time.
+                Whilst the array pattern is generally preferred, this pattern of multiple calls to <code class="language-javascript">register</code> is useful for when you don't want to register handlers separately.
             </p>
 
             <p>
-                This won't overwrite any previous handler for the media query as <code class="language-javascript">enquire</code> uses the media query itself as a lookup key on it's internal dictionary. Thus, the second handler is appended to the list of handlers already registered for that media query.
+                This won't overwrite any previous handler for the media query as <code class="language-javascript">enquire</code> uses the media query itself as a lookup key on its internal dictionary. Thus, the second handler is appended to the list of handlers already registered for that media query.
             </p>
 
             <h3>Multiple Queries, Sir?</h3>
@@ -347,7 +347,7 @@ enquire.register("screen and (min-width:900px)", function() {
 }, true); // note the `true`!
 </code></pre>
             <p>
-                Because this only affects incapable browsers, modern browsers will respect the media query and behave as you would expect. This allows you to adopt the mobile-first paradigm, whilst still serving a desktop experience to incapable browsers.
+                Because this only affects incapable browsers, modern browsers will respect the media query and behave as expected. This allows you to adopt the mobile-first paradigm, whilst still serving a desktop experience to incapable browsers.
             </p>
         </section>        
 

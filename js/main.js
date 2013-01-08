@@ -37,6 +37,6 @@ $(function() {
 		unmatch : function() {
 			$toc.hide();
 		}
-	}]).listen();
+	}]).listen(10);
 
 });
