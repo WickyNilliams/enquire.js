@@ -60,9 +60,7 @@ window.enquire = (function(matchMedia) {
         this.initialised = false;
         this.options = options;
 
-        if(!options.deferSetup) {
-			this.setup();
-		}
+        !options.deferSetup && this.setup();
     }
     QueryHandler.prototype = {
 
@@ -71,10 +69,8 @@ window.enquire = (function(matchMedia) {
          *
          * @function
          */
-        setup : function(e) {
-            if(this.options.setup){
-                this.options.setup(e);
-            }
+        setup : function() {
+            this.options.setup && this.options.setup();            
             this.initialised = true;
         },
 
@@ -82,13 +78,10 @@ window.enquire = (function(matchMedia) {
          * coordinates setup and triggering of the handler
          *
          * @function
-         * @param [e] the browser event which triggered a match
          */
-        on : function(e) {
-            if(!this.initialised){
-                this.setup(e);
-            }
-            this.options.match(e);
+        on : function() {
+            !this.initialised && this.setup();
+            this.options.match();
         },
 
         /**
@@ -97,10 +90,8 @@ window.enquire = (function(matchMedia) {
          * @function
          * @param [e] the browser event which triggered a match
          */
-        off : function(e) {
-            if(this.options.unmatch){
-                this.options.unmatch(e);
-            }
+        off : function() {
+            this.options.unmatch && this.options.unmatch();
         },
 
         /**
@@ -110,12 +101,7 @@ window.enquire = (function(matchMedia) {
          * @function
          */
         destroy : function() {
-            if(this.options.destroy) {
-                this.options.destroy();
-            }
-            else {
-                this.off();
-            }
+            this.options.destroy ? this.options.destroy() : this.off();
         },
 
         /**
@@ -145,7 +131,8 @@ function MediaQuery(query, isUnconditional) {
 
     var self = this;
     this.mql.addListener(function(mql) {
-        self.assess(mql.matches);
+        self.mql = mql;
+        self.assess();
     });
 }
 MediaQuery.prototype = {
@@ -194,8 +181,8 @@ MediaQuery.prototype = {
      *
      * @function
      */
-    assess : function(match) {
-        var action = (match || this.isUnconditional) ? "on" : "off";
+    assess : function() {
+        var action = (this.mql.matches || this.isUnconditional) ? "on" : "off";
 
         each(this.handlers, function(handler) {
             handler[action]();
@@ -214,7 +201,6 @@ MediaQuery.prototype = {
         }
 
         this.queries = {};
-        this.listening = false;
         this.browserIsIncapable = !matchMedia('only all').matches;
     }
 
@@ -234,25 +220,21 @@ MediaQuery.prototype = {
          */
         register : function(q, options, shouldDegrade) {
             var queries         = this.queries,
-                isUnconditional = shouldDegrade && this.browserIsIncapable,
-                listening       = this.listening;
+                isUnconditional = shouldDegrade && this.browserIsIncapable;
 
-            if(!queries.hasOwnProperty(q)) {
+            if(!queries[q]) {
                 queries[q] = new MediaQuery(q, isUnconditional);
             }
 
-            //normalise to object
+            //normalise to object in an array
             if(isFunction(options)) {
-                options = {
-                    match : options
-                };
+                options = { match : options };
             }
-            //normalise to array
             if(!isArray(options)) {
                 options = [options];
             }
             each(options, function(handler) {
-                queries[q].addHandler(handler, listening);
+                queries[q].addHandler(handler);
             });
 
             return this;
@@ -268,16 +250,16 @@ MediaQuery.prototype = {
         unregister : function(q, handler) {
             var queries = this.queries;
 
-            if(!queries.hasOwnProperty(q)) {
+            if(!queries[q]) {
                 return this;
             }
             
-            if(!handler) {
-                queries[q].clear();
-                delete queries[q];
+            if(handler) {
+                queries[q].removeHandler(handler);
             }
             else {
-                queries[q].removeHandler(handler);
+                queries[q].clear();
+                delete queries[q];
             }
 
             return this;

@@ -13,7 +13,8 @@ function MediaQuery(query, isUnconditional) {
 
     var self = this;
     this.mql.addListener(function(mql) {
-        self.assess(mql.matches);
+        self.mql = mql;
+        self.assess();
     });
 }
 MediaQuery.prototype = {
@@ -62,8 +63,8 @@ MediaQuery.prototype = {
      *
      * @function
      */
-    assess : function(match) {
-        var action = (match || this.isUnconditional) ? "on" : "off";
+    assess : function() {
+        var action = (this.mql.matches || this.isUnconditional) ? "on" : "off";
 
         each(this.handlers, function(handler) {
             handler[action]();

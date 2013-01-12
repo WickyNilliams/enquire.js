@@ -10,7 +10,6 @@
         }
 
         this.queries = {};
-        this.listening = false;
         this.browserIsIncapable = !matchMedia('only all').matches;
     }
 
@@ -30,25 +29,21 @@
          */
         register : function(q, options, shouldDegrade) {
             var queries         = this.queries,
-                isUnconditional = shouldDegrade && this.browserIsIncapable,
-                listening       = this.listening;
+                isUnconditional = shouldDegrade && this.browserIsIncapable;
 
-            if(!queries.hasOwnProperty(q)) {
+            if(!queries[q]) {
                 queries[q] = new MediaQuery(q, isUnconditional);
             }
 
-            //normalise to object
+            //normalise to object in an array
             if(isFunction(options)) {
-                options = {
-                    match : options
-                };
+                options = { match : options };
             }
-            //normalise to array
             if(!isArray(options)) {
                 options = [options];
             }
             each(options, function(handler) {
-                queries[q].addHandler(handler, listening);
+                queries[q].addHandler(handler);
             });
 
             return this;
@@ -64,16 +59,16 @@
         unregister : function(q, handler) {
             var queries = this.queries;
 
-            if(!queries.hasOwnProperty(q)) {
+            if(!queries[q]) {
                 return this;
             }
             
-            if(!handler) {
-                queries[q].clear();
-                delete queries[q];
+            if(handler) {
+                queries[q].removeHandler(handler);
             }
             else {
-                queries[q].removeHandler(handler);
+                queries[q].clear();
+                delete queries[q];
             }
 
             return this;

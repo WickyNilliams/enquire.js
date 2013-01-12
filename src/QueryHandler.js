@@ -13,9 +13,7 @@
         this.initialised = false;
         this.options = options;
 
-        if(!options.deferSetup) {
-			this.setup();
-		}
+        !options.deferSetup && this.setup();
     }
     QueryHandler.prototype = {
 
@@ -24,10 +22,8 @@
          *
          * @function
          */
-        setup : function(e) {
-            if(this.options.setup){
-                this.options.setup(e);
-            }
+        setup : function() {
+            this.options.setup && this.options.setup();            
             this.initialised = true;
         },
 
@@ -35,13 +31,10 @@
          * coordinates setup and triggering of the handler
          *
          * @function
-         * @param [e] the browser event which triggered a match
          */
-        on : function(e) {
-            if(!this.initialised){
-                this.setup(e);
-            }
-            this.options.match(e);
+        on : function() {
+            !this.initialised && this.setup();
+            this.options.match();
         },
 
         /**
@@ -50,10 +43,8 @@
          * @function
          * @param [e] the browser event which triggered a match
          */
-        off : function(e) {
-            if(this.options.unmatch){
-                this.options.unmatch(e);
-            }
+        off : function() {
+            this.options.unmatch && this.options.unmatch();
         },
 
         /**
@@ -63,12 +54,7 @@
          * @function
          */
         destroy : function() {
-            if(this.options.destroy) {
-                this.options.destroy();
-            }
-            else {
-                this.off();
-            }
+            this.options.destroy ? this.options.destroy() : this.off();
         },
 
         /**
