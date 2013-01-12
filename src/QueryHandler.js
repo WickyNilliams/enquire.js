@@ -41,7 +41,6 @@
          * coordinates the unmatch event for the handler
          *
          * @function
-         * @param [e] the browser event which triggered a match
          */
         off : function() {
             this.options.unmatch && this.options.unmatch();
