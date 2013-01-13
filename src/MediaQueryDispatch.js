@@ -57,18 +57,16 @@
          * @param {object || function} [handler] specific handler to unregister
          */
         unregister : function(q, handler) {
-            var queries = this.queries;
+            var query = this.queries[q];
 
-            if(!queries[q]) {
-                return this;
-            }
-            
-            if(handler) {
-                queries[q].removeHandler(handler);
-            }
-            else {
-                queries[q].clear();
-                delete queries[q];
+            if(query) {
+                if(handler) {
+                    query.removeHandler(handler);
+                }
+                else {
+                    query.clear();
+                    delete this.queries[q];
+                }
             }
 
             return this;

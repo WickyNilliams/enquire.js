@@ -88,7 +88,6 @@ window.enquire = (function(matchMedia) {
          * coordinates the unmatch event for the handler
          *
          * @function
-         * @param [e] the browser event which triggered a match
          */
         off : function() {
             this.options.unmatch && this.options.unmatch();
@@ -248,18 +247,16 @@ MediaQuery.prototype = {
          * @param {object || function} [handler] specific handler to unregister
          */
         unregister : function(q, handler) {
-            var queries = this.queries;
+            var query = this.queries[q];
 
-            if(!queries[q]) {
-                return this;
-            }
-            
-            if(handler) {
-                queries[q].removeHandler(handler);
-            }
-            else {
-                queries[q].clear();
-                delete queries[q];
+            if(query) {
+                if(handler) {
+                    query.removeHandler(handler);
+                }
+                else {
+                    query.clear();
+                    delete this.queries[q];
+                }
             }
 
             return this;
