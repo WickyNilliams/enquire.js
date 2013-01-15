@@ -389,14 +389,20 @@ Modernizr.load([
 <footer class="block">
     <small>Copyright &copy; <a href="http://www.twitter.com/WickyNilliams" rel="author">Nick Williams</a> 2012</small>
 </footer>
-
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
-    <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.7.2.min.js"><\/script>')</script>
-    <script src="js/vendor/prism.js"></script>
-    <script type="text/javascript" src="js/loadr.js"></script>
+    <script>
+        Modernizr.load([
+            {
+                test : window.matchMedia,
+                nope : "https://raw.github.com/paulirish/matchMedia.js/master/matchMedia.js"
+            },
+            "js/vendor/prism.js",
+            "//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js",
+            "https://raw.github.com/WickyNilliams/enquire.js/master/dist/enquire.min.js",
+            "js/main.js"
+        ]);
+    </script>
 
     <script type="text/javascript">
-
       var _gaq = _gaq || [];
       _gaq.push(['_setAccount', 'UA-34332361-1']);
       _gaq.push(['_trackPageview']);
