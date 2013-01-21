@@ -177,6 +177,24 @@
 			expect(addEventSpy).toHaveBeenCalledWith('orientationChange', jasmine.any(Function));
 		});
 
+		it('will set listening to true and fire even if legacy browser', function() {
+			// Arrange
+			var mqd = new MediaQueryDispatch(),
+				addEventListener = global.addEventListener;
+
+			window.addEventListener = null;
+			spyOn(mqd, 'fire');
+
+			// Act
+			mqd.listen();
+
+			// Assert
+			expect(mqd.listening).toBe(true);
+			expect(mqd.fire).toHaveBeenCalled();
+
+			window.addEventListener = addEventListener;
+		});
+
 		it('allows entire queries to be unregistered', function() {
 			// Arrange
 			var mqd      = new MediaQueryDispatch(),

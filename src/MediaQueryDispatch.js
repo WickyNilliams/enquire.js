@@ -115,17 +115,6 @@
 
             timeout = timeout || 500;
 
-            // any browser that doesn't implement this
-            // will not have media query support
-            if(!window.addEventListener) {
-                return;
-            }
-
-            //prevent multiple event handlers
-            if(this.listening) {
-				return this;
-			}
-
             //creates closure for separate timed events
             function wireFire(event) {
                 var timer;
@@ -139,12 +128,21 @@
                 });
             }
 
-            //handle initial load then listen
-            self.fire();
-            wireFire('resize');
-            wireFire('orientationChange');
+            //prevent multiple event handlers
+            if(this.listening) {
+                return this;
+            }
 
+            // any browser that doesn't implement this
+            // will not have media query support
+            if(window.addEventListener) {
+                wireFire('resize');
+                wireFire('orientationChange');
+            }
+
+            self.fire();
             this.listening = true;
+            
             return this;
         }
     };
