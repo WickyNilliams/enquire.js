@@ -1,4 +1,4 @@
-// enquire.js v1.5.5 - Awesome Media Queries in JavaScript
+// enquire.js v1.5.6 - Awesome Media Queries in JavaScript
 // Copyright (c) 2013 Nick Williams - http://wicky.nillia.ms/enquire.js
 // License: MIT (http://www.opensource.org/licenses/mit-license.php)
 
@@ -367,7 +367,7 @@ MediaQuery.prototype = {
                     timer = setTimeout(function() {
                         self.fire(e);
                     }, timeout);
-                });
+                }, false);
             }
 
             //prevent multiple event handlers

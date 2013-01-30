@@ -125,7 +125,7 @@
                     timer = setTimeout(function() {
                         self.fire(e);
                     }, timeout);
-                });
+                }, false);
             }
 
             //prevent multiple event handlers

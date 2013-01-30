@@ -173,8 +173,8 @@
 			// Assert
 			expect(mqd.fire).toHaveBeenCalled();
 			expect(addEventSpy.calls.length).toBe(2);
-			expect(addEventSpy).toHaveBeenCalledWith('resize', jasmine.any(Function));
-			expect(addEventSpy).toHaveBeenCalledWith('orientationChange', jasmine.any(Function));
+			expect(addEventSpy).toHaveBeenCalledWith('resize', jasmine.any(Function), false);
+			expect(addEventSpy).toHaveBeenCalledWith('orientationChange', jasmine.any(Function), false);
 		});
 
 		it('will set listening to true and fire even if legacy browser', function() {
