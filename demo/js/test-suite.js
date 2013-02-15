@@ -11,6 +11,8 @@
 
 	'use strict';
 
+	//enquire.listen(100);
+
 	function pass($test) {
 		$test.is('.test') && $test.addClass('test-pass');
 	}
@@ -51,11 +53,32 @@
 
 	}).register('screen and (min-width: 1px)', {
 
+		setup : function() {
+			setTimeout(function() {
+				enquire.unregister('screen and (min-width: 1px)');
+			}, 500);
+		},
+
 		match : function() {},
 
 		destroy : function() {
 			pass($tests.find('.destroy'));
 		}
+
+	})
+	.register('screen and (min-width: 625px)', {
+
+		setup : [{
+			load : 'timeout=2000!js/conditionally-loaded.js',
+			callback : function () {
+				//TODO: this should be moved into conditionally loaded file
+				var action = window.conditionallyLoaded ? pass : fail;
+				action($tests.find('.conditional-load'));
+			}
+		}],
+		deferSetup : true,
+
+		match : function() {}
 
 	}).register('screen and (max-width:1px)', {
 
@@ -67,11 +90,6 @@
 		}
 
 	}, true);
-
-	$('.destroy-trigger').one('click', function() {
-		enquire.unregister('screen and (min-width: 1px)');
-		$(this).remove();
-	});
 
 }(window.enquire, window.jQuery || window.Zepto));
 

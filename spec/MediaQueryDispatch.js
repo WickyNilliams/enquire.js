@@ -18,7 +18,7 @@
 				new MediaQueryDispatch();
 			}).toThrow('matchMedia is required');
 
-			// cleanup
+			// Cleanup
 			global.matchMedia = matchMedia;
 		});
 

@@ -65,13 +65,30 @@ window.enquire = (function(matchMedia) {
     QueryHandler.prototype = {
 
         /**
+         * loads assets on setup
+         *
+         * @function
+         * @param {object || string || array} what an object that Modernizr.load can accept
+         */
+        load : function(what) {
+            if(Modernizr && Modernizr.load) {
+                Modernizr.load(what);
+            }
+        },
+
+        /**
          * coordinates setup of the handler
          *
          * @function
          */
         setup : function() {
-            this.options.setup && this.options.setup();            
+            var setup = this.options.setup;
             this.initialised = true;
+            if(!setup) {
+                return;
+            }
+
+            isFunction(setup) ? setup() : this.load(setup);
         },
 
         /**

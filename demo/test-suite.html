@@ -13,42 +13,37 @@
             
             <div class="test box setup">
                 <div class="test-condition">
-                    <p>
-                        Setup
-                    </p>
+                    <p>Setup</p>
                 </div>
             </div>
             
            <div class="test box deferred-setup">
                <div class="test-condition">
-                   <p>
-                       Deferred setup
-                   </p>
+                   <p>Deferred setup</p>
                </div>
            </div>   
             
             <div class="test box match">
                 <div class="test-condition">
-                    <p>
-                        Match
-                    </p>
+                    <p>Match</p>
                 </div>
             </div>
             
             <div class="test box unmatch">
                 <div class="test-condition">
-                    <p>
-                        Unmatch
-                    </p>
+                    <p>Unmatch</p>
+                </div>
+            </div>
+            
+            <div class="test box conditional-load">
+                <div class="test-condition">
+                    <p>Conditional loading</p>
                 </div>
             </div>
             
             <div class="test box destroy">
                 <div class="test-condition">
-                    <p>
-                        Destroy 
-                        <button class="destroy-trigger">Kill 'em</button>
-                    </p>                    
+                    <p>Destroy</p>                    
                 </div>
             </div>
             
@@ -58,8 +53,7 @@
                 </div>
             </div>
             
-        </div>    
-        
+        </div>   
             
     </div>
     
@@ -67,13 +61,11 @@
         Modernizr.load([
             {
                 test: window.matchMedia,
-                nope: "js/libs/matchMedia.js"
+                nope: 'js/libs/matchMedia.js'
             },
-
             'js/libs/jquery.1.7.1.js',
-            
-            "../dist/enquire.js",
-            "js/test-suite.js"
+            '../dist/enquire.js',
+            'js/test-suite.js'
         ]);
     </script>
 

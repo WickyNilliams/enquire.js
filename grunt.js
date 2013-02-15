@@ -82,7 +82,8 @@ module.exports = function(grunt) {
         isFunction: true,
         QueryHandler: true,
         MediaQuery: true,
-        MediaQueryDispatch: true
+        MediaQueryDispatch: true,
+        Modernizr: true
       }
     },
     uglify: {}
