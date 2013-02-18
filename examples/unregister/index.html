@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Unregister example | enquire.js</title>
+	<link rel="stylesheet" href="../examples.css">
+</head>
+<body>
+
+	<div class="main">
+		<h1>Example using unregister with enquire.js</h1>
+		<p>
+			This example shows how you can use enquire.js' unregister method to remove media queries. You can either remove an entire query and all handlers, or you can remove individual handlers. Here we will remove an entire query.
+		</p>
+		<p class="target">
+			If you click the button below, the media query will be unregistered, thereby calling it's destroy callback. This particular callback adds the class "destroy" to this paragraph, which is styled to have a strikethrough the text.
+		</p>
+		<button class="destroy-trigger">Destroy!</button>
+	</div>
+
+	<script src="//cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+	<script src="https://raw.github.com/WickyNilliams/enquire.js/experimental/dist/enquire.js"></script>
+
+	<script>
+		var $target = $(".target");
+
+		enquire.register("screen and (min-width: 500px)", {
+
+			match : function() {
+				$target.addClass("match").removeClass("unmatch");
+			},
+
+			unmatch : function() {
+				$target.addClass("unmatch").removeClass("match");
+			},
+
+			destroy : function() {
+				$target.addClass("destroy");
+			}
+		});
+
+		$(".destroy-trigger").click(function() {
+			enquire.unregister("screen and (min-width: 500px)");
+			$(this).attr("disabled", "disabled");
+		});
+	</script>
+</body>
+</html>

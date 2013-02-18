@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>shoudlDegrade example | enquire.js</title>
+	<link rel="stylesheet" href="../examples.css">
+</head>
+<body>
+
+	<div class="main">
+		<h1>Example using shouldDegrade flag with enquire.js</h1>
+		<p>
+			This example shows how you can use enquire.js' <code>shouldDegrade</code> flag to deal with incapable legacy browsers. <code>shoudlDegrade</code> will cause any legacy browser that enquire deems to be incapable to have the match callback always run, regardless of whether the media query has actually matched.
+		</p>
+		<p class="target">
+			This "short circuit" of the media query allows you to use a mobile-first approach whilst still delivering a desktop experience to legacy browsers. For this reason, it's typical that this flag will be set on queries targetting larger viewports. Here the particular media query will only match if the viewport is 500000px wide. It's unlikely you have a viewport that wide (congratulations if you do!!!) so will never see the effects, but if you come here with IE8, for example, you will see that the match callback is executed.
+		</p>
+	</div>
+
+	<script src="//cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+	<script src="https://raw.github.com/WickyNilliams/enquire.js/experimental/dist/enquire.js"></script>
+
+	<script>
+		var $target = $(".target");
+
+		enquire.register("screen and (min-width: 500000px)", {
+
+			match : function() {
+				$target.addClass("match").removeClass("unmatch");
+			},
+
+			shoudlDegrade : true
+		});
+	</script>
+</body>
+</html>

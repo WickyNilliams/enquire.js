@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Conditional loading example | enquire.js</title>
+	<link rel="stylesheet" href="../examples.css">
+</head>
+<body>
+
+	<div class="main">
+		<h1>Example of conditionally loading content with enquire.js</h1>
+		<p>
+			This example shows how you can use the setup function to conditionally load content. Whilst this has always been possible with enquire.js, as of v2.0.0 this has been greatly simplified.
+		</p>
+		<p class="target">
+			The setup callback will conditionally load in a script when the page is greater that 500px in width. This script will add the class "setup" to this paragraph, thereby making it bold. You can confirm this in the network panel in your developer tools.
+		</p>
+	</div>
+
+	<script src="//cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+	<script src="https://raw.github.com/WickyNilliams/enquire.js/experimental/dist/enquire.js"></script>
+
+	<script>
+		var $target = $(".target");
+
+		enquire.register("screen and (min-width: 500px)", {
+
+			deferSetup : true,
+
+			setup : 'conditionally-loaded.js',
+
+			match : function() {
+				$target.addClass("match").removeClass("unmatch");
+			},
+
+			unmatch : function() {
+				$target.addClass("unmatch").removeClass("match");
+			}
+		});
+	</script>
+</body>
+</html>

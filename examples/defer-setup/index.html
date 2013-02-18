@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>deferSetup example | enquire.js</title>
+	<link rel="stylesheet" href="../examples.css">
+</head>
+<body>
+
+	<div class="main">
+		<h1>Example of using deferSetup with enquire.js</h1>
+		<p>
+			This example shows how you can use <code>deferSetup</code> to postpone your setup function until the first time a query is matched. 
+		</p>
+		<p>
+			The setup callback here adds some content to the page dynamically. If you inspect the page with your developer tools you will notice that the content is <em>not</em> added before the query is matched.
+		</p>
+	</div>
+
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+	<script src="https://raw.github.com/WickyNilliams/enquire.js/experimental/dist/enquire.js"></script>
+
+	<script>
+		var $main = $(".main"),
+			$setup = $("<p>I was added as a result of setup calback</p>");
+
+		enquire.register("screen and (max-width: 500px)", {
+
+			deferSetup : true,
+
+			setup : function() {
+				$setup.addClass("hidden setup");
+				$main.append($setup);
+			},
+
+			match : function() {
+				$setup.removeClass("hidden unmatch").addClass("match");
+			},
+
+			unmatch : function() {
+				$setup.addClass("unmatch").removeClass("match");
+			}
+		});
+	</script>
+</body>
+</html>

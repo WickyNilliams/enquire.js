@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Setup example | enquire.js</title>
+	<link rel="stylesheet" href="../examples.css">
+</head>
+<body>
+
+	<div class="main">
+		<h1>Example of using setup with enquire.js</h1>
+		<p>
+			This example shows how setup works. Setup is run as soon as a query is registered. Put all your expensive one-time operations in this callback. 
+		</p>
+		<p>
+			The setup callback here adds some content to the page dynamically. If you inspect the page with your developer tools you will notice that the content is added before the query is ever matched.
+		</p>
+	</div>
+
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+	<script src="https://raw.github.com/WickyNilliams/enquire.js/experimental/dist/enquire.js"></script>
+
+	<script>
+		var $main = $(".main"),
+			$setup = $("<p>I was added as a result of setup calback</p>");
+
+		enquire.register("screen and (max-width: 500px)", {
+			setup : function() {
+				$setup.addClass("hidden setup");
+				$main.append($setup);
+			},
+
+			match : function() {
+				$setup.removeClass("hidden unmatch").addClass("match");
+			},
+
+			unmatch : function() {
+				$setup.addClass("unmatch").removeClass("match");
+			}
+		});
+	</script>
+</body>
+</html>

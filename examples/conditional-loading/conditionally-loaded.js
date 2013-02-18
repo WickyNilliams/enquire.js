@@ -1,0 +1,1 @@
+$(".target").addClass("setup");

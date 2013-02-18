@@ -1,0 +1,31 @@
+body {
+	font-family: sans-serif;
+}
+
+.main {
+	max-width: 40em;
+	margin: 0 auto;
+}
+
+h1 {
+	text-align: center;
+	margin-bottom: 1em;
+}
+
+.hidden {
+	display: none;
+}
+
+.setup {
+	font-weight: bold;
+}
+.unmatch {
+	color: red;
+}
+.match {
+	color: blue;
+}
+
+.destroy {
+	text-decoration: line-through;
+}
