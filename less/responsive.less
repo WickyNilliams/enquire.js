@@ -1,39 +1,22 @@
-@media (max-width: 480px) {
-	h2 {
-		font-size: 2em;
-		margin-bottom: 0.5em;
-	}
+@media (min-width: 800px) {
 
-	h3 {
-		font-size: 1.6em;
-	}
+	.header {
+		position: relative;
 
-	article p {
-		font-size: 0.95em;
-	}
+		.buttons {
+			position: absolute;
+			right: 0;
+			top: 50%;
 
-}
-
-@media (max-width: 800px) {
-
-	body {
-		padding: 0;
-	}
-
-	header {
-		 .buttons {
-			margin: 1em;
-			position: static;
-
-			.btn {
-				display: inline-block;
+			> .btn {
+				display:block;
+				padding: 0.2em 0;
+				width: 107px;
 			}
 		}
-
-		.title {
-			font-size: 6em;
-		}
 	}
+
+	
 }
 
 @media (min-width: 1200px) {

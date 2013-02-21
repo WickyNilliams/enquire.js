@@ -4,11 +4,11 @@
 
 $(function() {
 
-	var $toc = $("<div class='toc nav sidebar' data-spy='affix' data-offset-top='110' data-offsetop-bottom='200'><h2 class='section-title'>Jump To&hellip;</h2></div>"),
+	var $toc = $("<nav class='toc nav sidebar' data-spy='affix' data-offset-top='110' data-offsetop-bottom='200' role='navigation'><h2 class='section-title'>Jump To&hellip;</h2></nav>"),
 		$main = $("[role=main], .main");
 
 
-	enquire.register("screen and (min-width:1310px)", [{
+	enquire.register("screen and (min-width:1100px)", [{
 
 		deferSetup : true,
 

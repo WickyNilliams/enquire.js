@@ -2,13 +2,14 @@
 /// BASE STYLES
 /////////////////////////////
 
+@baseFontSize : 14px;
+
 .border-box;
 .selection(@primaryColor, @bodyColor, 1px 1px 1px @bgColor);
 
 body {
 	-webkit-font-smoothing: antialiased;
-	padding: 0 2.5%;
-	font-size: 15px;
+	font-size: @baseFontSize;
 	#fonts > .body;
 	background-color: @bgColor;
 	color: @bodyColor;
@@ -31,9 +32,12 @@ a, a:visited {
 	}
 }
 
+img {
+	max-width: 100%;
+}
+
 pre, code {
 	color: #f8f8f2;
-	text-shadow: 0 1px rgba(0,0,0,0.3);
 	font-family: Consolas, Monaco, 'Andale Mono', monospace;
 	direction: ltr;
 	text-align: left;
@@ -69,6 +73,10 @@ pre {
 	margin: 1em 0;
 }
 
+ul {
+	padding: 0 0 0 1.2em;
+}
+
 
 ul.no-bullets, 
 ol.no-bullets {
@@ -76,13 +84,13 @@ ol.no-bullets {
 	padding: 0; 
 	list-style:none; 
 }
-li { margin : 0.2em 0; }
+li { margin : 0.5em 0; }
 
 
 
 section, 
 .section {
-	padding: 2.5% 0; 
+	padding: 1em 0; 
 	border-bottom: 1px dashed @fadedBodyColor;
 }
 section:last-child, 
@@ -90,17 +98,22 @@ section:last-child,
 	border-bottom: none;
 }
 
+h1, h2, h3, h4,
+p, ul, ol, pre {
+	margin: 0;
+	margin-bottom: @baseFontSize;
+	margin-bottom: 1rem;
+}
+
 
 h1,h2,h3,h4 {
-	margin: 0; 
 	#fonts > .heading;
 	font-weight: normal;
-	margin-bottom: 0.5em;
+	text-rendering: optimizeLegibility;
 }
 
 h1 {
 	font-size: 4em;
-	color: @primaryColor;
 }
 
 h2 {
@@ -145,61 +158,35 @@ ol.counter-style {
 	border: 0;
 	z-index: 1;
 
-	width:149px;
 	max-width: 30%;
-
-	img {
-		width: 100%;
-	}
 }
 
 /////////////////////////////
 /// ENQUIRE
 /////////////////////////////
 
-.block {  
-	#pos > .fluid-center();
-	padding: 0 2.5%; 
-}
-[role=main],
-.main {
-	border-top: 0.2em dashed @fadedBodyColor;
-	border-bottom: 0.2em dashed @fadedBodyColor;
-	padding: 0 4%;
+.container {  
+	#pos > .fluid-center(50em);
+	padding: 0 1em; 
 }
 
-.js a.twitter-share-button {
-	display: none;
-}
-
-.title {
-	margin: 0;
-	#fonts > .title;
-	color: @primaryColor;
-	font-size: 7em;
-	text-shadow:1px 1px 0 @bodyColor, 
-				2px 2px 0 @bodyColor, 
-				3px 3px 0 @bodyColor, 
-				4px 4px 0 @bodyColor;
-}
-
-.section-title {
-	text-shadow:1px 1px 0 @fadedPrimaryColor, 
-				2px 2px 0 @fadedPrimaryColor, 
-				3px 3px 0 @fadedPrimaryColor;
-}
-
-header {
+.header {
 	
 	position: relative;
 	text-align: center;
 
-	&.block{
-		padding-top: 0%;
-		padding-bottom: 1.5%;
+	&__title {
+		margin: 0;
+		#fonts > .title;
+		color: @primaryColor;
+		font-size: 6em;
+		text-shadow:1px 1px 0 @bodyColor, 
+					2px 2px 0 @bodyColor, 
+					3px 3px 0 @bodyColor, 
+					4px 4px 0 @bodyColor;
 	}
 
-	.strapline {
+	&__strapline {
 		#fonts > .heading; 
 		display: block;
 		color: @bodyColor;
@@ -208,13 +195,13 @@ header {
 		margin-bottom: 0;
 	}
 
-	.buttons {
-		position: absolute;
-		right: 0;
-		top: 50%;
+	//TODO: break into own block
 
-		> .btn {
-			display:block;
+	.buttons {
+		margin-top: 1em;
+
+		.btn {
+			display: inline-block;
 			padding: 0.2em 0;
 			width: 107px;
 		}
@@ -222,34 +209,25 @@ header {
 }
 
 
-article {
-	p { line-height: 1.6; }
+
+.js .twitter-share-button {
+	display: none;
 }
 
-ol.quick-start {
+.main {
+	border-top: 3px dashed @fadedBodyColor;
+	border-bottom: 3px dashed @fadedBodyColor;
 
-	@spacing: 2.5em;
-
-    & > li {
-	    margin-bottom: @spacing;
-
-	    &:before {
-
-	    	#fonts > .heading;
-
-		    /* Position and style the number */
-		    top:0.3em;
-		    width:2em;
-		    padding:0.3em 0;
-
-		    color:@white;
-		    background-color: fade(@red, 20);
-		    text-align:center;
-		    border-radius: 1em;
-		}
-	}
+	margin-top: 1em;
+	margin-bottom: 1em;
 }
 
+
+.section-title {
+	text-shadow:1px 1px 0 @fadedPrimaryColor, 
+				2px 2px 0 @fadedPrimaryColor, 
+				3px 3px 0 @fadedPrimaryColor;
+}
 
 .sidebar {
 	.transition(opacity, 0.1s);
@@ -264,7 +242,7 @@ ol.quick-start {
 
 	// 175px is 13.3% 1310px (the point at which this is included on page)
 	width: 13.3%;
-	min-width: 175px;
+	min-width: 145px;
 
 
 	&.affix {
@@ -312,16 +290,37 @@ ol.quick-start {
 	}
 }
 
-footer {
-	padding: 2.5%;
+.footer {
+	padding: 1em;
+	padding-top: 0;
 	text-align: center;
-
-	&.block {
-		padding: 2.5%;
-	}
 
 	small {
 		font-size: 1em;
 		color: fade(@bodyColor, 50);
+	}
+}
+
+ol.quick-start {
+
+	@spacing: 2.5em;
+
+    & > li {
+	    margin-bottom: @spacing;
+
+	    &:before {
+
+	    	#fonts > .heading;
+
+		    /* Position and style the number */
+		    top:0.3em;
+		    width:2em;
+		    padding:0.3em 0;
+
+		    color:@white;
+		    background-color: fade(@red, 20);
+		    text-align:center;
+		    border-radius: 1em;
+		}
 	}
 }
