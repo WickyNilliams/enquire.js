@@ -21,117 +21,115 @@
     <p class="chromeframe">Your browser is <em>ancient!</em> <a href="http://browsehappy.com/">Upgrade to a different browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to experience this site.</p>
     <![endif]-->
 
-    <a class="github-ribbon" href="https://github.com/WickyNilliams/enquire.js">
-        <img src="https://s3.amazonaws.com/github/ribbons/forkme_right_red_aa0000.png" alt="Fork me on GitHub">
-    </a>
+<a class="github-ribbon hide-for-print" href="https://github.com/WickyNilliams/enquire.js">
+    <img src="https://s3.amazonaws.com/github/ribbons/forkme_right_red_aa0000.png" alt="Fork me on GitHub">
+</a>
     
-    <div class="container">
-        <header class="header" role="banner">
-            
-            <h1 class="header__title">  
-                enquire.js
-                <span class="header__strapline">Awesome Media Queries in JavaScript</span>        
-            </h1>
+<div class="container">
 
-            <div class="buttons">
-                <div class="btn">
-                    <a href="https://twitter.com/share" class="twitter-share-button" data-counturl="http://wickynilliams.github.com/enquire.js" data-via="WickyNilliams">Tweet</a>
-                <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");
-                </script>    
-                </div>
-                <div class="btn">
-                    <iframe src="http://ghbtns.com/github-btn.html?user=wickynilliams&amp;repo=enquire.js&amp;type=watch&amp;count=true"
-          allowtransparency="true" frameborder="0" scrolling="0" width="110px" height="20px"></iframe>        
-                </div>
-                
+    <header class="header" role="banner">
+        
+        <h1 class="header__title">  
+            enquire.js <span class="header__strapline">Awesome Media Queries in JavaScript</span>        
+        </h1>
+
+        <div class="buttons hide-for-print">
+            <div class="buttons__btn buttons__btn--twitter">
+                <a href="https://twitter.com/share" class="twitter-share-button" data-counturl="http://wickynilliams.github.com/enquire.js" data-via="WickyNilliams">Tweet</a>
+            <script>
+                !function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");
+            </script>    
+            </div>
+            <div class="buttons__btn">
+                <iframe src="http://ghbtns.com/github-btn.html?user=wickynilliams&amp;repo=enquire.js&amp;type=watch&amp;count=true"
+                        allowtransparency="true" frameborder="0" scrolling="0"></iframe>
             </div>
             
-        </header>
-        <div role="main" class="main">
+        </div>
+        
+    </header>
 
-            <article class="clearfix">
+    <article role="main" class="main">
+        <section>
+            <h2 id="lowdown" class="section-title">The Lowdown</h2>
 
-                <section>
-                    <h2 id="lowdown" class="section-title">The Lowdown</h2>
+            <p>
+                <strong>A lightweight, pure JavaScript library for responding to CSS media queries.</strong>.
+            </p>
+            <ul>
+                <li>Execute JavaScript callbacks for matching media queries</li>
+                <li>Listen to browser resize and orientation change events to execute callbacks as media queries are matched (and <em>un</em>matched!)</li>
+                <li>Run one-time setup callbacks</li>
+                <li>Unregister media queries and have a callback to perform any necessary cleanup</li>
+            </ul>
 
-                    <p>
-                        <strong>A lightweight, pure JavaScript library for responding to CSS media queries.</strong>.
-                    </p>
+            <h3>Dependencies?</h3>
+            <p>
+                None! <em>Not even jQuery</em>.
+            </p>
+            <p>
+                The <em>most</em> you will need to do is provide a <code class="language-javascript">matchMedia</code> polyfill if you wish to <a href="#legacy-support">support old/incapable browsers</a>.
+            </p>
 
-                    <ul>
-                        <li>Execute JavaScript callbacks for matching media queries</li>
-                        <li>Listen to browser resize and orientation change events to execute callbacks as media queries are matched (and <em>un</em>matched!)</li>
-                        <li>Run one-time setup callbacks</li>
-                        <li>Unregister media queries and have a callback to perform any necessary cleanup</li>
-                    </ul>
+            <h3>Use Cases</h3>
+            <ul>
+                <li>Responsive Design &mdash; simplify altering your menu for use on small-screen devices.</li>
+                <li>Mobile-first Design &mdash; load in new content and resources for large-screen devices.</li>
+            </ul>
+        </section>
 
-                    <h3>Dependencies?</h3>
+        <section>
+            <h2 id="downloads" class="section-title" data-toc-title="Downloads">Downloads &amp; All That Jazz</h2>
 
-                    <p>None! <em>Not even jQuery</em>.</p>
-                    <p>
-                        The <em>most</em> you will need to do is provide a <code class="language-javascript">matchMedia</code> polyfill if you wish to <a href="#legacy-support">support old/incapable browsers</a>.
-                    </p>
+            <h3>Latest Build</h3>
+            <p>Grab the latest code, ready to go, from one of the locations below:</p>
+            <ul>
+                <li>
+                    <a href="https://github.com/WickyNilliams/enquire.js/raw/master/dist/enquire.js">Development</a> &mdash; unminified
+                </li>
+                <li>
+                    <a href="https://github.com/WickyNilliams/enquire.js/raw/master/dist/enquire.min.js">Production</a> &mdash; minified
+                </li>
+            </ul>
+            <p>
+                If you wish to peruse/fork the source, feel free to do so over on <a href="https://www.github.com/WickyNilliams/enquire.js">GitHub</a>.
+            </p>
 
-                    <h3>Use Cases</h3>
-                    <ul>
-                        <li>Responsive Design &mdash; simplify altering your menu for use on small-screen devices.</li>
-                        <li>Mobile-first Design &mdash; load in new content and resources for large-screen devices.</li>
-                    </ul>
+            <h3>Install via Bower</h3>
+            <p>
+                To install via the <a href="http://twitter.github.com/bower/">bower package manager</a>, enter the following at the command line:
+            </p>
 
-                </section>
+<pre><code>bower install enquire</code></pre>
 
-                <section>
-                    <h2 id="downloads" class="section-title" data-toc-title="Downloads">Downloads &amp; All That Jazz</h2>
+            <h3>Build From Source</h3>
+            <p>
+                If you would like to build from source (and run all unit tests etc), enter the following at the command line:
+            </p>
 
-                    <h3>Latest Build</h3>
-                    <p>Grab the latest code, ready to go, from one of the locations below:</p>
-                    <ul>
-                        <li>
-                            <a href="https://github.com/WickyNilliams/enquire.js/raw/master/dist/enquire.js">Development</a> &mdash; unminified
-                        </li>
-                        <li>
-                            <a href="https://github.com/WickyNilliams/enquire.js/raw/master/dist/enquire.min.js">Production</a> &mdash; minified
-                        </li>
-                    </ul>
-                    <p>
-                        If you wish to peruse/fork the source, feel free to do so over on <a href="https://www.github.com/WickyNilliams/enquire.js">GitHub</a>.
-                    </p>
-
-                    <h3>Install via Bower</h3>
-
-                    <p>To install via the <a href="http://twitter.github.com/bower/">bower package manager</a>, enter the following at the command line:</p>
-
-                    <pre><code>bower install enquire</code></pre>
-
-                    <h3>Build From Source</h3>
-
-                    <p>If you would like to build from source (and run all unit tests etc), enter the following at the command line:</p>
-
-                    <pre><code>git clone git://github.com/WickyNilliams/enquire.js.git
+<pre><code>git clone git://github.com/WickyNilliams/enquire.js.git
 cd enquire.js
 npm install
 grunt
-                    </code></pre>
+</code></pre>
 
-                </section>
+        </section>
 
-                <section>
+        <section>
+            <h2 id="basics" class="section-title">The Basics</h2>
 
-                    <h2 id="basics" class="section-title">The Basics</h2>
+            <h3>enquire.register</h3>
+            <p>
+                The main method you will be dealing with is <code class="language-javascript">register</code>. Its basic signature is as follows:
+            </p>
 
-                    <h3>enquire.register</h3>
+<pre class="language-javascript"><code>enquire.register(mediaQuery /* string */, handler /* object || array || function */);</code></pre>
 
-                    <p>
-                        The main method you will be dealing with is <code class="language-javascript">register</code>. Its basic signature is as follows:
-                    </p>
+            <p>
+                <code class="language-javascript">query</code> is the media query you wish to handle, and <code class="language-javascript">handler</code> contains any logic to handle the media query. An example of usage is as follows:
+            </p>
 
-                    <pre class="language-javascript"><code>enquire.register(mediaQuery /* string */, handler /* object || array || function */);</code></pre>
-
-                    <p>
-                        <code class="language-javascript">query</code> is the media query you wish to handle, and <code class="language-javascript">handler</code> contains any logic to handle the media query. An example of usage is as follows:
-                    </p>
-
-        <pre class="language-javascript"><code>
+<pre class="language-javascript"><code>
 enquire.register("screen and (max-width:1000px)", {
     
     // REQUIRED
@@ -166,65 +164,59 @@ enquire.register("screen and (max-width:1000px)", {
     destroy : function() {}     
 
 }).listen(); // More on this next
-        </code></pre>
+</code></pre>
 
-                </section>
+        </section>
 
-                <section>
+        <section>
+            <h2 id="responding-to-queries" class="section-title">Responding To Queries</h2>
+            <p>
+                You may have noticed the call to <code class="language-javascript">listen()</code> in the last example, so let's talk about that. After you've registered your handlers you need to get <code class="language-javascript">enquire</code> up and running. For this you have two options, <code class="language-javascript">fire</code> or <code class="language-javascript">listen</code>.
+            </p>
+            <p>
+                A little note: the <code class="language-javascript">match</code> or <code class="language-javascript">unmatch</code> functions are called if, and only if, a media query's state has changed - that is, matched to unmatched, or unmatched to matched. This is true for both <code class="language-javascript">fire</code> and <code class="language-javascript">listen</code>.
+            </p>
 
-                    <h2 id="responding-to-queries" class="section-title">Responding To Queries</h2>
+            <h3>enquire.fire</h3>
+            <p>
+                <code class="language-javascript">fire</code> evaluates each of the registered media queries and handlers as they are at that point in time. This triggers the relevant callbacks for each of the media query's handlers, as per the conditions above. <code class="language-javascript">fire</code> is handy if you don't care about browser events and want your handlers to be triggered just once on page load.
+            </p>
 
-                    <p>
-                        You may have noticed the call to <code class="language-javascript">listen()</code> in the last example, so let's talk about that. After you've registered your handlers you need to get <code class="language-javascript">enquire</code> up and running. For this you have two options, <code class="language-javascript">fire</code> or <code class="language-javascript">listen</code>.
-                    </p>
+            <h3>enquire.listen</h3>
+            <p>
+                <code class="language-javascript">listen</code> registers event handlers for the browser's <strong>resize</strong> and <strong>orientationChange</strong> events. Each time one of these events is triggered, <code class="language-javascript">enquire</code> makes a call to <code class="language-javascript">fire()</code>, causing all media queries and handlers to be re-evaluated.
+            </p>
+            <p>
+                To avoid spamming <code class="language-javascript">enquire</code> with browser events (e.g. if the browser window is rapidly changing size), <code class="language-javascript">listen</code> throttles events so that <code class="language-javascript">fire</code> is only called if there have been no resize or orientation events in the last 500<abbr title="milliseconds">ms</abbr>. To alter the throttle, pass in the number of milliseconds as a paramater to <code class="language-javascript">listen</code>:
+            </p>
 
-                    <p>
-                        A little note: the <code class="language-javascript">match</code> or <code class="language-javascript">unmatch</code> functions are called if, and only if, a media query's state has changed - that is, matched to unmatched, or unmatched to matched. This is true for both <code class="language-javascript">fire</code> and <code class="language-javascript">listen</code>.
-                    </p>
-
-                    <h3>enquire.fire</h3>
-
-                    <p>
-                        <code class="language-javascript">fire</code> evaluates each of the registered media queries and handlers as they are at that point in time. This triggers the relevant callbacks for each of the media query's handlers, as per the conditions above. <code class="language-javascript">fire</code> is handy if you don't care about browser events and want your handlers to be triggered just once on page load.
-                    </p>
-
-                    <h3>enquire.listen</h3>
-
-                    <p>
-                        <code class="language-javascript">listen</code> registers event handlers for the browser's <strong>resize</strong> and <strong>orientationChange</strong> events. Each time one of these events is triggered, <code class="language-javascript">enquire</code> makes a call to <code class="language-javascript">fire()</code>, causing all media queries and handlers to be re-evaluated.
-                    </p>
-
-                    <p>
-                        To avoid spamming <code class="language-javascript">enquire</code> with browser events (e.g. if the browser window is rapidly changing size), <code class="language-javascript">listen</code> throttles events so that <code class="language-javascript">fire</code> is only called if there have been no resize or orientation events in the last 500<abbr title="milliseconds">ms</abbr>. To alter the throttle, pass in the number of milliseconds as a paramater to <code class="language-javascript">listen</code>:
-                    </p>
-
-        <pre class="language-javascript"><code>
+<pre class="language-javascript"><code>
 enquire.listen(10000); // 10 seconds, why not?!
-        </code></pre>
+</code></pre>
 
-                </section>
+        </section>
 
-                <section>
+        <section>
+            <h2 id="delving-deeper" class="section-title">Delving Deeper</h2>
+            
+            <h3>Can I Haz More Than One Handlerz?</h3>
+            <p>
+                You can indeed! It can be cumbersome to have all your logic in one handler, so you can also supply an array as the second parameter to <code class="language-javascript">register</code> in order to support multiple handlers per media query:
+            </p>
 
-                    <h2 id="delving-deeper" class="section-title">Delving Deeper</h2>
-                    <h3>Can I Haz More Than One Handlerz?</h3>
-
-                    <p>You can indeed! It can be cumbersome to have all your logic in one handler, so you can also supply an array as the second parameter to <code class="language-javascript">register</code> in order to support multiple handlers per media query:</p>
-
-        <pre class="language-javascript"><code>
+<pre class="language-javascript"><code>
 enquire.register("screen and (max-width:1000px)", [
     { match : function() { console.log("handler 1 matched"); } },
     { match : function() { console.log("handler 2 matched"); } }
  ]);
-        </code></pre>
+</code></pre>
 
-                    <h4>Alternatively&hellip;</h4>
+            <h4>Alternatively&hellip;</h4>
+            <p>
+                You could, if you wish, achieve the same effect by calling register multiple times for the same media query:
+            </p>
 
-                    <p>
-                        You could, if you wish, achieve the same effect by calling register multiple times for the same media query:
-                    </p>
-
-        <pre class="language-javascript"><code>
+<pre class="language-javascript"><code>
 var query = "screen and (max-width:1000px)";
 
 enquire.register(query, {
@@ -240,23 +232,21 @@ enquire.register(query, {
         console.log("handler 2 matched");
     }
  });
-        </code></pre>
+</code></pre>
 
-                    <p>
-                        Whilst the array pattern is generally preferred, this pattern of multiple calls to <code class="language-javascript">register</code> is useful for when you don't want to register handlers separately.
-                    </p>
+            <p>
+                Whilst the array pattern is generally preferred, this pattern of multiple calls to <code class="language-javascript">register</code> is useful for when you don't want to register handlers separately.
+            </p>
+            <p>
+                This won't overwrite any previous handler for the media query as <code class="language-javascript">enquire</code> uses the media query itself as a lookup key on its internal dictionary. Thus, the second handler is appended to the list of handlers already registered for that media query.
+            </p>
 
-                    <p>
-                        This won't overwrite any previous handler for the media query as <code class="language-javascript">enquire</code> uses the media query itself as a lookup key on its internal dictionary. Thus, the second handler is appended to the list of handlers already registered for that media query.
-                    </p>
+            <h3>Multiple Queries, Sir?</h3>
+            <p>
+                As well as multiple handlers per media query, multiple media queries can be registered with <code class="language-javascript">enquire</code>. Calls to <code class="language-javascript">register</code> can be chained together for this purpose.
+            </p> 
 
-                    <h3>Multiple Queries, Sir?</h3>
-
-                    <p>
-                        As well as multiple handlers per media query, multiple media queries can be registered with <code class="language-javascript">enquire</code>. Calls to <code class="language-javascript">register</code> can be chained together for this purpose.
-                    </p> 
-
-        <pre class="language-javascript"><code>
+<pre class="language-javascript"><code>
 enquire.register("screen and (max-width:1000px)", {
 
     match : function() {
@@ -270,30 +260,31 @@ enquire.register("screen and (max-width:1000px)", {
     }
 
 }).listen();
-        </code></pre>
+</code></pre>
 
-                    <h3>Setup</h3>
-                    <p>
-                        Supplying a setup callback with your query handler allows you to get all your expensive <abbr title="Document Object Model">DOM</abbr> manipulation out of the way up-front. <strong>The setup callback is called once and once only</strong>. By default it is called when the handler is first registered. You can defer setup until the first time the media query matches by setting the <code class="language-javascript">deferSetup</code> flag to <code class="language-javascript">true</code>.
-                    </p>
+            <h3>Setup</h3>
+            <p>
+                Supplying a setup callback with your query handler allows you to get all your expensive <abbr title="Document Object Model">DOM</abbr> manipulation out of the way up-front. <strong>The setup callback is called once and once only</strong>. By default it is called when the handler is first registered. You can defer setup until the first time the media query matches by setting the <code class="language-javascript">deferSetup</code> flag to <code class="language-javascript">true</code>.
+            </p>
 
-                    <h3>Unregister Handlers</h3>
-                    <p>
-                        Sometimes you may wish to unregister a handler or group of handlers. For that we have the <code class="language-javascript">unregister</code> method.
-                    </p>
-        <pre class="language-javascript"><code>
+            <h3>Unregister Handlers</h3>
+            <p>
+                Sometimes you may wish to unregister a handler or group of handlers. For that we have the <code class="language-javascript">unregister</code> method.
+            </p>
+            
+<pre class="language-javascript"><code>
 enquire.unregister(mediaQuery /* string */, handler /* function || object */);
-        </code></pre>
+</code></pre>
 
-                    <p>
-                        The first parameter that <code class="language-javascript">ungreigster</code> accepts is the media query, and the second is a reference to the specific handler you wish to unregister. The second parameter can be optionally excluded which unregisters <em>all</em> handlers for the supplied media query. When a handler is unregistered its <code class="language-javascript">destroy</code> callback is executed. If a handler does not have a <code class="language-javascript">destroy</code> callback then the <code class="language-javascript">unmatch</code> callback is fired instead. Once a handler is unregistered it will no longer respond to changes to a media query's state.
-                    </p>
-                    <p>
-                        The following example shows how unregister can be used and the effects it has on handlers:
-                    </p>
+            <p>
+                The first parameter that <code class="language-javascript">ungreigster</code> accepts is the media query, and the second is a reference to the specific handler you wish to unregister. The second parameter can be optionally excluded which unregisters <em>all</em> handlers for the supplied media query. When a handler is unregistered its <code class="language-javascript">destroy</code> callback is executed. If a handler does not have a <code class="language-javascript">destroy</code> callback then the <code class="language-javascript">unmatch</code> callback is fired instead. Once a handler is unregistered it will no longer respond to changes to a media query's state.
+            </p>
+            <p>
+                The following example shows how unregister can be used and the effects it has on handlers:
+            </p>
 
-        <pre class="language-javascript">
-            <code>
+<pre class="language-javascript">
+<code>
 
 var mediaQuery = "screen and (max-width:320px)",
 
@@ -345,43 +336,40 @@ enquire.unregister(mediaQuery, handler3);
 
 enquire.unregister(mediaQuery);                     
                                                             
-            </code>
-        </pre>
+</code>
+</pre>
 
-                    <p>
-                        
-                    </p>
+            <h3>Mobile-First</h3>
+            <p>
+                If you're taking a mobile-first approach you will typically run into issues with incapable legacy browsers not understanding CSS3 media queries, meaning that browsers such as <abbr title="Internet Explorer 8">IE8</abbr> will be served the mobile versions of the site. Again, enquire has you covered here!
+            </p>
+            <p>
+                <code class="language-javascript">register</code> can accept an optional third parameter, <code class="language-javascript">shouldDegrade</code>. When this is passed as <code class="language-javascript">true</code> (it defaults to <code class="language-javascript">false</code>) it signifies to enquire that <em>if the browser is incapable of understanding CSS3 media queries, then always consider this query a match</em>. 
 
-                    <h3>Mobile-First</h3>
-                    <p>
-                        If you're taking a mobile-first approach you will typically run into issues with incapable legacy browsers not understanding CSS3 media queries, meaning that browsers such as <abbr title="Internet Explorer 8">IE8</abbr> will be served the mobile versions of the site. Again, enquire has you covered here!
-                    </p>
-
-                    <p>
-                        <code class="language-javascript">register</code> can accept an optional third parameter, <code class="language-javascript">shouldDegrade</code>. When this is passed as <code class="language-javascript">true</code> (it defaults to <code class="language-javascript">false</code>) it signifies to enquire that <em>if the browser is incapable of understanding CSS3 media queries, then always consider this query a match</em>. 
-
-                    </p>
-        <pre class="language-javascript"><code>
+            </p>
+<pre class="language-javascript"><code>
 enquire.register("screen and (min-width:900px)", function() {
     
     //execute some code for large-screen devices
 
 }, true); // note the `true`!
-        </code></pre>
-                    <p>
-                        Because this only affects incapable browsers, modern browsers will respect the media query and behave as expected. This allows you to adopt the mobile-first paradigm, whilst still serving a desktop experience to incapable browsers.
-                    </p>
-                </section>        
+</code></pre>
 
-                <section>
-                    <h2 id="legacy-support" class="section-title">Legacy Support</h2>
-                    <p>
-                        enquire relies on the <code class="language-javascript">matchMedia</code> API, which <a href="http://caniuse.com/matchmedia">isn't universally supported in browsers</a>. Fear not, using a <a href="https://github.com/paulirish/matchMedia.js/">matchMedia polyfill</a> is more than sufficient for enquire's purposes.
-                    </p>
-                    <p>
-                        If you are using <a href="http://modernizr.com">Modernizr</a> (and you should be!) it's as easy as this:
-                    </p>
-        <pre class="language-javascript"><code>
+            <p>
+                Because this only affects incapable browsers, modern browsers will respect the media query and behave as expected. This allows you to adopt the mobile-first paradigm, whilst still serving a desktop experience to incapable browsers.
+            </p>
+        </section>        
+
+        <section>
+            <h2 id="legacy-support" class="section-title">Legacy Support</h2>
+            <p>
+                enquire relies on the <code class="language-javascript">matchMedia</code> API, which <a href="http://caniuse.com/matchmedia">isn't universally supported in browsers</a>. Fear not, using a <a href="https://github.com/paulirish/matchMedia.js/">matchMedia polyfill</a> is more than sufficient for enquire's purposes.
+            </p>
+            <p>
+                If you are using <a href="http://modernizr.com">Modernizr</a> (and you should be!) it's as easy as this:
+            </p>
+            
+<pre class="language-javascript"><code>
 Modernizr.load([
     //first test need for polyfill
     {
@@ -392,30 +380,23 @@ Modernizr.load([
     //and then load enquire
     "/path/to/enquire.js"
 ]);
-        </code></pre>
+</code></pre>
                 
-                    <p>This is the approach that this site adopts.</p>
+            <p>This is the approach that this site adopts.</p>
+        </section>
 
-                </section>
+        <section>
+            <h2 id="license" class="section-title">License</h2>
+            <p>Licensed under the <a href="http://www.opensource.org/licenses/mit-license.php">MIT License</a>.</p>
+        </section>
+        
+    </article>
 
-                <section>
-                    <h2 id="license" class="section-title">License</h2>
-
-                    <p>Licensed under the <a href="http://www.opensource.org/licenses/mit-license.php">MIT License</a>.</p>
-                </section>
-                
-            </article>
-
-        </div>
-
-        <footer class="footer">
-            <small>Copyright &copy; <a href="http://wicky.nillia.ms" rel="author">Nick Williams</a> 2013</small>
-        </footer>
-    </div>
+    <footer class="footer" role="contentinfo">
+        <small>Copyright &copy; <a href="http://wicky.nillia.ms" rel="author">Nick Williams</a> 2013</small>
+    </footer>
+</div>
     
-
-
-    <!--script src="js/vendor/prism.js"></script-->
     <script>
         Modernizr.load([
             {
@@ -424,7 +405,7 @@ Modernizr.load([
             },
             "js/vendor/prism.js",
             "//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js",
-            "https://raw.github.com/WickyNilliams/enquire.js/master/dist/enquire.min.js",
+            "https://raw.github.com/WickyNilliams/enquire.js/experimental/dist/enquire.min.js",
             "js/main.js"
         ]);
     </script>

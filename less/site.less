@@ -13,6 +13,7 @@ body {
 	#fonts > .body;
 	background-color: @bgColor;
 	color: @bodyColor;
+	line-height: 1.5;
 }
 
 a, a:visited {
@@ -76,7 +77,7 @@ pre {
 ul {
 	padding: 0 0 0 1.2em;
 }
-
+li { margin : 0.5em 0; }
 
 ul.no-bullets, 
 ol.no-bullets {
@@ -84,9 +85,6 @@ ol.no-bullets {
 	padding: 0; 
 	list-style:none; 
 }
-li { margin : 0.5em 0; }
-
-
 
 section, 
 .section {
@@ -128,29 +126,6 @@ h4 {
 	font-size: 1.5em;
 }
 
-ol.counter-style {
-	@spacing : 2.5em;
-
-    counter-reset:li; /* Initiate a counter */
-    margin:0; /* Remove the default left margin */
-    padding:0; /* Remove the default left padding */
-
-    & > li {
-	    position:relative; /* Create a positioning context */	
-	    margin:0 0 0 @spacing; /* Give each list item a left margin to make room for the numbers */
-	    padding:0 0.5em; /* Add some spacing around the content */
-
-	    &:before {
-		    content:counter(li); /* Use the counter as content */
-		    counter-increment:li; /* Increment the counter by 1 */
-
-		    /* Position and style the number */
-		    position:absolute;
-		    left:-@spacing;
-		}
-	}
-}
-
 .github-ribbon {
 	position: absolute; 
 	top: 0; 
@@ -177,6 +152,7 @@ ol.counter-style {
 
 	&__title {
 		margin: 0;
+
 		#fonts > .title;
 		color: @primaryColor;
 		font-size: 6em;
@@ -187,31 +163,28 @@ ol.counter-style {
 	}
 
 	&__strapline {
-		#fonts > .heading; 
 		display: block;
+		margin-bottom: 0;
+
+		#fonts > .heading; 
 		color: @bodyColor;
 		font-size: 0.25em;
 		text-shadow:none;
-		margin-bottom: 0;
-	}
-
-	//TODO: break into own block
-
-	.buttons {
-		margin-top: 1em;
-
-		.btn {
-			display: inline-block;
-			padding: 0.2em 0;
-			width: 107px;
-		}
 	}
 }
 
+.buttons {
+	margin-top: 1em;
 
+	&__btn {
+		display: inline-block;
+		padding: 0.2em 0;
+		width: 8em;
 
-.js .twitter-share-button {
-	display: none;
+		&--twitter {
+			margin-left: -3px; //fix up weird iframe spacing
+		}
+	}
 }
 
 .main {
@@ -232,48 +205,43 @@ ol.counter-style {
 .sidebar {
 	.transition(opacity, 0.1s);
 
+	position: absolute;
+	left:3em;
+	top: 8em;
+
 	opacity: 0.5;
 	&:hover {
 		opacity: 1;
+	}
+
+
+	&.affix {
+		position: fixed;
+		top: 2.5em;
 	}
 }
 
 .toc {
 
-	// 175px is 13.3% 1310px (the point at which this is included on page)
-	width: 13.3%;
-	min-width: 145px;
-
-
-	&.affix {
-		position: fixed;
-		top: 40px;
-	}
-
-	&.affix-top {
-		position: absolute;
-		top: 150px;
-	}
-
-
-	.section-title {
+	&__title {
 		padding-bottom: 0.4em;
 		font-size: 2em;	
 		border-bottom: dashed 0.1em fade(@bodyColor, 10);
 	}
 
-	li {
+	&__item {
 		@fadedBodyColor : fade(@bodyColor, 50);
 
 		&:before {
 			#glyphs > .right-triangle;
 			float: left;
-			width: 1.5em;
+			margin-right: 0.75em;
+			color: @fadedBodyColor;
 		}
 
-		a,
-		&:before {
+		a { 
 			color: @fadedBodyColor;
+			.text-overflow();
 		}
 
 		&:hover:before,
@@ -282,11 +250,6 @@ ol.counter-style {
 			color: @bodyColor;
 		}
 		&.active a { color: @primaryColor; }
-
-		a { 
-			display: block; 
-			.text-overflow();
-		}
 	}
 }
 
@@ -298,6 +261,30 @@ ol.counter-style {
 	small {
 		font-size: 1em;
 		color: fade(@bodyColor, 50);
+	}
+}
+
+
+ol.counter-style {
+	@spacing : 2.5em;
+
+    counter-reset:li; /* Initiate a counter */
+    margin:0; /* Remove the default left margin */
+    padding:0; /* Remove the default left padding */
+
+    & > li {
+	    position:relative; /* Create a positioning context */	
+	    margin:0 0 0 @spacing; /* Give each list item a left margin to make room for the numbers */
+	    padding:0 0.5em; /* Add some spacing around the content */
+
+	    &:before {
+		    content:counter(li); /* Use the counter as content */
+		    counter-increment:li; /* Increment the counter by 1 */
+
+		    /* Position and style the number */
+		    position:absolute;
+		    left:-@spacing;
+		}
 	}
 }
 

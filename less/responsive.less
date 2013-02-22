@@ -1,26 +1,26 @@
-@media (min-width: 800px) {
+@media screen and (min-width: 50em) {
 
-	.header {
-		position: relative;
+	.buttons {
+		position: absolute;
+		right: 0;
+		top: 30%;
 
-		.buttons {
-			position: absolute;
-			right: 0;
-			top: 50%;
-
-			> .btn {
-				display:block;
-				padding: 0.2em 0;
-				width: 107px;
-			}
+		&__btn {
+			display:block;
 		}
 	}
 
-	
 }
 
-@media (min-width: 1200px) {
+@media screen and (min-width: 70em) {
+
 	.github-ribbon {
 		position: fixed;
+	}
+}
+
+@media print {
+	.hide-for-print {
+		display: none;
 	}
 }
