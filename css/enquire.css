@@ -551,6 +551,11 @@ td {
 .token.entity {
   cursor: help;
 }
+@media print {
+  .hide-for-print {
+    display: none;
+  }
+}
 *,
 *:after,
 *:before {
@@ -570,11 +575,18 @@ td {
 }
 body {
   -webkit-font-smoothing: antialiased;
-  font-size: 14px;
+  font-size: 15px;
   font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
   background-color: #333745;
   color: #daede2;
   line-height: 1.5;
+  padding: 0 1em;
+}
+@media screen and (min-width: 70em) {
+  body {
+    font-size: 16px;
+    line-height: 1.6;
+  }
 }
 a,
 a:visited {
@@ -614,6 +626,9 @@ code {
   -moz-hyphens: none;
   -ms-hyphens: none;
   hyphens: none;
+}
+code {
+  font-size: 0.95em;
 }
 pre,
 :not(pre) > code {
@@ -661,7 +676,7 @@ ul,
 ol,
 pre {
   margin: 0;
-  margin-bottom: 14px;
+  margin-bottom: 15px;
   margin-bottom: 1rem;
 }
 h1,
@@ -692,11 +707,15 @@ h4 {
   z-index: 1;
   max-width: 30%;
 }
+@media screen and (min-width: 50em) {
+  .github-ribbon {
+    position: fixed;
+  }
+}
 .container {
   max-width: 50em;
   display: block;
   margin: 0 auto;
-  padding: 0 1em;
 }
 .header {
   position: relative;
@@ -725,8 +744,20 @@ h4 {
   padding: 0.2em 0;
   width: 8em;
 }
+@media screen and (min-width: 50em) {
+  .buttons__btn {
+    display: block;
+  }
+}
 .buttons__btn--twitter {
   margin-left: -3px;
+}
+@media screen and (min-width: 50em) {
+  .buttons {
+    position: absolute;
+    right: 0;
+    top: 30%;
+  }
 }
 .main {
   border-top: 3px dashed rgba(218, 237, 226, 0.1);
@@ -743,7 +774,7 @@ h4 {
   -o-transition: opacity 0.1s ease-out;
   transition: opacity 0.1s ease-out;
   position: absolute;
-  left: 3em;
+  left: 2em;
   top: 8em;
   opacity: 0.5;
 }
@@ -835,24 +866,4 @@ ol.quick-start  > li:before {
   background-color: rgba(234, 46, 73, 0.2);
   text-align: center;
   border-radius: 1em;
-}
-@media screen and (min-width: 50em) {
-  .buttons {
-    position: absolute;
-    right: 0;
-    top: 30%;
-  }
-  .buttons__btn {
-    display: block;
-  }
-}
-@media screen and (min-width: 70em) {
-  .github-ribbon {
-    position: fixed;
-  }
-}
-@media print {
-  .hide-for-print {
-    display: none;
-  }
 }

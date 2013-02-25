@@ -2,7 +2,13 @@
 /// BASE STYLES
 /////////////////////////////
 
-@baseFontSize : 14px;
+@media print {
+	.hide-for-print {
+		display: none;
+	}
+}
+
+@baseFontSize : 15px;
 
 .border-box;
 .selection(@primaryColor, @bodyColor, 1px 1px 1px @bgColor);
@@ -14,6 +20,13 @@ body {
 	background-color: @bgColor;
 	color: @bodyColor;
 	line-height: 1.5;
+
+	padding: 0 1em;
+
+	@media @deskBreakpoint {
+		font-size: 16px;
+		line-height: 1.6;
+	}
 }
 
 a, a:visited {
@@ -53,6 +66,10 @@ pre, code {
 	-moz-hyphens: none;
 	-ms-hyphens: none;
 	hyphens: none;
+}
+
+code {
+	font-size: 0.95em;
 }
 
 pre,
@@ -134,6 +151,10 @@ h4 {
 	z-index: 1;
 
 	max-width: 30%;
+
+	@media @lapBreakpoint {
+		position: fixed;
+	}
 }
 
 /////////////////////////////
@@ -142,7 +163,6 @@ h4 {
 
 .container {  
 	#pos > .fluid-center(50em);
-	padding: 0 1em; 
 }
 
 .header {
@@ -181,9 +201,19 @@ h4 {
 		padding: 0.2em 0;
 		width: 8em;
 
+		@media @lapBreakpoint {
+			display: block;
+		}
+
 		&--twitter {
 			margin-left: -3px; //fix up weird iframe spacing
 		}
+	}
+
+	@media @lapBreakpoint {
+		position: absolute;
+		right: 0;
+		top: 30%;
 	}
 }
 
@@ -206,7 +236,7 @@ h4 {
 	.transition(opacity, 0.1s);
 
 	position: absolute;
-	left:3em;
+	left:2em;
 	top: 8em;
 
 	opacity: 0.5;

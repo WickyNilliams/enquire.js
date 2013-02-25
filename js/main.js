@@ -25,7 +25,7 @@ $(function() {
 	];
 
 
-	enquire.register("screen and (min-width:70em)", {
+	enquire.register("screen and (min-width:75em)", {
 		deferSetup : true,
 		setup : load,
 		match : function() {
