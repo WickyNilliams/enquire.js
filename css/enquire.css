@@ -489,7 +489,7 @@ td {
   margin: 0 auto;
 }
 #fonts .body {
-  font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+  font-family: sans-serif;
 }
 #fonts .title {
   font-family: 'Yesteryear', cursive;
@@ -576,7 +576,7 @@ td {
 body {
   -webkit-font-smoothing: antialiased;
   font-size: 15px;
-  font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+  font-family: sans-serif;
   background-color: #333745;
   color: #daede2;
   line-height: 1.5;
@@ -588,8 +588,7 @@ body {
     line-height: 1.6;
   }
 }
-a,
-a:visited {
+a {
   -webkit-transition: color 0.2s ease-out;
   -moz-transition: color 0.2s ease-out;
   -o-transition: color 0.2s ease-out;
@@ -597,12 +596,11 @@ a:visited {
   text-decoration: none;
   color: #ef5c71;
 }
-a:hover,
-a:visited:hover {
+a:visited,
+a:hover {
   color: #ea2e49;
 }
-a:focus,
-a:visited:focus {
+a:focus {
   background: #ea2e49 !important;
   color: #daede2 !important;
   outline: none;
@@ -633,8 +631,7 @@ code {
 pre,
 :not(pre) > code {
   background: #2a2e39;
-  background: rgba(0, 0, 0, 0.15);
-  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.25), 0 1px 0 rgba(218, 237, 226, 0.1);
+  box-shadow: inset 0 1px 3px #262933, 0 1px 0 #494e62;
   border-radius: .3em;
 }
 :not(pre) > code {
@@ -650,22 +647,13 @@ ul {
   padding: 0 0 0 1.2em;
 }
 li {
-  margin: 0.5em 0;
+  margin-bottom: 0.5em;
 }
 ul.no-bullets,
 ol.no-bullets {
   margin: 0;
   padding: 0;
   list-style: none;
-}
-section,
-.section {
-  padding: 1em 0;
-  border-bottom: 1px dashed rgba(218, 237, 226, 0.1);
-}
-section:last-child,
-.section.last {
-  border-bottom: none;
 }
 h1,
 h2,
@@ -686,6 +674,7 @@ h4 {
   font-family: 'Lato', Verdana, Geneva, Arial, Helvetica, sans-serif;
   font-weight: normal;
   text-rendering: optimizeLegibility;
+  line-height: 1.25;
 }
 h1 {
   font-size: 4em;
@@ -713,7 +702,7 @@ h4 {
   }
 }
 .container {
-  max-width: 50em;
+  max-width: 45em;
   display: block;
   margin: 0 auto;
 }
@@ -722,7 +711,6 @@ h4 {
   text-align: center;
 }
 .header__title {
-  margin: 0;
   font-family: 'Yesteryear', cursive;
   color: #ea2e49;
   font-size: 6em;
@@ -737,7 +725,7 @@ h4 {
   text-shadow: none;
 }
 .buttons {
-  margin-top: 1em;
+  margin-bottom: 1em;
 }
 .buttons__btn {
   display: inline-block;
@@ -759,14 +747,38 @@ h4 {
     top: 30%;
   }
 }
-.main {
-  border-top: 3px dashed rgba(218, 237, 226, 0.1);
-  border-bottom: 3px dashed rgba(218, 237, 226, 0.1);
-  margin-top: 1em;
-  margin-bottom: 1em;
+.announcement {
+  padding: 0.5em 1em;
+  font-size: 1em;
+  font-weight: bold;
+  background-color: #77c4d3;
+  color: #333745;
+  border-radius: 5px;
 }
-.section-title {
+.announcement a {
+  color: #333745;
+  border-bottom: 1px dashed;
+}
+.announcement a:focus {
+  background-color: #333745;
+  color: #77c4d3;
+}
+.block {
+  margin-bottom: 1em;
+  border-bottom: 1px dashed rgba(218, 237, 226, 0.1);
+}
+.block:last-child,
+.block--final {
+  border-bottom: none;
+}
+.block--primary {
+  border-bottom-width: 3px;
+}
+.block__title {
   text-shadow: 1px 1px 0 rgba(234, 46, 73, 0.35), 2px 2px 0 rgba(234, 46, 73, 0.35), 3px 3px 0 rgba(234, 46, 73, 0.35);
+}
+.subdued {
+  color: #5e6680;
 }
 .sidebar {
   -webkit-transition: opacity 0.1s ease-out;
@@ -774,7 +786,7 @@ h4 {
   -o-transition: opacity 0.1s ease-out;
   transition: opacity 0.1s ease-out;
   position: absolute;
-  left: 2em;
+  left: 3em;
   top: 8em;
   opacity: 0.5;
 }
@@ -786,9 +798,12 @@ h4 {
   top: 2.5em;
 }
 .toc__title {
-  padding-bottom: 0.4em;
   font-size: 2em;
-  border-bottom: dashed 0.1em rgba(218, 237, 226, 0.1);
+  text-shadow: 1px 1px 0 rgba(234, 46, 73, 0.35), 2px 2px 0 rgba(234, 46, 73, 0.35), 3px 3px 0 rgba(234, 46, 73, 0.35);
+}
+.toc__item {
+  line-height: 1.25;
+  list-style-type: none;
 }
 .toc__item:before {
   content: '\25BA';
@@ -797,6 +812,7 @@ h4 {
   color: rgba(218, 237, 226, 0.5);
 }
 .toc__item a {
+  color: #daede2;
   color: rgba(218, 237, 226, 0.5);
   overflow: hidden;
   text-overflow: ellipsis;
@@ -819,51 +835,29 @@ h4 {
   font-size: 1em;
   color: rgba(218, 237, 226, 0.5);
 }
-ol.counter-style {
+.counter-style {
   counter-reset: li;
-  /* Initiate a counter */
-
-  margin: 0;
-  /* Remove the default left margin */
-
-  padding: 0;
-  /* Remove the default left padding */
-
 }
-ol.counter-style  > li {
-  position: relative;
-  /* Create a positioning context */
-  margin: 0 0 0 2.5em;
-  /* Give each list item a left margin to make room for the numbers */
-
-  padding: 0 0.5em;
-  /* Add some spacing around the content */
-
+.counter-style  > li {
+  list-style-type: none;
 }
-ol.counter-style  > li:before {
+.counter-style  > li:before {
   content: counter(li);
-  /* Use the counter as content */
-
   counter-increment: li;
-  /* Increment the counter by 1 */
-
-  /* Position and style the number */
-
-  position: absolute;
-  left: -2.5em;
 }
-ol.quick-start  > li {
-  margin-bottom: 2.5em;
+.quick-start {
+  margin: 0;
+  padding: 0;
 }
-ol.quick-start  > li:before {
-  font-family: 'Lato', Verdana, Geneva, Arial, Helvetica, sans-serif;
-  /* Position and style the number */
-
-  top: 0.3em;
+.quick-start  > li:before {
   width: 2em;
-  padding: 0.3em 0;
+  height: 2em;
+  padding: 0.5em;
+  display: inline-block;
+  margin-right: 0.5em;
   color: #daede2;
-  background-color: rgba(234, 46, 73, 0.2);
   text-align: center;
+  line-height: 1;
+  background-color: rgba(234, 46, 73, 0.2);
   border-radius: 1em;
 }

@@ -27,7 +27,7 @@
     
 <div class="container">
 
-    <header class="header" role="banner">
+    <header class="header block block--primary" role="banner">
         
         <h1 class="header__title">  
             enquire.js <span class="header__strapline">Awesome Media Queries in JavaScript</span>        
@@ -48,10 +48,13 @@
         </div>
         
     </header>
-
-    <article role="main" class="main">
-        <section>
-            <h2 id="lowdown" class="section-title">The Lowdown</h2>
+    <p class="announcement">
+        Version 2 now released! Find out <a href="#v2.0.0">what's new</a>.
+    </p>
+    <article role="main" class="block block--primary">
+        
+        <section class="block">
+            <h2 id="lowdown" class="block__title">The Lowdown</h2>
 
             <p>
                 <strong>A lightweight, pure JavaScript library for responding to CSS media queries.</strong>.
@@ -71,8 +74,8 @@
             </p>
         </section>
 
-        <section>
-            <h2 id="downloads" class="section-title" data-toc-title="Downloads">Downloads &amp; All That Jazz</h2>
+        <section class="block">
+            <h2 id="downloads" class="block__title" data-toc-title="Downloads">Downloads &amp; All That Jazz</h2>
 
             <h3>Latest Build</h3>
             <p>Grab the latest code, ready to go, from one of the locations below:</p>
@@ -108,8 +111,8 @@ grunt
 
         </section>
 
-        <section>
-            <h2 id="basics" class="section-title">The Basics</h2>
+        <section class="block">
+            <h2 id="basics" class="block__title">The Basics</h2>
 
             <h3>enquire.register</h3>
             <p>
@@ -161,8 +164,8 @@ enquire.register("screen and (max-width:1000px)", {
 
         </section>
 
-        <section>
-            <h2 id="responding-to-queries" class="section-title">Responding To Queries</h2>
+        <section class="block">
+            <h2 id="responding-to-queries" class="block__title">Responding To Queries</h2>
             <p>
                 You may have noticed the call to <code class="language-javascript">listen()</code> in the last example, so let's talk about that. After you've registered your handlers you need to get <code class="language-javascript">enquire</code> up and running. For this you have two options, <code class="language-javascript">fire</code> or <code class="language-javascript">listen</code>.
             </p>
@@ -189,8 +192,8 @@ enquire.listen(10000); // 10 seconds, why not?!
 
         </section>
 
-        <section>
-            <h2 id="delving-deeper" class="section-title">Delving Deeper</h2>
+        <section class="block">
+            <h2 id="delving-deeper" class="block__title">Delving Deeper</h2>
             
             <h3>Can I Haz More Than One Handlerz?</h3>
             <p>
@@ -353,8 +356,8 @@ enquire.register("screen and (min-width:900px)", function() {
             </p>
         </section>        
 
-        <section>
-            <h2 id="legacy-support" class="section-title">Legacy Support</h2>
+        <section class="block">
+            <h2 id="legacy-support" class="block__title">Legacy Support</h2>
             <p>
                 enquire relies on the <code class="language-javascript">matchMedia</code> API, which <a href="http://caniuse.com/matchmedia">isn't universally supported in browsers</a>. Fear not, using a <a href="https://github.com/paulirish/matchMedia.js/">matchMedia polyfill</a> is more than sufficient for enquire's purposes.
             </p>
@@ -377,9 +380,24 @@ Modernizr.load([
                 
             <p>This is the approach that this site adopts.</p>
         </section>
+        
+        <section class="block">
+            <h2 id="changelog" class="block__title">Changelog</h2>
+            <h3 id="v2.0.0">v2.0.0 <span class="subdued">(2013-03-01)</span></h3>
+            <ul>
+                <li>Tinier than ever &mdash; now only 0.8kb minified &amp; GZIP'd</li>
+                <li>Improved performance &mdash; resize events replaced with <code>matchMedia.addListener</code></li>
+                <li>Simplified API &mdash; <code>listen</code> and <code>fire</code> no longer required</li>
+                <li>Streamlined conditional asset loading via Modernizr</li>
+            </ul>
+            <h3 id="v1.5.6">v1.5.6 <span class="subdued">(2013-01-30)</span></h3>
+            <ul>
+                <li>Fix bug with missing <code>useCapture</code> parameter on <code>addEventListener</code></li>
+            </ul>
+        </section>
 
-        <section>
-            <h2 id="license" class="section-title">License</h2>
+        <section class="block block--final">
+            <h2 id="license" class="block__title">License</h2>
             <p>Licensed under the <a href="http://www.opensource.org/licenses/mit-license.php">MIT License</a>.</p>
         </section>
         

@@ -29,11 +29,13 @@ body {
 	}
 }
 
-a, a:visited {
+a {
 	.transition(color);
 	text-decoration: none;
+
 	color: lighten(@primaryColor, 10);
 
+	&:visited,
 	&:hover {
 		color: @primaryColor;
 	}
@@ -45,6 +47,7 @@ a, a:visited {
 		text-shadow: 1px 1px 1px @bgColor !important;
 	}
 }
+
 
 img {
 	max-width: 100%;
@@ -75,8 +78,7 @@ code {
 pre,
 :not(pre) > code {
 	background: darken(@bgColor, 4);
-	background: rgba(0,0,0,0.15);
-	box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.25), 0 1px 0 fade(@bodyColor, 10);
+	box-shadow: inset 0 1px 3px darken(@bgColor, 6), 0 1px 0 lighten(@bgColor, 10);
 	border-radius: .3em;
 }
 
@@ -91,10 +93,8 @@ pre {
 	margin: 1em 0;
 }
 
-ul {
-	padding: 0 0 0 1.2em;
-}
-li { margin : 0.5em 0; }
+ul { padding: 0 0 0 1.2em; }
+li { margin-bottom : 0.5em; }
 
 ul.no-bullets, 
 ol.no-bullets {
@@ -103,15 +103,6 @@ ol.no-bullets {
 	list-style:none; 
 }
 
-section, 
-.section {
-	padding: 1em 0; 
-	border-bottom: 1px dashed @fadedBodyColor;
-}
-section:last-child, 
-.section.last {
-	border-bottom: none;
-}
 
 h1, h2, h3, h4,
 p, ul, ol, pre {
@@ -125,6 +116,7 @@ h1,h2,h3,h4 {
 	#fonts > .heading;
 	font-weight: normal;
 	text-rendering: optimizeLegibility;
+	line-height: 1.25;
 }
 
 h1 {
@@ -162,7 +154,7 @@ h4 {
 /////////////////////////////
 
 .container {  
-	#pos > .fluid-center(50em);
+	#pos > .fluid-center(45em);
 }
 
 .header {
@@ -171,8 +163,6 @@ h4 {
 	text-align: center;
 
 	&__title {
-		margin: 0;
-
 		#fonts > .title;
 		color: @primaryColor;
 		font-size: 6em;
@@ -194,7 +184,7 @@ h4 {
 }
 
 .buttons {
-	margin-top: 1em;
+	margin-bottom: 1em;
 
 	&__btn {
 		display: inline-block;
@@ -217,26 +207,55 @@ h4 {
 	}
 }
 
-.main {
-	border-top: 3px dashed @fadedBodyColor;
-	border-bottom: 3px dashed @fadedBodyColor;
+.announcement {
+	padding: 0.5em 1em;
 
-	margin-top: 1em;
-	margin-bottom: 1em;
+	font-size: 1em;
+	font-weight: bold;
+	background-color: @secondaryColor;
+	color: @bgColor;
+	border-radius: 5px;
+
+	a {
+		color: @bgColor;
+		border-bottom: 1px dashed;
+
+		&:focus {
+			background-color: @bgColor;
+			color: @secondaryColor;
+		}
+	}
 }
 
+.block {
+	margin-bottom: 1em;
+	border-bottom: 1px dashed @fadedBodyColor;
 
-.section-title {
-	text-shadow:1px 1px 0 @fadedPrimaryColor, 
-				2px 2px 0 @fadedPrimaryColor, 
-				3px 3px 0 @fadedPrimaryColor;
+	&:last-child, 
+	&--final {
+		border-bottom: none;
+	}
+
+	&--primary {
+		border-bottom-width: 3px;
+	}
+
+	&__title {
+		text-shadow:1px 1px 0 @fadedPrimaryColor, 
+					2px 2px 0 @fadedPrimaryColor, 
+					3px 3px 0 @fadedPrimaryColor;
+	}
+}
+
+.subdued {
+	color: lighten(@bgColor, 20);
 }
 
 .sidebar {
 	.transition(opacity, 0.1s);
 
 	position: absolute;
-	left:2em;
+	left:3em;
 	top: 8em;
 
 	opacity: 0.5;
@@ -244,7 +263,8 @@ h4 {
 		opacity: 1;
 	}
 
-
+	// can't follow BEM syntax here
+	// forced into this class by bootstrap affix :(
 	&.affix {
 		position: fixed;
 		top: 2.5em;
@@ -254,13 +274,16 @@ h4 {
 .toc {
 
 	&__title {
-		padding-bottom: 0.4em;
-		font-size: 2em;	
-		border-bottom: dashed 0.1em fade(@bodyColor, 10);
+		font-size: 2em;
+		text-shadow:1px 1px 0 @fadedPrimaryColor, 
+					2px 2px 0 @fadedPrimaryColor, 
+					3px 3px 0 @fadedPrimaryColor;
 	}
 
 	&__item {
 		@fadedBodyColor : fade(@bodyColor, 50);
+		line-height: 1.25;
+		list-style-type: none;
 
 		&:before {
 			#glyphs > .right-triangle;
@@ -270,6 +293,7 @@ h4 {
 		}
 
 		a { 
+			color: @bodyColor;
 			color: @fadedBodyColor;
 			.text-overflow();
 		}
@@ -295,49 +319,42 @@ h4 {
 }
 
 
-ol.counter-style {
-	@spacing : 2.5em;
+.counter-style {
 
-    counter-reset:li; /* Initiate a counter */
-    margin:0; /* Remove the default left margin */
-    padding:0; /* Remove the default left padding */
+    counter-reset:li;
 
     & > li {
-	    position:relative; /* Create a positioning context */	
-	    margin:0 0 0 @spacing; /* Give each list item a left margin to make room for the numbers */
-	    padding:0 0.5em; /* Add some spacing around the content */
+    	list-style-type: none;
 
 	    &:before {
-		    content:counter(li); /* Use the counter as content */
-		    counter-increment:li; /* Increment the counter by 1 */
-
-		    /* Position and style the number */
-		    position:absolute;
-		    left:-@spacing;
+		    content:counter(li); 
+		    counter-increment:li;
 		}
 	}
 }
 
-ol.quick-start {
+.quick-start {
 
-	@spacing: 2.5em;
+	margin:0;
+	padding:0;
 
     & > li {
-	    margin-bottom: @spacing;
 
 	    &:before {
 
-	    	#fonts > .heading;
-
-		    /* Position and style the number */
-		    top:0.3em;
 		    width:2em;
-		    padding:0.3em 0;
+		    height: 2em;
+		    padding: 0.5em;
+		    display: inline-block;
+		    margin-right: 0.5em;
 
 		    color:@white;
-		    background-color: fade(@red, 20);
 		    text-align:center;
+		    line-height: 1;
+		    
+		    background-color: fade(@red, 20);
 		    border-radius: 1em;
 		}
 	}
 }
+
