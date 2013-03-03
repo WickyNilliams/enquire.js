@@ -2,23 +2,25 @@
 /*global enquire:true, $:true, Modernizr:true */
 
 
-$(function() {
+(function() {
 
-	var $toc = $("<nav class='nav sidebar' data-spy='affix' data-offset-top='75' data-offsetop-bottom='200' role='navigation'><h2 class='toc__title section-title'>Jump To&hellip;</h2></nav>"),
-		$main = $("[role=main], .main"),
-		load;
+	var load, $toc, $main;
 
-	load = [{
-		load: "js/jquery.toc.js",
-		callback : function() {
-			$main.toc({
-				container : "<ul class='toc no-bullets'></ul>",
-				item : "<li class='toc__item'><a></a></li>",
-				destination: $toc,
-				targets : ["h2"]
-			});
-			$("body").prepend($toc);
-		}
+	load = [
+		{
+			load : "js/vendor/zepto.js",
+			callback: function() { window.jQuery = window.$ = window.Zepto;}},
+		{
+			load: "js/jquery.toc.js",
+			callback : function() {
+				$toc  = $("<nav class='nav sidebar' data-spy='affix' data-offset-top='75' role='navigation'><h2 class='toc__title section-title'>Jump To&hellip;</h2></nav>"),
+				$main = $("[role=main], .main");
+				$main.toc({
+					destination: $toc,
+					targets : ["h2"]
+				});
+				$("body").prepend($toc);
+			}
 		},
 		"js/vendor/bootstrap-scrollspy.js",
 		"js/vendor/bootstrap-affix.js"
@@ -29,10 +31,10 @@ $(function() {
 		deferSetup : true,
 		setup : load,
 		match : function() {
-			$toc.fadeIn();
+			$toc.show();
 		},
 		unmatch : function() {
 			$toc.hide();
 		}
 	});
-});
+}());

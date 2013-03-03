@@ -596,9 +596,11 @@ a {
   text-decoration: none;
   color: #ef5c71;
 }
-a:visited,
-a:hover {
+a:visited {
   color: #ea2e49;
+}
+a:hover {
+  color: #d01530;
 }
 a:focus {
   background: #ea2e49 !important;
@@ -631,7 +633,6 @@ code {
 pre,
 :not(pre) > code {
   background: #2a2e39;
-  box-shadow: inset 0 1px 3px #262933, 0 1px 0 #494e62;
   border-radius: .3em;
 }
 :not(pre) > code {
@@ -642,6 +643,7 @@ pre {
   word-wrap: normal;
   padding: 1em;
   margin: 1em 0;
+  box-shadow: inset 0 1px 3px #262933, 0 1px 0 #494e62;
 }
 ul {
   padding: 0 0 0 1.2em;
@@ -649,8 +651,7 @@ ul {
 li {
   margin-bottom: 0.5em;
 }
-ul.no-bullets,
-ol.no-bullets {
+.no-bullets {
   margin: 0;
   padding: 0;
   list-style: none;
@@ -748,7 +749,8 @@ h4 {
   }
 }
 .announcement {
-  padding: 0.5em 1em;
+  padding: 1em 1em;
+  margin-bottom: 1em;
   font-size: 1em;
   font-weight: bold;
   background-color: #77c4d3;
@@ -762,6 +764,10 @@ h4 {
 .announcement a:focus {
   background-color: #333745;
   color: #77c4d3;
+}
+.announcement__message {
+  margin: 0;
+  line-height: 1;
 }
 .block {
   margin-bottom: 1em;
@@ -796,6 +802,11 @@ h4 {
 .sidebar.affix {
   position: fixed;
   top: 2.5em;
+}
+.toc {
+  margin: 0;
+  padding: 0;
+  list-style: none;
 }
 .toc__title {
   font-size: 2em;

@@ -1,8 +1,8 @@
 (function($) {
 
 	var defaults = {
-		item : "<li><a></a></li>",
-		container : "<ul></ul>",
+		item : "<li class='toc__item'><a></a></li>",
+		container : "<ul class='toc'></ul>",
 		targets : ["h1","h2", "h3"],
 		destination : "body"
 	};
@@ -67,7 +67,6 @@
 
 			$template.addClass(item.tagName.toLowerCase());
 			this.linkify($template.find("a"), $item);
-				
 			return $template[0];
 		}
 	};
@@ -79,10 +78,11 @@
 				options = typeof opts === "object" && opts;
 
 			if(!data) {
-				$this.data("toc", (data = new TOC($this, options)));
+				data = new TOC($this, options);
+				//$this.data("toc", data);
 			}
 		});
 	};
 	$.fn.toc.defaults = defaults;
 
-}(window.jQuery));
+}(window.jQuery || window.Zepto));

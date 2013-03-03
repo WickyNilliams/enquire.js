@@ -35,9 +35,12 @@ a {
 
 	color: lighten(@primaryColor, 10);
 
-	&:visited,
-	&:hover {
+	&:visited {
 		color: @primaryColor;
+	}
+
+	&:hover {
+		color: darken(@primaryColor, 10);
 	}
 
 	&:focus {
@@ -78,7 +81,6 @@ code {
 pre,
 :not(pre) > code {
 	background: darken(@bgColor, 4);
-	box-shadow: inset 0 1px 3px darken(@bgColor, 6), 0 1px 0 lighten(@bgColor, 10);
 	border-radius: .3em;
 }
 
@@ -91,13 +93,13 @@ pre {
 	word-wrap: normal;
 	padding: 1em;
 	margin: 1em 0;
+	box-shadow: inset 0 1px 3px darken(@bgColor, 6), 0 1px 0 lighten(@bgColor, 10);
 }
 
 ul { padding: 0 0 0 1.2em; }
 li { margin-bottom : 0.5em; }
 
-ul.no-bullets, 
-ol.no-bullets {
+.no-bullets {
 	margin: 0; 
 	padding: 0; 
 	list-style:none; 
@@ -208,7 +210,8 @@ h4 {
 }
 
 .announcement {
-	padding: 0.5em 1em;
+	padding: 1em 1em;
+	margin-bottom: 1em;
 
 	font-size: 1em;
 	font-weight: bold;
@@ -224,6 +227,11 @@ h4 {
 			background-color: @bgColor;
 			color: @secondaryColor;
 		}
+	}
+
+	&__message {
+		margin: 0;
+		line-height: 1;
 	}
 }
 
@@ -272,6 +280,8 @@ h4 {
 }
 
 .toc {
+
+	.no-bullets;
 
 	&__title {
 		font-size: 2em;
