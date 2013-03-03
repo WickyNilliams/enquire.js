@@ -18,13 +18,17 @@
     QueryHandler.prototype = {
 
         /**
-         * loads assets on setup
+         * loads assets on setup, handles all Modernizr interaction
          *
          * @function
          * @param {object || string || array} what an object that Modernizr.load can accept
          */
         load : function(what) {
+            var self = this;
+
             if(Modernizr && Modernizr.load) {
+                //if setup is deferred, then we should have a callback to match
+                self.deferSetup && what.push({ callback : function() { self.on(); } });
                 Modernizr.load(what);
             }
         },
@@ -37,11 +41,10 @@
         setup : function() {
             var setup = this.options.setup;
             this.initialised = true;
-            if(!setup) {
-                return;
-            }
 
-            isFunction(setup) ? setup() : this.load(setup);
+            if(setup) {
+                isFunction(setup) ? setup() : this.load(setup);
+            }
         },
 
         /**
@@ -50,8 +53,7 @@
          * @function
          */
         on : function() {
-            !this.initialised && this.setup();
-            this.options.match();
+            !this.initialised ? this.setup() : this.options.match();
         },
 
         /**

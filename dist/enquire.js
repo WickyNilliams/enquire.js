@@ -65,15 +65,20 @@ window.enquire = (function(matchMedia) {
     QueryHandler.prototype = {
 
         /**
-         * loads assets on setup
+         * loads assets on setup, handles all Modernizr interaction
          *
          * @function
          * @param {object || string || array} what an object that Modernizr.load can accept
          */
         load : function(what) {
-            if(Modernizr && Modernizr.load) {
-                Modernizr.load(what);
+            var self = this;
+
+            if(!Modernizr || !Modernizr.load) {
+                return;
             }
+
+            what.push({ callback : function() { self.on(); } });
+            Modernizr.load(what);
         },
 
         /**
@@ -84,11 +89,10 @@ window.enquire = (function(matchMedia) {
         setup : function() {
             var setup = this.options.setup;
             this.initialised = true;
-            if(!setup) {
-                return;
-            }
 
-            isFunction(setup) ? setup() : this.load(setup);
+            if(setup) {
+                isFunction(setup) ? setup() : this.load(setup);
+            }
         },
 
         /**
@@ -97,8 +101,7 @@ window.enquire = (function(matchMedia) {
          * @function
          */
         on : function() {
-            !this.initialised && this.setup();
-            this.options.match();
+            !this.initialised ? this.setup() : this.options.match();
         },
 
         /**

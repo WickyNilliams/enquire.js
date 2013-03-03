@@ -13,7 +13,7 @@ describe('QueryHandler', function() {
 	it('is initialised if setup not deferred', function() {
 		// Arrange & act
 		var handler = new QueryHandler(options);
-		
+
 		// Assert
 		expect(handler.initialised).toBe(true);
 	});
