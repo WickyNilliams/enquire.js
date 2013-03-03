@@ -22,8 +22,7 @@
 				$("body").prepend($toc);
 			}
 		},
-		"js/vendor/bootstrap-scrollspy.js",
-		"js/vendor/bootstrap-affix.js"
+		"js/vendor/bootstrap.js"
 	];
 
 
