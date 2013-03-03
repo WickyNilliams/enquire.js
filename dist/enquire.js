@@ -73,12 +73,11 @@ window.enquire = (function(matchMedia) {
         load : function(what) {
             var self = this;
 
-            if(!Modernizr || !Modernizr.load) {
-                return;
+            if(Modernizr && Modernizr.load) {
+                //if setup is deferred, then we should have a callback to match
+                self.deferSetup && what.push({ callback : function() { self.on(); } });
+                Modernizr.load(what);
             }
-
-            what.push({ callback : function() { self.on(); } });
-            Modernizr.load(what);
         },
 
         /**
