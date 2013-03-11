@@ -497,6 +497,9 @@ td {
 #fonts .heading {
   font-family: 'Lato', Verdana, Geneva, Arial, Helvetica, sans-serif;
 }
+#fonts .code {
+  font-family: Consolas, Monaco, 'Andale Mono', monospace;
+}
 /**
  * okaidia theme for JavaScript, CSS and HTML
  * Loosely based on Monokai textmate theme by http://www.monokai.nl/
@@ -582,10 +585,9 @@ body {
   line-height: 1.5;
   padding: 0 1em;
 }
-@media screen and (min-width: 70em) {
+@media screen and (min-width: 65em) {
   body {
     font-size: 16px;
-    line-height: 1.6;
   }
 }
 a {
@@ -613,7 +615,6 @@ img {
 }
 pre,
 code {
-  color: #f8f8f2;
   font-family: Consolas, Monaco, 'Andale Mono', monospace;
   direction: ltr;
   text-align: left;
@@ -643,7 +644,7 @@ pre {
   word-wrap: normal;
   padding: 1em;
   margin: 1em 0;
-  box-shadow: inset 0 1px 3px #262933, 0 1px 0 #494e62;
+  box-shadow: inset 0 1px 3px -1px #1d2028, 0 1px 0 #494e62;
 }
 ul {
   padding: 0 0 0 1.2em;
@@ -663,6 +664,7 @@ h4,
 p,
 ul,
 ol,
+dl,
 pre {
   margin: 0;
   margin-bottom: 15px;
@@ -697,7 +699,7 @@ h4 {
   z-index: 1;
   max-width: 30%;
 }
-@media screen and (min-width: 50em) {
+@media screen and (min-width: 65em) {
   .github-ribbon {
     position: fixed;
   }
@@ -768,6 +770,7 @@ h4 {
 .announcement__message {
   margin: 0;
   line-height: 1;
+  text-align: center;
 }
 .block {
   margin-bottom: 1em;
@@ -844,7 +847,6 @@ h4 {
 }
 .footer small {
   font-size: 1em;
-  color: rgba(218, 237, 226, 0.5);
 }
 .counter-style {
   counter-reset: li;
@@ -871,4 +873,34 @@ h4 {
   line-height: 1;
   background-color: rgba(234, 46, 73, 0.2);
   border-radius: 1em;
+}
+.api-member {
+  margin-bottom: 1em;
+}
+.api-member--nested {
+  margin-bottom: 0;
+}
+.api-member__signature {
+  padding: 0.5em;
+  background-color: #2a2e39;
+  font-family: Consolas, Monaco, 'Andale Mono', monospace;
+  font-size: 1.2em;
+}
+.api-member__parameters {
+  margin: 0;
+}
+.api-member__param-name {
+  margin-bottom: 0.5em;
+  font-family: Consolas, Monaco, 'Andale Mono', monospace;
+  display: inline-block;
+}
+.api-member__param-detail {
+  margin-left: 0;
+  margin-bottom: 0.5em;
+}
+.api-member__param-detail--type {
+  display: inline-block;
+}
+.api-member__param-detail--description {
+  margin-left: 1em;
 }
