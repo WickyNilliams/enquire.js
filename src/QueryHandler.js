@@ -10,9 +10,7 @@
      * @constructor
      */
     function QueryHandler(options) {
-        this.initialised = false;
         this.options = options;
-
         !options.deferSetup && this.setup();
     }
     QueryHandler.prototype = {
@@ -27,8 +25,14 @@
             var self = this;
 
             if(Modernizr && Modernizr.load) {
+
+                //normalise to array
+                if(!isArray(what)) {
+                    what = [what];
+                }
+
                 //if setup is deferred, then we should have a callback to match
-                self.deferSetup && what.push({ callback : function() { self.on(); } });
+                self.options.deferSetup && what.push({ callback : function() { self.on(); } });
                 Modernizr.load(what);
             }
         },
@@ -43,7 +47,13 @@
             this.initialised = true;
 
             if(setup) {
-                isFunction(setup) ? setup() : this.load(setup);
+                if(isFunction(setup)) {
+                    setup();
+                    this.on();
+                }
+                else {
+                    this.load(setup);
+                }
             }
         },
 

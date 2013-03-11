@@ -16,7 +16,7 @@
 			// Act & assert
 			expect(function() {
 				new MediaQueryDispatch();
-			}).toThrow('matchMedia is required');
+			}).toThrow('matchMedia not present, legacy browsers require a polyfill');
 
 			// Cleanup
 			global.matchMedia = matchMedia;
@@ -43,7 +43,7 @@
 			// Arrange
 			var mqd = new MediaQueryDispatch(),
 				mediaQuery;
-				
+
 			// Act
 			mqd.register(query, function(){});
 
@@ -58,7 +58,7 @@
 			// Arrange
 			var mqd = new MediaQueryDispatch(),
 				mediaQuery;
-				
+
 			// Act
 			mqd.register(query, {});
 
@@ -72,7 +72,7 @@
 			var mqd      = new MediaQueryDispatch(),
 				handlers = [{}, {}, {}],
 				mediaQuery;
-				
+
 			// Act
 			mqd.register(query, handlers);
 
@@ -106,7 +106,7 @@
 				];
 
 			mqd.register(query, handlers);
-			
+
 			// Act
 			mqd.unregister(query);
 
@@ -123,7 +123,7 @@
 					jasmine.createSpyObj('handler1', ['match']),
 					jasmine.createSpyObj('handler2', ['match'])
 				];
-			
+
 			// Act
 			mqd.register(query, handlers);
 			mqd.unregister(query, handlers[1]);
@@ -139,7 +139,7 @@
 				destroySpy = spyOn(global.QueryHandler.prototype, 'destroy'),
 				handler    = jasmine.createSpyObj('handler1', ['match']),
 				result;
-			
+
 			// Act
 			mqd.register(query, handler);
 			result = mqd.unregister('klgfjglkfdsajflkj', handler);
