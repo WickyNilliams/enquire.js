@@ -368,29 +368,20 @@ h4 {
 
 .api-member {
 
+	.subdued { display: none;}
+
 	margin-bottom: 1em;
 
-	&--nested {
-		margin-bottom: 0;
-	}
+	&--nested { margin-bottom: 0; }
 
 	&__signature {
-		padding: 0.5em;
-		background-color: darken(@bgColor, 4);
-		
-		#fonts > .code;
-		font-size: 1.2em;
 	}
 
-	&__parameters {
-		margin: 0;
-	}
+	&__parameters { margin: 0; }
 
 	&__param-name {
-		margin-bottom: 0.5em;
-		#fonts > .code;
-
 		display: inline-block;
+		#fonts > .code;
 	}
 
 	&__param-detail {
@@ -398,17 +389,7 @@ h4 {
 		margin-left:0;
 		margin-bottom: 0.5em;
 
-		&--type {
-			display:inline-block;
-		}
-
-		&--description {
-			margin-left: 1em;
-
-		}
-
+		&--type { display:inline-block; }
+		&--description { margin-left: 1em; }
 	}
-
-	
-
 }

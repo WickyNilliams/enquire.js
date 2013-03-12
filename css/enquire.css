@@ -877,22 +877,18 @@ h4 {
 .api-member {
   margin-bottom: 1em;
 }
+.api-member .subdued {
+  display: none;
+}
 .api-member--nested {
   margin-bottom: 0;
-}
-.api-member__signature {
-  padding: 0.5em;
-  background-color: #2a2e39;
-  font-family: Consolas, Monaco, 'Andale Mono', monospace;
-  font-size: 1.2em;
 }
 .api-member__parameters {
   margin: 0;
 }
 .api-member__param-name {
-  margin-bottom: 0.5em;
-  font-family: Consolas, Monaco, 'Andale Mono', monospace;
   display: inline-block;
+  font-family: Consolas, Monaco, 'Andale Mono', monospace;
 }
 .api-member__param-detail {
   margin-left: 0;
