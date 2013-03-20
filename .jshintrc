@@ -9,7 +9,6 @@
     "curly": true,
     "eqeqeq": true,
     "immed": true,
-    "indent": 4,
     "latedef": true,
     "newcap": true,
     "noarg": true,
@@ -17,7 +16,17 @@
     "regexp": true,
     "undef": true,
     "unused": true,
-    "strict": true,
     "trailing": true,
-    "smarttabs": true
+    "smarttabs": true,
+    "undef": true,
+    "globals": {
+        "matchMedia": true,
+        "each": true,
+        "isArray": true,
+        "isFunction": true,
+        "QueryHandler": true,
+        "MediaQuery": true,
+        "MediaQueryDispatch": true,
+        "Modernizr" : false
+    }
 }

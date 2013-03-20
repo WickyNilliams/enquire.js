@@ -64,7 +64,7 @@ MediaQuery.prototype = {
      * @function
      */
     assess : function() {
-        var action = (this.mql.matches || this.isUnconditional) ? "on" : "off";
+        var action = (this.mql.matches || this.isUnconditional) ? 'on' : 'off';
 
         each(this.handlers, function(handler) {
             handler[action]();

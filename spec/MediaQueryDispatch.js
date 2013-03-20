@@ -37,7 +37,7 @@
 			expect(mqd.browserIsIncapable).toBe(!browserIsCapable);
 		});
 
-		//todo: test for isUnconditional
+		//TODO: test for isUnconditional
 
 		it('allows a match function to be registered', function() {
 			// Arrange

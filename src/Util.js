@@ -1,4 +1,4 @@
-
+    /*jshint -W098 */
     /**
      * Helper function for iterating over a collection
      *
