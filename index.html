@@ -13,7 +13,7 @@
     <meta name="viewport" content="width=device-width">
 
     <link href="http://fonts.googleapis.com/css?family=Lato:300|Yesteryear" rel="stylesheet" type="text/css">
-    <link rel="stylesheet" href="css/enquire.min.css">
+    <link rel="stylesheet" href="css/enquire.css">
     <script src="js/vendor/modernizr-2.5.3.min.js"></script>
 </head>
 <body data-spy="scroll">
@@ -61,7 +61,7 @@
             <h2 id="lowdown" class="block__title">The Lowdown</h2>
 
             <p>
-                <strong>A lightweight, pure JavaScript library for responding to CSS media queries.</strong>.
+                <strong>A lightweight, pure JavaScript library for responding to CSS media queries.</strong>
             </p>
             <ul>
                 <li>Execute JavaScript callbacks for media queries matching (and <em>un</em>matching!)</li>
@@ -169,13 +169,13 @@ grunt
                 <h3 class="api-member__signature">enquire.unregister( mediaQuery[, handler] )</h3>
                 
                 <dl class="api-member__parameters">
-                    <dt class="api-member__param-name">mediaQuery <span class="subdued">(Optional)</span></dt>
+                    <dt class="api-member__param-name">mediaQuery <span class="subdued">(Required)</span></dt>
                     <dd class="api-member__param-detail api-member__param-detail--type"><code>string</code></dd>
-                    <dd class="api-member__param-detail api-member__param-detail--description">The media query you wish to respond to</dd>
+                    <dd class="api-member__param-detail api-member__param-detail--description">The media query you wish to unregister.</dd>
                     
-                    <dt class="api-member__param-name">handler <span class="subdued">(Required)</span></dt>
+                    <dt class="api-member__param-name">handler <span class="subdued">(Optional)</span></dt>
                     <dd class="api-member__param-detail api-member__param-detail--type"><code>function</code> or <code>object</code></dd>
-                    <dd class="api-member__param-detail api-member__param-detail--description">A function to handle the media query being matched, or an object to handle more events</dd>
+                    <dd class="api-member__param-detail api-member__param-detail--description">If supplied, only this handler will be unregistered</dd>
                 </dl>    
             </div>
             
@@ -260,7 +260,6 @@ grunt
             <p>
                 So now we've got to a point were our task is almost complete, with content being dynamically loaded in at setup and the sidebar shown and hidden on match and unmatch respectively. But we can still make one further improvement! By default <code>setup</code> is executed <em>as soon as the query is registered</em>. What this means is that our AJAX request is being made even for small viewports  - where it will never be needed because it will never be shown! The solution to this problem is simple: <code>deferSetup</code>.
             </p>
-            
 <pre class="language-javascript"><code>enquire.register('screen and (min-width: 45em)', {
 
     deferSetup : true,
@@ -283,80 +282,34 @@ grunt
         <p>
             And with that simple adjustment, we now make our AJAX request just once, the first time the media query is matched!
         </p>
-        
-        <p>
-            <!-- arrays, multiple handlers -->
-        </p>
-        
- <pre class="language-javascript"><code>enquire.register("screen and (min-width: 40em"), [{
-
-    deferSetup : true,
-
-    setup : function() {},
-    
-    match : function() {},      
-
-    unmatch : function() {}  
-
-},
-
-// perhaps this second handler object
-// will contain all logic for dealing
-// with a main menu at larger sizes
-
-{   
-    match : function() {},      
-
-    unmatch : function() {}  
-
-}]);
-</code></pre>  
 
         </section>
 
         <section class="block">
             <h2 id="delving-deeper" class="block__title">Delving Deeper</h2>
             
-            <h3>Can I Haz More Than One Handlerz?</h3>
+            <h3>Multiple Handlers</h3>
             <p>
-                You can indeed! It can be cumbersome to have all your logic in one handler, so you can also supply an array as the second parameter to <code class="language-javascript">register</code> in order to support multiple handlers per media query:
+                As the complexity of your site increases, it can get cumbersome to have all your logic in one handler. enquire allows you to register multiple handlers for a media query so you can divide functionality into logical chunkssupply an array as the second parameter to <code class="language-javascript">register</code> to have multiple handlers per media query:
             </p>
 
-<pre class="language-javascript"><code>enquire.register("screen and (max-width:1000px)", [
+<pre class="language-javascript"><code>// You can pass an array containing your handlers
+enquire.register("screen and (min-width: 40em)", [
     { match : function() { console.log("handler 1 matched"); } },
     { match : function() { console.log("handler 2 matched"); } }
- ]);
-</code></pre>
-
-            <h4>Alternatively&hellip;</h4>
-            <p>
-                You could, if you wish, achieve the same effect by calling register multiple times for the same media query:
-            </p>
-
-<pre class="language-javascript"><code>var query = "screen and (max-width:1000px)";
-
-enquire.register(query, {
-    match : function() {
-        console.log("handler 1 matched");
-    }
-});
+]);
+ 
+// Or you can make multiple calls to register
+var query = "screen and (min-width:50em)";
+enquire.register(query, function() { console.log("handler 3 matched"); });
 
 // later in code...
-
-enquire.register(query, {
-    match : function() {
-        console.log("handler 2 matched");
-    }
- });
+enquire.register(query, function() { console.log("handler 4 matched"); });
 </code></pre>
 
+            <h3>Multiple Queries</h3>
             <p>
-                Whilst the array pattern is generally preferred, this pattern of multiple calls to <code class="language-javascript">register</code> is useful for when you don't want to register handlers separately.
-            </p>
-
-            <h3>Multiple Queries, Sir?</h3>
-            <p>
-                As well as multiple handlers per media query, multiple media queries can be registered with <code class="language-javascript">enquire</code>. Calls to <code class="language-javascript">register</code> can be chained together for this purpose.
+                Often you will need more than a single media query, and for that reason enquire allows multiple queries to be registered. Calls to <code class="language-javascript">register</code> can be chained together for this purpose.
             </p> 
 
 <pre class="language-javascript"><code>enquire.register("screen and (max-width:1000px)", {
@@ -376,71 +329,49 @@ enquire.register(query, {
 
             <h3>Unregister Handlers</h3>
             <p>
-                Sometimes you may wish to unregister a handler or group of handlers. For that we have the <code class="language-javascript">unregister</code> method.
-            </p>
-
-            <p>
-                The first parameter that <code class="language-javascript">ungreigster</code> accepts is the media query, and the second is a reference to the specific handler you wish to unregister. The second parameter can be optionally excluded which unregisters <em>all</em> handlers for the supplied media query. When a handler is unregistered its <code class="language-javascript">destroy</code> callback is executed. If a handler does not have a <code class="language-javascript">destroy</code> callback then the <code class="language-javascript">unmatch</code> callback is fired instead. Once a handler is unregistered it will no longer respond to changes to a media query's state.
-            </p>
-            <p>
-                The following example shows how unregister can be used and the effects it has on handlers:
+                Sometimes you may wish to unregister a specific handler, or group of handlers. For that we have the <code class="language-javascript">unregister</code> method. <code class="language-javascript">ungreigster</code> a media query as it's first parameter, and optionally, a reference to a specific handler can be supplied as a second parameter. If the second parameter is omitted <em>all</em> handlers for the supplied media query are unregistered. When a handler is unregistered its <code class="language-javascript">destroy</code> callback is executed. If a handler does not have a <code class="language-javascript">destroy</code> callback then the <code class="language-javascript">unmatch</code> callback is fired instead. Once a handler is unregistered it will no longer respond to changes to a media query's state.
             </p>
 
 <pre class="language-javascript">
-<code>//TODO: this is too complicated of an example
-
-var mediaQuery = "screen and (max-width:320px)",
-
-    // handler1 has no destroy or unmatch callback,
-    // so nothing happens when it gets unregistered
-
-    handler1 = {                                    
-        match : function() {                        
-            console.log("handler1 matched");
-        }
+<code>var query1 = "screen and (min-width: 40em)",
+    query2 = "screen and (min-width: 50em)",
+    handler1 = {
+        match : function() {},
+        destroy : function() { console.log("handler 1 destroyed"); }
     },
-    
-    // handler2 doesn't have a destroy callback,
-    // so unmatch is called as a fall back
-
-    handler2 = {                                    
-        match : function() {                        
-            console.log("handler2 matched");
-        },
-        unmatch : function() {
-            console.log("handler2 unmatched");
-        }
-    },
-    
-    // handler3 has both unmatch and destory callbacks,
-    // destroy will be called when it is unregistered
-
-    handler3 = {                                    
-        match : function() {                        
-            console.log("handler3 matched");
-        },
-        unmatch : function() {
-            console.log("handler3 unmatched");
-        },
-        destroy : function() {
-            console.log("handler3 destroyed");
-        }
+    handler2 = {
+        match : function() {},
+        unmatch : function() { console.log("handler 2 unmatched"); }
     };
 
-enquire.register(mediaQuery, [ handler1, handler2, handler3 ]);
+enquire.register(query1, handler1);
+enquire.unregister(query1); // "handler 1 destroyed"
 
-// unregister just handler3
-// logs "handler3 destroyed"
-
-enquire.unregister(mediaQuery, handler3);           
-
-// unregister all handlers for this media query. 
-// logs "handler2 unmatched"                                                    
-
-enquire.unregister(mediaQuery);                     
-                                                            
-</code>
-</pre>
+enquire.register(query2, handler2);
+enquire.unregister(query2, handler2); // "handler 2 unmatched"
+</code></pre>
+            <h3>Conditional Asset Loading</h3>
+            <p>
+                Assets can be loaded conditionally by supplying a Modernizr/yeponope compatible object as the setup callback. This of course assumes that you are using Modernizr. 
+            </p>
+<pre class="language-javascript">
+<code>enquire.register("screen and (min-width: 40em), {
+    setup : [
+        "/some/files.js",
+        "/to/be/loaded.js",
+        "conditionally.css"
+    ],
+    deferSetup : true,
+    match : function() {
+        console.log("this is called once all assets have loaded!");
+    }
+});
+</code></pre>        
+            
+            <h3>What does this all mean?</h3>
+            <p>
+                These advanced features allow parts of your page to operate completely independently of one another. A widget could conditionally load all it's assets, deal with match and unmatching, and unregister itself if the widget is unloaded from the page. 
+            </p>
 
             <h3>Mobile-First</h3>
             <p>
@@ -450,7 +381,7 @@ enquire.unregister(mediaQuery);
                 <code class="language-javascript">register</code> can accept an optional third parameter, <code class="language-javascript">shouldDegrade</code>. When this is passed as <code class="language-javascript">true</code> (it defaults to <code class="language-javascript">false</code>) it signifies to enquire that <em>if the browser is incapable of understanding CSS3 media queries, then always consider this query a match</em>. 
 
             </p>
-<pre class="language-javascript"><code>enquire.register("screen and (min-width:900px)", function() {
+<pre class="language-javascript"><code>enquire.register("screen and (min-width:40em)", function() {
     
     //execute some code for large-screen devices
 
@@ -477,18 +408,18 @@ enquire.unregister(mediaQuery);
         <section class="block">
             <h2 id="legacy-support" class="block__title">Legacy Support</h2>
             <p>
-                enquire relies on the <code class="language-javascript">matchMedia</code> API, which <a href="http://caniuse.com/matchmedia">isn't universally supported in browsers</a>. Fear not, there are polyfills available which provide various levels of support. Which polyfill you choose is dependent on how much support you need.
+                enquire relies on the <code class="language-javascript">matchMedia</code> API. It utilises both <code class="language-javascript">matchMedia</code> and <code class="language-javascript">matchMedia.addListener</code>. Unfortunately the <code class="language-javascript">matchMedia</code> API <a href="http://caniuse.com/matchmedia">isn't universally supported in browsers</a>. Fear not, there are polyfills available which provide various levels of support. Which polyfill you choose is dependent on how much support you need.
             </p>
             <h3>Basic support</h3>
             <p>
-                You can use Paul Irish/Scott Jehl's <a href="#">matchMedia polyfill</a> if you just wish to support CSS3 capable browsers who do not implement the matchMedia API (IE9 and Opera 12.0 are the main examples). Use this in combination with enquire's <code>shouldDegrade</code> flag to offer a short-circuit for earlier browsers.
+                You can use Paul Irish/Scott Jehl's <a href="https://github.com/paulirish/matchMedia.js">matchMedia polyfill</a> if you just wish to support CSS3 capable browsers who do not implement the matchMedia API (IE9 and Opera 12.0 are the main examples). Use this in combination with enquire's <code>shouldDegrade</code> flag to offer a short-circuit for earlier browsers.
             </p>
             <h3>Deep support</h3>
             <p>
-                If you wish to give full support to browsers all the way back to IE6 then you can use David Knight's <a href="#">media-match polyfill</a> instead. With this you do not need to use <code>shouldDegrade</code>, everything will work exactly as you would expect in more modern browsers. This has been tested with enquire and works <strong>all the way back to IE6</strong>.
+                If you wish to give full support to incapable browsers you can use David Knight's <a href="https://github.com/weblinc/media-match">media-match polyfill</a>. With this you do not need to use <code>shouldDegrade</code>, everything will work exactly as you would expect in more capable browsers. This has been tested with enquire and works <strong>all the way back to IE6</strong>.
             </p>
             <p>
-                If you are using <a href="http://modernizr.com">Modernizr</a> (and you should be!) it's as easy as this:
+                If you are using <a href="http://modernizr.com">Modernizr</a> (and you should be!) it's as easy as this to asynchronously load your polyfills:
             </p>
             
 <pre class="language-javascript"><code>Modernizr.load([

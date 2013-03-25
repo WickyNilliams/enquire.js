@@ -1,14 +1,14 @@
 {
-  "name": "enquire",
+  "name": "enquire.js documentation",
   "description": "Awesome documentation for awesome media queries in javascript",
-  "version": "0.1.0",
-  "homepage": "http://wickynilliams.github.com/enquire.js/",
+  "version": "0.2.0",
+  "homepage": "http://wicky.nillia.ms/enquire.js/",
   "author": {
     "name": "Nick Williams"
   },
-  "dependencies": {
-    "grunt" : "*",
-    "grunt-less" : "*",
-    "grunt-css" : "*"
+  "devDependencies": {
+    "grunt": "~0.4.1",
+    "grunt-contrib-less": "~0.5.0",
+    "grunt-contrib-watch": "~0.3.1"
   }
 }
