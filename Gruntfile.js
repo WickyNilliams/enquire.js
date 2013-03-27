@@ -11,7 +11,7 @@ module.exports = function(grunt) {
           yuicompress : true
         },
         files : {
-           'css/<%= pkg.name %>.css' : 'less/<%= pkg.name %>.less'
+           'css/enquire.css' : 'less/enquire.less'
         }
       }
     },

@@ -78,7 +78,7 @@ code {
 
 pre,
 :not(pre) > code {
-	background: darken(@bgColor, 4);
+	background: darken(@bgColor, 3);
 	border-radius: .3em;
 }
 
@@ -368,16 +368,18 @@ h4 {
 
 .api-member {
 
-	.subdued { display: none;}
-
 	margin-bottom: 1em;
 
-	&--nested { margin-bottom: 0; }
+	.subdued { 
+		display: none;
+	}
+
 
 	&__signature {
 	}
 
-	&__parameters { margin: 0; }
+	&__parameters {
+	}
 
 	&__param-name {
 		display: inline-block;
@@ -389,7 +391,11 @@ h4 {
 		margin-left:0;
 		margin-bottom: 0.5em;
 
-		&--type { display:inline-block; }
-		&--description { margin-left: 1em; }
+		&--type { 
+			display:inline-block; 
+		}
+		&--description { 
+			margin-left: 1em; 
+		}
 	}
 }

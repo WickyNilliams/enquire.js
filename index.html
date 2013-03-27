@@ -59,23 +59,35 @@
         
         <section class="block">
             <h2 id="lowdown" class="block__title">The Lowdown</h2>
-
+            
+            <h3>What is it?</h3>
             <p>
-                <strong>A lightweight, pure JavaScript library for responding to CSS media queries.</strong>
+                <strong>enquire.js is a lightweight, pure JavaScript library for responding to CSS media queries.</strong>
             </p>
             <ul>
-                <li>Execute JavaScript callbacks for media queries matching (and <em>un</em>matching!)</li>
-                <li>Simple conditional asset loading</li>
-                <li>Clean &amp; intuitive API</li>
-                <li>Absolutely tiny - around 0.8kb GZIP'd!</li>
+                <li>JavaScript callbacks for media queries <em>matching and unmatching</em>.</li>
+                <li><em>Simple</em> conditional asset loading</li>
+                <li><em>Clean &amp; intuitive</em> API</li>
+                <li>Absolutely <em>tiny</em> - around 0.8kb minified &amp; gzipped!</li>
             </ul>
+            
+            <h3>Why should I use it?</h3>
+            <p>
+                enquire.js gives you all the tools needed to make advanced responsive sites, allowing parts of the page can have their own lifecycle, responding to the media queries as necessary. 
+            </p>
+            <p>
+                For instance, imagine a widget that is only shown on larger screens. You can register a media query with enquire; supply a <code>setup</code> callback to do any upfront work and load in all the widget's assets; deal with resizing of the window through <code>match</code> and <code>unmatch</code> callbacks; and when the widget is disposed of, you can unregister the media query and have a <code>destroy</code> callback perform any necessary cleanup.
+            </p>
+            <p>
+                &hellip;But it also works perfectly well in simpler scenarios!
+            </p>
 
             <h3>Dependencies?</h3>
             <p>
                 None! <em>Not even jQuery</em>.
             </p>
             <p>
-                The <em>most</em> you will need to do is provide a <code class="language-javascript">matchMedia</code> polyfill if you wish to <a href="#legacy-support">support old/incapable browsers</a>.
+                The <em>most</em> you will need to do is provide a <code class="language-javascript">matchMedia</code> polyfill if you wish to <a href="#legacy-browsers">support old/incapable browsers</a>.
             </p>
         </section>
 
@@ -93,7 +105,7 @@
                 </li>
             </ul>
             <p>
-                If you wish to peruse/fork the source, feel free to do so over on <a href="https://www.github.com/WickyNilliams/enquire.js">GitHub</a>.
+                If you wish to browse/fork the source, you can do so on <a href="https://www.github.com/WickyNilliams/enquire.js">GitHub</a>.
             </p>
 
             <h3>Install via Bower</h3>
@@ -131,38 +143,9 @@ grunt
                     <dd class="api-member__param-detail api-member__param-detail--type"><code>function</code> or <code>object</code></dd>
                     <dd class="api-member__param-detail api-member__param-detail--description">
                     
-                        <p>A function to handle the media query being matched, or an object to handle more events</p>
+                        <p>A function to handle the media query being matched, or an object to handle more advanced scenarios</p>
                     </dd>
                 </dl>
-                
-                <div class="api-member api-member--nested">
-                    <h4 class="api-member__signature">handler object</h4>
-                    
-                    <dl class="api-member__parameters">
-                        <dt class="api-member__param-name">deferSetup <span class="subdued">(Optional)</span></dt>
-                        <dd class="api-member__param-detail api-member__param-detail--type"><code>boolean</code></dd>
-                        <dd class="api-member__param-detail api-member__param-detail--description">Flag to determine whether setup function should be deferred until the media query is first matched. Defaults to <code>false</code></dd>
-                        
-                        <dt class="api-member__param-name">setup <span class="subdued">(Optional)</span></dt>
-                        <dd class="api-member__param-detail api-member__param-detail--type"><code>function</code> or <code>array</code></dd>
-                        <dd class="api-member__param-detail api-member__param-detail--description">
-                            <p>
-                                A setup function is run just once. By default it will be called <em>as soon as the handler is registered</em>. If <code>deferSetup</code> is set to <code>true</code> setup will instead be called <em>the first time the media query is matched</em>. 
-                            </p>
-                            <p>
-                                An array is a Modernizr.load/yepnope.js compatible object, used to conditionally load assets. Most useful with <code>deferSetup</code> set to <code>true</code>.
-                            </p>
-                        </dd>
-                        
-                        <dt class="api-member__param-name">match <span class="subdued">(Required)</span></dt>
-                        <dd class="api-member__param-detail api-member__param-detail--type"><code>function</code></dd>
-                        <dd class="api-member__param-detail api-member__param-detail--description">The callback to handle the media query being matched</dd>
-                        
-                        <dt class="api-member__param-name">unmatch <span class="subdued">(Optional)</span></dt>
-                        <dd class="api-member__param-detail api-member__param-detail--type"><code>function</code></dd>
-                        <dd class="api-member__param-detail api-member__param-detail--description">The callback to handle the media query being unmatched</dd>
-                    </dl>    
-                </div>
             </div>
             
             <div class="api-member">
@@ -176,6 +159,35 @@ grunt
                     <dt class="api-member__param-name">handler <span class="subdued">(Optional)</span></dt>
                     <dd class="api-member__param-detail api-member__param-detail--type"><code>function</code> or <code>object</code></dd>
                     <dd class="api-member__param-detail api-member__param-detail--description">If supplied, only this handler will be unregistered</dd>
+                </dl>    
+            </div>
+            
+            <div class="api-member">
+                <h3 class="api-member__signature">handler object</h3>
+                
+                <dl class="api-member__parameters">
+                    <dt class="api-member__param-name">deferSetup <span class="subdued">(Optional)</span></dt>
+                    <dd class="api-member__param-detail api-member__param-detail--type"><code>boolean</code></dd>
+                    <dd class="api-member__param-detail api-member__param-detail--description">Flag to determine whether setup function should be deferred until the media query is first matched. Defaults to <code>false</code></dd>
+                    
+                    <dt class="api-member__param-name">setup <span class="subdued">(Optional)</span></dt>
+                    <dd class="api-member__param-detail api-member__param-detail--type"><code>function</code> or <code>array</code></dd>
+                    <dd class="api-member__param-detail api-member__param-detail--description">
+                        <p>
+                            A setup function is run just once. By default it will be called <em>as soon as the handler is registered</em>. If <code>deferSetup</code> is set to <code>true</code> setup will instead be called <em>the first time the media query is matched</em>. 
+                        </p>
+                        <p>
+                            An array is a Modernizr.load/yepnope.js compatible object, used to conditionally load assets. Most useful with <code>deferSetup</code> set to <code>true</code>.
+                        </p>
+                    </dd>
+                    
+                    <dt class="api-member__param-name">match <span class="subdued">(Required)</span></dt>
+                    <dd class="api-member__param-detail api-member__param-detail--type"><code>function</code></dd>
+                    <dd class="api-member__param-detail api-member__param-detail--description">The callback to handle the media query being matched</dd>
+                    
+                    <dt class="api-member__param-name">unmatch <span class="subdued">(Optional)</span></dt>
+                    <dd class="api-member__param-detail api-member__param-detail--type"><code>function</code></dd>
+                    <dd class="api-member__param-detail api-member__param-detail--description">The callback to handle the media query being unmatched</dd>
                 </dl>    
             </div>
             
@@ -200,27 +212,26 @@ grunt
                 enquire.js makes solving this problem trivial. Let's say that we want the sidebar displayed at 45em. A simple solution would be as follows:
             </p>
 
-<pre class="language-javascript"><code>enquire.register('screen and (min-width:45em)', function(){
+<pre class="language-javascript"><code>enquire.register('screen and (min-width:45em)', function() {
     // Load sidebar content in via AJAX.
     // Show sidebar
 });
 </code></pre>
 
             <p>
-                By supplying just a function to <code>register</code>, you will be able to respond to a media query being matched. Therefore, when the query is matched we will asynchronously load in content, then load it into the DOM to be displayed. Problem solved? Almost, but not quite!
+                By supplying just a function to <code>register</code>, you will be able to respond to a media query being matched. Therefore, when the query is matched we will load in content and insert it into the DOM to be displayed. Problem solved? Almost, but not quite!
             </p>
             
             <h3>Unmatch</h3>
             <p>
-                We also need to handle the case where the query goes from a matched state to an unmatched state. For this we can supply an object instead of a function to <code>register</code>. This gives us a lot more power and allows us to handle the unmatching:
+                We also need to handle the case where the query goes from a matched state to an unmatched state. For this we can supply an object to <code>register</code>, instead of a function. This gives us a lot more power and allows us to handle the unmatching:
             </p>
             
 <pre class="language-javascript"><code>enquire.register("screen and (min-width: 40em"), {
     match : function() {
         // Load sidebar content in via AJAX.
         // Show sidebar
-    },      
-
+    },  
     unmatch : function() {
         // Hide the sidebar
     }
@@ -228,24 +239,22 @@ grunt
 </code></pre>
 
             <p>
-                Our sidebar will now be hidden when the query is unmatched. In a lot of circumstances this is an adequate solution, but for our scenario we can do better.
+                In a lot of circumstances this is an adequate and complete solution - but for our scenario we can do better.
             </p>
             
             
             <h3>Setup</h3>
             <p>
-                There's a problem with the above solution. What happens if the query gets matched a second time? <em>Holy needless-ajax-request, batman!</em> We could put a check in our match callback to see if the content has already been loaded once, but that sucks in more complex scenarios. This is where <code>setup</code> comes in.
+                There's a problem with the above solution. What happens if the query gets matched a second time? <em>Holy needless-ajax-request, batman!</em> We could put a check in our match callback to see if the content has already been loaded once, but that sucks because you're blurring the division between what you must do once and what you must do the rest of the time. This is where <code>setup</code> comes in.
             </p>
             
 <pre class="language-javascript"><code>enquire.register('screen and (min-width: 45em)', {
     setup : function() {
-        // Load in content via AJAX, just the once
+        // Load in content via AJAX (just the once)
     },
-    
     match : function() {
         // Show sidebar
-    },      
-
+    },
     unmatch : function() {
         // Hide sidebar
     }
@@ -253,25 +262,22 @@ grunt
 </code></pre>
             
             <p>
-                Setup is only run once, as soon as a handler is registered. So now all our one-time code is in a setup callback, meaning no needless AJAX requests. This gives a neat separation of concerns, freeing match and unmatch callbacks from handling upfront work.
+                Setup is run once, as soon as a handler is registered. So now all our one-time code is in a setup callback, meaning no needless AJAX requests. This gives a neat separation of concerns, freeing the match callback from any handling upfront work.
             </p>
             
             <h3>Deferring Setup</h3>
             <p>
-                So now we've got to a point were our task is almost complete, with content being dynamically loaded in at setup and the sidebar shown and hidden on match and unmatch respectively. But we can still make one further improvement! By default <code>setup</code> is executed <em>as soon as the query is registered</em>. What this means is that our AJAX request is being made even for small viewports  - where it will never be needed because it will never be shown! The solution to this problem is simple: <code>deferSetup</code>.
+                So now we've got to a point were our task is almost complete. Content is dynamically loaded in at setup, and the sidebar shown and hidden on match and unmatch respectively. But we can still make one further improvement! By default <code>setup</code> is executed <em>as soon as the query is registered</em>. What this means is that our AJAX request is being made even for small viewports  - where it will never be needed because the content will never be shown! The solution to this problem is simple: <code>deferSetup</code>.
             </p>
 <pre class="language-javascript"><code>enquire.register('screen and (min-width: 45em)', {
 
     deferSetup : true,
-
     setup : function() {
         // load content via AJAX
     },
-    
     match : function() {
         // show sidebar
-    },      
-
+    },
     unmatch : function() {
         // hide sidebar
     }  
@@ -303,7 +309,7 @@ enquire.register("screen and (min-width: 40em)", [
 var query = "screen and (min-width:50em)";
 enquire.register(query, function() { console.log("handler 3 matched"); });
 
-// later in code...
+// then later in code...
 enquire.register(query, function() { console.log("handler 4 matched"); });
 </code></pre>
 
@@ -312,24 +318,18 @@ enquire.register(query, function() { console.log("handler 4 matched"); });
                 Often you will need more than a single media query, and for that reason enquire allows multiple queries to be registered. Calls to <code class="language-javascript">register</code> can be chained together for this purpose.
             </p> 
 
-<pre class="language-javascript"><code>enquire.register("screen and (max-width:1000px)", {
-
-    match : function() {
-        console.log("handler max-width 1000px");
-    }
-
-}).register("screen and (max-width:500px)", {
-
-    match : function() {
-        console.log("handler max-width 500px");
-    }
-
+<pre class="language-javascript"><code>enquire
+.register("screen and (max-width:1000px)", function() { 
+    console.log("handler 1 matched");
+})
+.register("screen and (max-width:500px)", function() {
+    console.log("handler 2 matched");
 });
 </code></pre>
 
             <h3>Unregister Handlers</h3>
             <p>
-                Sometimes you may wish to unregister a specific handler, or group of handlers. For that we have the <code class="language-javascript">unregister</code> method. <code class="language-javascript">ungreigster</code> a media query as it's first parameter, and optionally, a reference to a specific handler can be supplied as a second parameter. If the second parameter is omitted <em>all</em> handlers for the supplied media query are unregistered. When a handler is unregistered its <code class="language-javascript">destroy</code> callback is executed. If a handler does not have a <code class="language-javascript">destroy</code> callback then the <code class="language-javascript">unmatch</code> callback is fired instead. Once a handler is unregistered it will no longer respond to changes to a media query's state.
+                Sometimes you may wish to unregister a specific handler, or group of handlers. For that we have the <code class="language-javascript">unregister</code> method. <code class="language-javascript">ungreigster</code> accepts a media query as it's first parameter, and optionally, a reference to a specific handler as it's second parameter. If the second parameter is omitted <em>all</em> handlers for the supplied media query are unregistered. When a handler is unregistered its <code class="language-javascript">destroy</code> callback is executed. If a handler does not have a <code class="language-javascript">destroy</code> callback then the <code class="language-javascript">unmatch</code> callback is fired instead. Once a handler is unregistered it will no longer respond to changes to a media query's state.
             </p>
 
 <pre class="language-javascript">
@@ -352,26 +352,25 @@ enquire.unregister(query2, handler2); // "handler 2 unmatched"
 </code></pre>
             <h3>Conditional Asset Loading</h3>
             <p>
-                Assets can be loaded conditionally by supplying a Modernizr/yeponope compatible object as the setup callback. This of course assumes that you are using Modernizr. 
+                Performance is a <em>big</em> concern for responsive sites. With that in mind, the ideal approach for a mobile-first site is to start with a minimal set of resources and load more in only as they're needed. Enquire makes it trivial to achieve this goal. Assets can be loaded conditionally by supplying a <code>Modernizr.load</code>-compatible argument as the <code>setup</code> callback. This of course assumes that you are using Modernizr. 
             </p>
 <pre class="language-javascript">
 <code>enquire.register("screen and (min-width: 40em), {
+    // see modernizr docs for types of
+    // params Modernizr.load can accept
     setup : [
         "/some/files.js",
         "/to/be/loaded.js",
         "conditionally.css"
     ],
+    // we need to defer setup or assets
+    // will be loaded straight away
     deferSetup : true,
     match : function() {
-        console.log("this is called once all assets have loaded!");
+        console.log("this is called after all assets have loaded!");
     }
 });
-</code></pre>        
-            
-            <h3>What does this all mean?</h3>
-            <p>
-                These advanced features allow parts of your page to operate completely independently of one another. A widget could conditionally load all it's assets, deal with match and unmatching, and unregister itself if the widget is unloaded from the page. 
-            </p>
+</code></pre>
 
             <h3>Mobile-First</h3>
             <p>
@@ -406,13 +405,13 @@ enquire.unregister(query2, handler2); // "handler 2 unmatched"
         </section> 
 
         <section class="block">
-            <h2 id="legacy-support" class="block__title">Legacy Support</h2>
+            <h2 id="legacy-browsers" class="block__title">Legacy Browsers</h2>
             <p>
                 enquire relies on the <code class="language-javascript">matchMedia</code> API. It utilises both <code class="language-javascript">matchMedia</code> and <code class="language-javascript">matchMedia.addListener</code>. Unfortunately the <code class="language-javascript">matchMedia</code> API <a href="http://caniuse.com/matchmedia">isn't universally supported in browsers</a>. Fear not, there are polyfills available which provide various levels of support. Which polyfill you choose is dependent on how much support you need.
             </p>
             <h3>Basic support</h3>
             <p>
-                You can use Paul Irish/Scott Jehl's <a href="https://github.com/paulirish/matchMedia.js">matchMedia polyfill</a> if you just wish to support CSS3 capable browsers who do not implement the matchMedia API (IE9 and Opera 12.0 are the main examples). Use this in combination with enquire's <code>shouldDegrade</code> flag to offer a short-circuit for earlier browsers.
+                You can use Paul Irish/Scott Jehl's <a href="https://github.com/paulirish/matchMedia.js">matchMedia polyfill</a> (both matchMedia and matchMedia.addListener) if you just wish to support CSS3 capable browsers who do not implement the matchMedia API (IE9 and Opera 12.0 are the main examples). Use this in combination with enquire's <code>shouldDegrade</code> flag to offer a short-circuit for earlier browsers.
             </p>
             <h3>Deep support</h3>
             <p>
