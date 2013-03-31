@@ -73,10 +73,10 @@
             
             <h3>Why should I use it?</h3>
             <p>
-                enquire.js gives you all the tools needed to make advanced responsive sites, allowing parts of the page can have their own lifecycle, responding to the media queries as necessary. 
+                In responsive design, CSS media queries can only take you so far. enquire.js allows you to harness media queries in JavaScript, giving you the tools to create advanced responsive sites.
             </p>
             <p>
-                For instance, imagine a widget that is only shown on larger screens. You can register a media query with enquire; supply a <code>setup</code> callback to do any upfront work and load in all the widget's assets; deal with resizing of the window through <code>match</code> and <code>unmatch</code> callbacks; and when the widget is disposed of, you can unregister the media query and have a <code>destroy</code> callback perform any necessary cleanup.
+                For instance, imagine a widget that is only shown on larger screens. You can register a media query with enquire.js; supply a <code>setup</code> callback to do any upfront work such as loading all the widget's assets; deal with resizing of the window through <code>match</code> and <code>unmatch</code> callbacks; and when the widget is disposed of, you can unregister the media query and have a <code>destroy</code> callback perform any necessary cleanup.
             </p>
             <p>
                 &hellip;But it also works perfectly well in simpler scenarios!
@@ -117,7 +117,7 @@
 
             <h3>Build From Source</h3>
             <p>
-                If you would like to build from source (and run all unit tests etc), enter the following at the command line:
+                If you would like to build from source (and run all unit tests etc.), enter the following at the command line:
             </p>
 
 <pre><code>git clone git://github.com/WickyNilliams/enquire.js.git
@@ -127,6 +127,246 @@ grunt
 </code></pre>
 
         </section>
+        
+        <section class="block">
+            <h2 id="quick-start" class="block__title">Quick Start</h2>
+            
+            <p>
+                The main method you will be dealing with is register. Its signature is as follows:
+            </p>
+            
+<pre class="language-javascript"><code>enquire.register("screen and (max-width:1000px)", {
+
+    // REQUIRED
+    // Triggered when a media query matches.
+    match : function() {},      
+                                
+    // OPTIONAL
+    // If supplied, triggered when the media query transitions 
+    // *from a matched state to an unmatched state*.
+    unmatch : function() {},    
+    
+    // OPTIONAL
+    // If supplied, triggered once, when the handler is registered.
+    setup : function() {},    
+                                
+    // OPTIONAL, defaults to false
+    // If set to true, defers execution of the setup function 
+    // until the first time the media query is matched
+    deferSetup : true,
+                                
+    // OPTIONAL
+    // If supplied, triggered when handler is unregistered. 
+    // Place cleanup code here
+    destroy : function() {}
+      
+});</code></pre>
+
+        <p>
+            This should be enough to get you going, but please read on for a more detailed guide.
+        </p>
+        </section>
+
+        <section class="block">
+            <h2 id="walkthrough" class="block__title">Walkthrough</h2>
+            <p>
+                The easiest way to learn is by example. So with that in mind, let's work through a problem using enquire.js to solve our issues. We won't have full code for the examples, as the details are less important than the concepts at play.
+            </p>
+            
+            <h3>The Scenario</h3>
+            <p>
+                We're developing a website with using a mobile-first approach. For small viewports we want a single column containing just the main content. For larger viewports we want to display a sidebar containing supplementary content. A large portion of our user base accesses the site on mobile devices with slow connections - so it's required that the page weight be kept to a minimum.
+            </p>
+            <p>
+                Normally we would use CSS media queries for showing and hiding the sidebar, but this has been ruled out by that final requirement. If performance is paramount we shouldn't be loading content needlessly! So the only other option is to use a JavaScript-based solution. In the past, such an approach would probably be unreliable and ugly. Thankfully, times have changed&hellip;
+            </p>
+
+            <h3>Match</h3>
+            <p>
+                enquire.js makes solving this problem trivial. Let's say that we want the sidebar displayed at 45em. A simple solution would be as follows:
+            </p>
+
+<pre class="language-javascript"><code>enquire.register('screen and (min-width:45em)', function() {
+    // Load sidebar content in via AJAX.
+    // Show sidebar
+});
+</code></pre>
+
+            <p>
+                By supplying a function to <code>register</code>, you will be able to respond to a media query being matched. Therefore, when the query is matched we will load in content and insert it into the DOM to be displayed. Problem solved? Almost, but not quite!
+            </p>
+            
+            <h3>Unmatch</h3>
+            <p>
+                We also need to handle the case where the query goes from a matched state to an unmatched state. For this we can supply an object to <code>register</code>, instead of a function. This gives us a lot more power and allows us to handle unmatching:
+            </p>
+            
+<pre class="language-javascript"><code>enquire.register("screen and (min-width: 40em"), {
+    match : function() {
+        // Load sidebar content in via AJAX.
+        // Show sidebar
+    },  
+    unmatch : function() {
+        // Hide the sidebar
+    }
+});
+</code></pre>
+
+            <p>
+                In a lot of circumstances this is an adequate and complete solution. However, for our scenario we can do better.
+            </p>
+            
+            
+            <h3>Setup</h3>
+            <p>
+                There's a problem with the above solution. What happens if the query gets matched a second time? We needlessly make a second AJAX request. We could put a check in our <code>match</code> callback to see if the content has already been loaded, but that sucks because match no longer has a single responsibility. This is where <code>setup</code> comes in.
+            </p>
+            
+<pre class="language-javascript"><code>enquire.register('screen and (min-width: 45em)', {
+    setup : function() {
+        // Load in content via AJAX (just the once)
+    },
+    match : function() {
+        // Show sidebar
+    },
+    unmatch : function() {
+        // Hide sidebar
+    }
+});
+</code></pre>
+            
+            <p>
+                Setup is run once, as soon as a handler is registered. So now all our one-time code is in a setup callback, meaning no needless AJAX requests. This gives a neat separation of concerns, freeing the match callback from handling any upfront work.
+            </p>
+            
+            <h3>Deferring Setup</h3>
+            <p>
+                So now we've got to a point were our task is almost complete. Content is dynamically loaded in at setup, and the sidebar shown and hidden on match and unmatch respectively. But we can still make one further improvement! By default <code>setup</code> is executed <em>as soon as the query is registered</em>. What this means is that our AJAX request is being made even for small viewports  - where it will never be needed because the content will never be shown! The solution to this problem is simple: <code>deferSetup</code>.
+            </p>
+<pre class="language-javascript"><code>enquire.register('screen and (min-width: 45em)', {
+
+    deferSetup : true,
+    setup : function() {
+        // load content via AJAX
+    },
+    match : function() {
+        // show sidebar
+    },
+    unmatch : function() {
+        // hide sidebar
+    }  
+
+});
+</code></pre>
+
+        <p>
+            And with that simple adjustment, we now make our AJAX request just once, the first time the media query is matched!
+        </p>
+
+        </section>
+
+        <section class="block">
+            <h2 id="delving-deeper" class="block__title">Delving Deeper</h2>
+            
+            <h3>Multiple Handlers</h3>
+            <p>
+                As the complexity of your site increases, it can get cumbersome to have all your logic in one handler. enquire allows you to register multiple handlers for a media query, so you can divide functionality into logical chunks. Supply an array as the second parameter to <code>register</code> to have multiple handlers per media query:
+            </p>
+
+<pre class="language-javascript"><code>// You can pass an array containing your handlers
+enquire.register("screen and (min-width: 40em)", [
+    { match : function() { console.log("handler 1 matched"); } },
+    { match : function() { console.log("handler 2 matched"); } }
+]);
+ 
+// Or you can make multiple calls to register
+var query = "screen and (min-width:50em)";
+enquire.register(query, function() { console.log("handler 3 matched"); });
+
+// then later in code...
+enquire.register(query, function() { console.log("handler 4 matched"); });
+</code></pre>
+
+            <h3>Multiple Queries</h3>
+            <p>
+                Often you will need more than a single media query, and for that reason enquire allows multiple queries to be registered. Calls to <code class="language-javascript">register</code> can be chained together for this purpose.
+            </p> 
+
+<pre class="language-javascript"><code>enquire
+.register("screen and (max-width:1000px)", function() { 
+    console.log("handler 1 matched");
+})
+.register("screen and (max-width:500px)", function() {
+    console.log("handler 2 matched");
+});
+</code></pre>
+
+            <h3>Unregister Handlers</h3>
+            <p>
+                Sometimes you may wish to unregister a specific handler, or group of handlers. For that we have the <code>unregister</code> method. <code>unregister</code> accepts a media query as it's first parameter, and optionally, a reference to a specific handler as it's second parameter. If the second parameter is omitted <em>all</em> handlers for the supplied media query are unregistered. When a handler is unregistered its <code>destroy</code> callback is executed. If a handler does not have a <code>destroy</code> callback then the <code>unmatch</code> callback is fired instead. Once a handler is unregistered it will no longer respond to changes to a media query's state.
+            </p>
+
+<pre class="language-javascript">
+<code>var query1 = "screen and (min-width: 40em)",
+    query2 = "screen and (min-width: 50em)",
+    handler1 = {
+        match : function() {},
+        destroy : function() { console.log("handler 1 destroyed"); }
+    },
+    handler2 = {
+        match : function() {},
+        unmatch : function() { console.log("handler 2 unmatched"); }
+    };
+
+enquire.register(query1, handler1);
+enquire.unregister(query1); // "handler 1 destroyed"
+
+enquire.register(query2, handler2);
+enquire.unregister(query2, handler2); // "handler 2 unmatched"
+</code></pre>
+            <h3>Conditional Asset Loading</h3>
+            <p>
+                Performance is a <em>big</em> concern for responsive sites. With that in mind, the ideal approach for a mobile-first site is to start with a minimal set of resources and load more in only as they're needed. Enquire makes it trivial to achieve this goal. Assets can be loaded conditionally by supplying a <code>Modernizr.load</code>-compatible argument as the <code>setup</code> callback. This of course assumes that you are using Modernizr. 
+            </p>
+<pre class="language-javascript">
+<code>enquire.register("screen and (min-width: 40em), {
+    // see modernizr docs for types of
+    // params Modernizr.load can accept
+    setup : [
+        "/some/files.js",
+        "/to/be/loaded.js",
+        "conditionally.css"
+    ],
+    // we need to defer setup or assets
+    // will be loaded straight away
+    deferSetup : true,
+    match : function() {
+        console.log("this is called after all assets have loaded!");
+    }
+});
+</code></pre>
+
+            <h3>Mobile-First</h3>
+            <p>
+                If you're taking a mobile-first approach you will typically run into issues with incapable legacy browsers not understanding CSS3 media queries, meaning that browsers such as <abbr title="Internet Explorer 8">IE8</abbr> will be served the mobile versions of the site. Again, enquire has you covered here!
+            </p>
+            <p>
+                <code>register</code> can accept an optional third parameter, <code>shouldDegrade</code>. When this is passed as <code class="language-javascript">true</code> (it defaults to <code class="language-javascript">false</code>) it signifies to enquire that <em>if the browser is incapable of understanding CSS3 media queries, then always consider this query a match</em>. 
+
+            </p>
+<pre class="language-javascript"><code>enquire.register("screen and (min-width:40em)", function() {
+    
+    //execute some code for large-screen devices
+
+}, true); // note the `true`!
+</code></pre>
+
+            <p>
+                Because this only affects incapable browsers, modern browsers will respect the media query and behave as expected. This allows you to adopt the mobile-first paradigm, whilst still serving a desktop experience to incapable browsers.
+            </p>
+        </section>  
+        
+        
         
         <section class="block">
             <h2 id="api" class="block__title">API</h2>
@@ -191,213 +431,14 @@ grunt
                 </dl>    
             </div>
             
-        </section>
-
-        <section class="block">
-            <h2 id="walkthrough" class="block__title">Walkthrough</h2>
-            <p>
-                The easiest way to learn is by example. So with that in mind, let's work through a problem using enquire.js to solve our issues. We won't have full code for the examples, as the details are less important than the concepts at play.
-            </p>
-            
-            <h3>The Scenario</h3>
-            <p>
-                We're developing a website with using a mobile-first approach. For small viewports we want a single column containing just the main content. For larger viewports we want to display a sidebar containing supplementary content. A large portion of our user base access the site on mobile devices with slow connections - so it's required that the page weight be kept to a minimum.
-            </p>
-            <p>
-                Normally we would use CSS media queries for showing and hiding the sidebar, but this has been ruled out by that final requirement. If performance is paramount we shouldn't be loading content needlessly! So the only other option is to use a JavaScript-based solution. In the past, such an approach would probably be unreliable and ugly. Thankfully, times have changed&hellip;
-            </p>
-
-            <h3>Match</h3>
-            <p>
-                enquire.js makes solving this problem trivial. Let's say that we want the sidebar displayed at 45em. A simple solution would be as follows:
-            </p>
-
-<pre class="language-javascript"><code>enquire.register('screen and (min-width:45em)', function() {
-    // Load sidebar content in via AJAX.
-    // Show sidebar
-});
-</code></pre>
-
-            <p>
-                By supplying just a function to <code>register</code>, you will be able to respond to a media query being matched. Therefore, when the query is matched we will load in content and insert it into the DOM to be displayed. Problem solved? Almost, but not quite!
-            </p>
-            
-            <h3>Unmatch</h3>
-            <p>
-                We also need to handle the case where the query goes from a matched state to an unmatched state. For this we can supply an object to <code>register</code>, instead of a function. This gives us a lot more power and allows us to handle the unmatching:
-            </p>
-            
-<pre class="language-javascript"><code>enquire.register("screen and (min-width: 40em"), {
-    match : function() {
-        // Load sidebar content in via AJAX.
-        // Show sidebar
-    },  
-    unmatch : function() {
-        // Hide the sidebar
-    }
-});
-</code></pre>
-
-            <p>
-                In a lot of circumstances this is an adequate and complete solution - but for our scenario we can do better.
-            </p>
-            
-            
-            <h3>Setup</h3>
-            <p>
-                There's a problem with the above solution. What happens if the query gets matched a second time? <em>Holy needless-ajax-request, batman!</em> We could put a check in our match callback to see if the content has already been loaded once, but that sucks because you're blurring the division between what you must do once and what you must do the rest of the time. This is where <code>setup</code> comes in.
-            </p>
-            
-<pre class="language-javascript"><code>enquire.register('screen and (min-width: 45em)', {
-    setup : function() {
-        // Load in content via AJAX (just the once)
-    },
-    match : function() {
-        // Show sidebar
-    },
-    unmatch : function() {
-        // Hide sidebar
-    }
-});
-</code></pre>
-            
-            <p>
-                Setup is run once, as soon as a handler is registered. So now all our one-time code is in a setup callback, meaning no needless AJAX requests. This gives a neat separation of concerns, freeing the match callback from any handling upfront work.
-            </p>
-            
-            <h3>Deferring Setup</h3>
-            <p>
-                So now we've got to a point were our task is almost complete. Content is dynamically loaded in at setup, and the sidebar shown and hidden on match and unmatch respectively. But we can still make one further improvement! By default <code>setup</code> is executed <em>as soon as the query is registered</em>. What this means is that our AJAX request is being made even for small viewports  - where it will never be needed because the content will never be shown! The solution to this problem is simple: <code>deferSetup</code>.
-            </p>
-<pre class="language-javascript"><code>enquire.register('screen and (min-width: 45em)', {
-
-    deferSetup : true,
-    setup : function() {
-        // load content via AJAX
-    },
-    match : function() {
-        // show sidebar
-    },
-    unmatch : function() {
-        // hide sidebar
-    }  
-
-});
-</code></pre>
-
-        <p>
-            And with that simple adjustment, we now make our AJAX request just once, the first time the media query is matched!
-        </p>
-
-        </section>
-
-        <section class="block">
-            <h2 id="delving-deeper" class="block__title">Delving Deeper</h2>
-            
-            <h3>Multiple Handlers</h3>
-            <p>
-                As the complexity of your site increases, it can get cumbersome to have all your logic in one handler. enquire allows you to register multiple handlers for a media query so you can divide functionality into logical chunkssupply an array as the second parameter to <code class="language-javascript">register</code> to have multiple handlers per media query:
-            </p>
-
-<pre class="language-javascript"><code>// You can pass an array containing your handlers
-enquire.register("screen and (min-width: 40em)", [
-    { match : function() { console.log("handler 1 matched"); } },
-    { match : function() { console.log("handler 2 matched"); } }
-]);
- 
-// Or you can make multiple calls to register
-var query = "screen and (min-width:50em)";
-enquire.register(query, function() { console.log("handler 3 matched"); });
-
-// then later in code...
-enquire.register(query, function() { console.log("handler 4 matched"); });
-</code></pre>
-
-            <h3>Multiple Queries</h3>
-            <p>
-                Often you will need more than a single media query, and for that reason enquire allows multiple queries to be registered. Calls to <code class="language-javascript">register</code> can be chained together for this purpose.
-            </p> 
-
-<pre class="language-javascript"><code>enquire
-.register("screen and (max-width:1000px)", function() { 
-    console.log("handler 1 matched");
-})
-.register("screen and (max-width:500px)", function() {
-    console.log("handler 2 matched");
-});
-</code></pre>
-
-            <h3>Unregister Handlers</h3>
-            <p>
-                Sometimes you may wish to unregister a specific handler, or group of handlers. For that we have the <code class="language-javascript">unregister</code> method. <code class="language-javascript">ungreigster</code> accepts a media query as it's first parameter, and optionally, a reference to a specific handler as it's second parameter. If the second parameter is omitted <em>all</em> handlers for the supplied media query are unregistered. When a handler is unregistered its <code class="language-javascript">destroy</code> callback is executed. If a handler does not have a <code class="language-javascript">destroy</code> callback then the <code class="language-javascript">unmatch</code> callback is fired instead. Once a handler is unregistered it will no longer respond to changes to a media query's state.
-            </p>
-
-<pre class="language-javascript">
-<code>var query1 = "screen and (min-width: 40em)",
-    query2 = "screen and (min-width: 50em)",
-    handler1 = {
-        match : function() {},
-        destroy : function() { console.log("handler 1 destroyed"); }
-    },
-    handler2 = {
-        match : function() {},
-        unmatch : function() { console.log("handler 2 unmatched"); }
-    };
-
-enquire.register(query1, handler1);
-enquire.unregister(query1); // "handler 1 destroyed"
-
-enquire.register(query2, handler2);
-enquire.unregister(query2, handler2); // "handler 2 unmatched"
-</code></pre>
-            <h3>Conditional Asset Loading</h3>
-            <p>
-                Performance is a <em>big</em> concern for responsive sites. With that in mind, the ideal approach for a mobile-first site is to start with a minimal set of resources and load more in only as they're needed. Enquire makes it trivial to achieve this goal. Assets can be loaded conditionally by supplying a <code>Modernizr.load</code>-compatible argument as the <code>setup</code> callback. This of course assumes that you are using Modernizr. 
-            </p>
-<pre class="language-javascript">
-<code>enquire.register("screen and (min-width: 40em), {
-    // see modernizr docs for types of
-    // params Modernizr.load can accept
-    setup : [
-        "/some/files.js",
-        "/to/be/loaded.js",
-        "conditionally.css"
-    ],
-    // we need to defer setup or assets
-    // will be loaded straight away
-    deferSetup : true,
-    match : function() {
-        console.log("this is called after all assets have loaded!");
-    }
-});
-</code></pre>
-
-            <h3>Mobile-First</h3>
-            <p>
-                If you're taking a mobile-first approach you will typically run into issues with incapable legacy browsers not understanding CSS3 media queries, meaning that browsers such as <abbr title="Internet Explorer 8">IE8</abbr> will be served the mobile versions of the site. Again, enquire has you covered here!
-            </p>
-            <p>
-                <code class="language-javascript">register</code> can accept an optional third parameter, <code class="language-javascript">shouldDegrade</code>. When this is passed as <code class="language-javascript">true</code> (it defaults to <code class="language-javascript">false</code>) it signifies to enquire that <em>if the browser is incapable of understanding CSS3 media queries, then always consider this query a match</em>. 
-
-            </p>
-<pre class="language-javascript"><code>enquire.register("screen and (min-width:40em)", function() {
-    
-    //execute some code for large-screen devices
-
-}, true); // note the `true`!
-</code></pre>
-
-            <p>
-                Because this only affects incapable browsers, modern browsers will respect the media query and behave as expected. This allows you to adopt the mobile-first paradigm, whilst still serving a desktop experience to incapable browsers.
-            </p>
-        </section>       
+        </section>     
         
         <section class="block">
             <h2 class="block__title">Examples</h2>
             <ul>
                 <li><a href="examples/match-unmatch">Matching &amp; Unmatching</a></li>
                 <li><a href="examples/setup">Setup</a></li>
-                <li><a href="examples/defer-setup">Deferring setup callback</a></li>
+                <li><a href="examples/defer-setup">Deferring setup</a></li>
                 <li><a href="examples/conditional-loading">Conditional loading</a></li>
                 <li><a href="examples/unregister">Unregistering handlers &amp; media queries</a></li>
                 <li><a href="examples/should-degrade">Using <code>shouldDegrade</code> for legacy support</a></li>
@@ -407,7 +448,7 @@ enquire.unregister(query2, handler2); // "handler 2 unmatched"
         <section class="block">
             <h2 id="legacy-browsers" class="block__title">Legacy Browsers</h2>
             <p>
-                enquire relies on the <code class="language-javascript">matchMedia</code> API. It utilises both <code class="language-javascript">matchMedia</code> and <code class="language-javascript">matchMedia.addListener</code>. Unfortunately the <code class="language-javascript">matchMedia</code> API <a href="http://caniuse.com/matchmedia">isn't universally supported in browsers</a>. Fear not, there are polyfills available which provide various levels of support. Which polyfill you choose is dependent on how much support you need.
+                enquire relies on the matchMedia API. It utilises both <code>matchMedia</code> and <code>matchMedia.addListener</code>. Unfortunately the matchMedia API <a href="http://caniuse.com/matchmedia">isn't universally supported in browsers</a>. Fear not, there are polyfills available which provide various levels of support. Which polyfill you choose is dependent on how much support you need.
             </p>
             <h3>Basic support</h3>
             <p>
@@ -441,11 +482,14 @@ enquire.unregister(query2, handler2); // "handler 2 unmatched"
             <h2 id="changelog" class="block__title">Changelog</h2>
             <h3 id="v2.0.0">v2.0.0 <span class="subdued">(2013-03-01)</span></h3>
             <ul>
-                <li>Tinier than ever &mdash; now only 0.8kb minified &amp; GZIP'd</li>
+                <li>Tinier than ever &mdash; now only 0.8kb minified &amp; gzipped</li>
                 <li>Improved performance &mdash; resize events replaced with <code>matchMedia.addListener</code></li>
                 <li>Simplified API &mdash; <code>listen</code> and <code>fire</code> no longer required</li>
                 <li>Streamlined conditional asset loading via Modernizr</li>
             </ul>
+            <p>
+                If you are upgrading from v1, be aware that there are some small breaking changes. <code>listen</code> and <code>fire</code> are no longer needed in v2,so remove them from your code. Also, as enquire no longer relies on resize events you must add make sure your polyfill supports <code>matchMedia.addListener</code>. Details of this can be in the <a href="#legacy-browsers">legacy browser</a> section.
+            </p>
             <h3 id="v1.5.6">v1.5.6 <span class="subdued">(2013-01-30)</span></h3>
             <ul>
                 <li>Fix bug with missing <code>useCapture</code> parameter on <code>addEventListener</code></li>
