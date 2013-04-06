@@ -4,31 +4,45 @@
 	<meta charset="UTF-8">
 	<title>Match and unmatch example | enquire.js</title>
 	<link rel="stylesheet" href="../examples.css">
+	
+    <meta name="viewport" content="width=device-width">
 </head>
 <body>
 
-	<div class="main">
-		<h1>Example of using match and unmatch with enquire.js</h1>
-		<p class="target">
-			This text is the target of the example. When the media query matches, it should turn blue, when it unmatches it should turn red (with "match" and "unmatch" classes added respectively).
-		</p>
+<div class="main">
+	<h1>Example of using match and unmatch with enquire.js</h1>
+	<!-- <p class="target">
+		This text is the target of the example. When the media query matches, it should turn blue, when it unmatches it should turn red (with "match" and "unmatch" classes added respectively).
+	</p> -->
+	
+	<h2>State</h2>
+	<div class="example-state">
+		<div class="example-state__item example-state__item--matched">Matched</div>
+		<div class="example-state__item example-state__item--setup example-state__item--secondary">Setup</div>
+		<div class="example-state__item example-state__item--destroy example-state__item--secondary">Destroyed</div>
 	</div>
+	
+	<h2>Code</h2>
+	<pre class="code-view code-view--inactive" data-code-view="#blah"><code class="language-javascript" ></code></pre>
+</div>
 
-	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
-	<script src="https://raw.github.com/WickyNilliams/enquire.js/experimental/dist/enquire.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+<script src="../../js/vendor/prism.js"></script>
+<script src="https://raw.github.com/WickyNilliams/enquire.js/experimental/dist/enquire.js"></script>
+<script src="../example.js"></script>
 
-	<script>
-		var $target = $(".target");
 
-		enquire.register("screen and (min-width: 500px)", {
-			match : function() {
-				$target.addClass("match").removeClass("unmatch");
+<script>var example = new Example($(".example-state"));</script>
+<script id="blah">
+enquire.register("screen and (min-width: 500px)", {
+	match : function() {
+		example.match();
+	},
+	unmatch : function() {
+		example.unmatch();
+	}
+});
+</script>
 
-			},
-			unmatch : function() {
-				$target.addClass("unmatch").removeClass("match");
-			}
-		});
-	</script>
 </body>
 </html>
