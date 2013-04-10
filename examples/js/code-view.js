@@ -37,12 +37,21 @@
 		}
 	};
 
-	// declarative API
-	$(function() {
-		$("[data-code-view]").each(function() {
+	// helper for working with jQuery
+	var attachToElems = function ($elems) {
+		$elems.each(function(){
 			var codeView = new CodeView($(this));
 			codeView.init();
 		});
+	};
+
+	$.fn.codeView = function() {
+		attachToElems(this);
+	};
+
+	// declarative API
+	$(function() {
+		attachToElems($("[data-code-view]"));
 	});
 
 }(this, this.Zepto || this.jQuery, this.Prism));

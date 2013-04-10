@@ -1,0 +1,50 @@
+.box {
+    padding: 1em;
+    margin-bottom: 1em;
+    border-radius: .3em;
+
+}
+
+.example {
+
+
+    &__state {
+
+        background: darken(@bgColor, 3);
+        .transition(~"background-color, color");
+
+            font-size: 1.1em;
+
+        &:before {
+            color: inherit;
+            margin-right: 1em;
+
+            content: "\2714";
+        }
+
+        &--on {
+            color: @tertiaryColor;
+        }
+
+
+        &--off {
+            color: @primaryColor;
+
+            &:before {
+                content: "\2718";
+            }
+        }
+
+        &--secondary {
+            float: left;
+            width: 45%;
+            width: calc(~"50% - 0.5em");
+        }
+        &--secondary:last-child {
+            margin-left: 1em;
+        }
+    }
+
+    
+}
+

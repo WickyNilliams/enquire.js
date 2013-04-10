@@ -1,1 +1,1 @@
-$(".target").addClass("setup");
+example.setup();

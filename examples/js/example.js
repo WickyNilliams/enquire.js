@@ -54,8 +54,8 @@
 	 * @type {Object}
 	 */
 	ExampleItem.states = {
-		on : "example-state__item--on",
-		off : "example-state__item--off"
+		on : "example__state--on",
+		off : "example__state--off"
 	};
 
 	/**
@@ -64,9 +64,9 @@
 	 * @param {Element} $elem
 	 */
 	function Example($elem) {
-		this.matchItem = new ExampleItem($elem.find(".example-state__item--matched"));
-		this.setupItem   = new ExampleItem($elem.find(".example-state__item--setup"));
-		this.destroyItem = new ExampleItem($elem.find(".example-state__item--destroy"));
+		this.matchItem = new ExampleItem($elem.find("[data-example-match]"));
+		this.setupItem   = new ExampleItem($elem.find("[data-example-setup]"));
+		this.destroyItem = new ExampleItem($elem.find("[data-example-destroy]"));
 	}
 	Example.prototype = {
 		constructor : Example,

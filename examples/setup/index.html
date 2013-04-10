@@ -3,41 +3,91 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Setup example | enquire.js</title>
-	<link rel="stylesheet" href="../examples.css">
+	<link href="http://fonts.googleapis.com/css?family=Lato:300|Yesteryear" rel="stylesheet" type="text/css">
+	<link rel="stylesheet" href="../../css/enquire.css">
+	
+    <meta name="viewport" content="width=device-width">
 </head>
 <body>
 
-	<div class="main">
-		<h1>Example of using setup with enquire.js</h1>
-		<p>
-			This example shows how setup works. Setup is run as soon as a query is registered. Put all your expensive one-time operations in this callback. 
-		</p>
-		<p>
-			The setup callback here adds some content to the page dynamically. If you inspect the page with your developer tools you will notice that the content is added before the query is ever matched.
-		</p>
-	</div>
+<a class="github-ribbon hide-for-print" href="https://github.com/WickyNilliams/enquire.js">
+    <img src="https://s3.amazonaws.com/github/ribbons/forkme_right_red_aa0000.png" alt="Fork me on GitHub">
+</a>
 
-	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
-	<script src="https://raw.github.com/WickyNilliams/enquire.js/experimental/dist/enquire.js"></script>
+<div class="container">
+	<header class="header block block--primary" role="banner">
+	    
+	    <h1 class="header__title">  
+	        enquire.js <span class="header__strapline">Awesome Media Queries in JavaScript</span>        
+	    </h1>
 
-	<script>
-		var $main = $(".main"),
-			$setup = $("<p>I was added as a result of setup calback</p>");
+	    <div class="buttons hide-for-print">
+	        <div class="buttons__btn buttons__btn--twitter">
+	            <a href="https://twitter.com/share" class="twitter-share-button" data-counturl="http://wickynilliams.github.com/enquire.js" data-via="WickyNilliams">Tweet</a>
+	        <script>
+	            !function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");
+	        </script>    
+	        </div>
+	        <div class="buttons__btn">
+	            <iframe src="http://ghbtns.com/github-btn.html?user=wickynilliams&amp;repo=enquire.js&amp;type=watch&amp;count=true"
+	                    allowtransparency="true" frameborder="0" scrolling="0" width="110" height="20"></iframe>
+	        </div>
+	        
+	    </div>
+	    
+	</header>
+	
+	<article class="main block block--primary" role="main">
+		<div class="block">
+			<h2 class="block__title">Setup Example</h2>
+			<p>
+				This example shows how setup works. Setup is run as soon as a query is registered. Put all your expensive one-time operations in this callback. 
+			</p>
+			<p>
+				The setup callback here adds some content to the page dynamically. If you inspect the page with your developer tools you will notice that the content is added before the query is ever matched.
+			</p>
+			
+			<h3>State</h3>
+			<div class="example clearfix">
+				<div data-example-match class="box example__state example__state--matched">Not yet matched</div>
+				<div data-example-setup class="box example__state example__state--secondary example__state--setup">Setup</div>
+				<div data-example-destroy class="box example__state example__state--secondary example__state--destroy ">Destroyed</div>
+			</div>
+			
+			<h3>Code</h3>
+			<pre class="code-view code-view--inactive" data-code-view="#blah"><code class="language-javascript"></code></pre>
+		</div>	
+	</article>
+	
+	
+	<footer class="footer" role="contentinfo">
+        <small>Copyright &copy; <a href="http://wicky.nillia.ms" rel="author">Nick Williams</a> 2013</small>
+    </footer>
+</div>
 
-		enquire.register("screen and (max-width: 500px)", {
-			setup : function() {
-				$setup.addClass("hidden setup");
-				$main.append($setup);
-			},
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+<script src="../../js/vendor/prism.js"></script>
+<script src="https://raw.github.com/WickyNilliams/enquire.js/experimental/dist/enquire.js"></script>
+<script src="../js/code-view.js"></script>
+<script src="../js/example.js"></script>
 
-			match : function() {
-				$setup.removeClass("hidden unmatch").addClass("match");
-			},
 
-			unmatch : function() {
-				$setup.addClass("unmatch").removeClass("match");
-			}
-		});
-	</script>
+<script>var example = new Example($(".example"));</script>
+<script id="blah">
+enquire.register("screen and (max-width: 500px)", {
+	setup : function() {
+		example.setup();
+	},
+
+	match : function() {
+		example.match();
+	},
+
+	unmatch : function() {
+		example.unmatch();
+	}
+});
+</script>
+
 </body>
 </html>
