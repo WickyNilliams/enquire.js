@@ -66,7 +66,6 @@
             </p>
             <ul>
                 <li>JavaScript callbacks for media queries <em>matching and unmatching</em>.</li>
-                <li><em>Simple</em> conditional asset loading</li>
                 <li><em>Clean &amp; intuitive</em> API</li>
                 <li>Absolutely <em>tiny</em> - around 0.8kb minified &amp; gzipped!</li>
             </ul>
@@ -131,8 +130,8 @@ grunt
             
 <pre class="language-javascript"><code>enquire.register("screen and (max-width:1000px)", {
 
-    // REQUIRED
-    // Triggered when a media query matches.
+    // OPTIONAL
+    // If supplied, triggered when a media query matches.
     match : function() {},      
                                 
     // OPTIONAL
@@ -318,27 +317,6 @@ enquire.unregister(query1); // "handler 1 destroyed"
 enquire.register(query2, handler2);
 enquire.unregister(query2, handler2); // "handler 2 unmatched"
 </code></pre>
-            <h3>Conditional Asset Loading</h3>
-            <p>
-                Performance is a <em>big</em> concern for responsive sites. With that in mind, the ideal approach for a mobile-first site is to start with a minimal set of resources and load more in only as they're needed. Enquire makes it trivial to achieve this goal. Assets can be loaded conditionally by supplying a <code>Modernizr.load</code>-compatible argument as the <code>setup</code> callback. This of course assumes that you are using Modernizr. 
-            </p>
-<pre class="language-javascript">
-<code>enquire.register("screen and (min-width: 40em), {
-    // see modernizr docs for types of
-    // params Modernizr.load can accept
-    setup : [
-        "/some/files.js",
-        "/to/be/loaded.js",
-        "conditionally.css"
-    ],
-    // we need to defer setup or assets
-    // will be loaded straight away
-    deferSetup : true,
-    match : function() {
-        console.log("this is called after all assets have loaded!");
-    }
-});
-</code></pre>
 
             <h3>Mobile-First</h3>
             <p>
@@ -360,7 +338,38 @@ enquire.unregister(query2, handler2); // "handler 2 unmatched"
             </p>
         </section>  
         
-        
+        <section class="block">
+            <h2 id="legacy-browsers" class="block__title">Legacy Browsers</h2>
+            <p>
+                enquire relies on the matchMedia API. It utilises both <code>matchMedia</code> and <code>matchMedia.addListener</code>. Unfortunately the matchMedia API <a href="http://caniuse.com/matchmedia">isn't universally supported in browsers</a>. Fear not, there are polyfills available which provide various levels of support. Which polyfill you choose is dependent on how much support you need.
+            </p>
+            <h3>Basic support</h3>
+            <p>
+                You can use Paul Irish/Scott Jehl's <a href="https://github.com/paulirish/matchMedia.js">matchMedia polyfill</a> (both matchMedia and matchMedia.addListener) if you just wish to support CSS3 capable browsers who do not implement the matchMedia API (IE9 and Opera 12.0 are the main examples). Use this in combination with enquire's <code>shouldDegrade</code> flag to offer a short-circuit for earlier browsers.
+            </p>
+            <h3>Deep support</h3>
+            <p>
+                If you wish to give full support to incapable browsers you can use David Knight's <a href="https://github.com/weblinc/media-match">media-match polyfill</a>. With this you do not need to use <code>shouldDegrade</code>, everything will work exactly as you would expect in more capable browsers. This has been tested with enquire and works <strong>all the way back to IE6</strong>.
+            </p>
+            <p>
+                If you are using <a href="http://modernizr.com">Modernizr</a> (and you should be!) it's as easy as this to asynchronously load your polyfills:
+            </p>
+            
+<pre class="language-javascript"><code>Modernizr.load([
+    //first test need for polyfill
+    {
+        test: window.matchMedia,
+        nope: "/path/to/polyfill.js"
+    },
+
+    //and then load enquire
+    "/path/to/enquire.js",
+    "/path/to/your/script.js"
+]);
+</code></pre>
+                
+            <p>This is the approach that this site adopts.</p>
+        </section>
         
         <section class="block">
             <h2 id="api" class="block__title">API</h2>
@@ -405,17 +414,14 @@ enquire.unregister(query2, handler2); // "handler 2 unmatched"
                     <dd class="api-member__param-detail api-member__param-detail--description">Flag to determine whether setup function should be deferred until the media query is first matched. Defaults to <code>false</code></dd>
                     
                     <dt class="api-member__param-name">setup <span class="subdued">(Optional)</span></dt>
-                    <dd class="api-member__param-detail api-member__param-detail--type"><code>function</code> or <code>array</code></dd>
+                    <dd class="api-member__param-detail api-member__param-detail--type"><code>function</code></dd>
                     <dd class="api-member__param-detail api-member__param-detail--description">
                         <p>
                             A setup function is run just once. By default it will be called <em>as soon as the handler is registered</em>. If <code>deferSetup</code> is set to <code>true</code> setup will instead be called <em>the first time the media query is matched</em>. 
                         </p>
-                        <p>
-                            An array is a Modernizr.load/yepnope.js compatible object, used to conditionally load assets. Most useful with <code>deferSetup</code> set to <code>true</code>.
-                        </p>
                     </dd>
                     
-                    <dt class="api-member__param-name">match <span class="subdued">(Required)</span></dt>
+                    <dt class="api-member__param-name">match <span class="subdued">(Optional)</span></dt>
                     <dd class="api-member__param-detail api-member__param-detail--type"><code>function</code></dd>
                     <dd class="api-member__param-detail api-member__param-detail--description">The callback to handle the media query being matched</dd>
                     
@@ -433,44 +439,10 @@ enquire.unregister(query2, handler2); // "handler 2 unmatched"
                 <li><a href="examples/match-unmatch">Matching &amp; Unmatching</a></li>
                 <li><a href="examples/setup">Setup</a></li>
                 <li><a href="examples/defer-setup">Deferring setup</a></li>
-                <li><a href="examples/conditional-loading">Conditional loading</a></li>
                 <li><a href="examples/unregister">Unregistering handlers &amp; media queries</a></li>
                 <li><a href="examples/should-degrade">Using <code>shouldDegrade</code> for legacy support</a></li>
             </ul>
         </section> 
-
-        <section class="block">
-            <h2 id="legacy-browsers" class="block__title">Legacy Browsers</h2>
-            <p>
-                enquire relies on the matchMedia API. It utilises both <code>matchMedia</code> and <code>matchMedia.addListener</code>. Unfortunately the matchMedia API <a href="http://caniuse.com/matchmedia">isn't universally supported in browsers</a>. Fear not, there are polyfills available which provide various levels of support. Which polyfill you choose is dependent on how much support you need.
-            </p>
-            <h3>Basic support</h3>
-            <p>
-                You can use Paul Irish/Scott Jehl's <a href="https://github.com/paulirish/matchMedia.js">matchMedia polyfill</a> (both matchMedia and matchMedia.addListener) if you just wish to support CSS3 capable browsers who do not implement the matchMedia API (IE9 and Opera 12.0 are the main examples). Use this in combination with enquire's <code>shouldDegrade</code> flag to offer a short-circuit for earlier browsers.
-            </p>
-            <h3>Deep support</h3>
-            <p>
-                If you wish to give full support to incapable browsers you can use David Knight's <a href="https://github.com/weblinc/media-match">media-match polyfill</a>. With this you do not need to use <code>shouldDegrade</code>, everything will work exactly as you would expect in more capable browsers. This has been tested with enquire and works <strong>all the way back to IE6</strong>.
-            </p>
-            <p>
-                If you are using <a href="http://modernizr.com">Modernizr</a> (and you should be!) it's as easy as this to asynchronously load your polyfills:
-            </p>
-            
-<pre class="language-javascript"><code>Modernizr.load([
-    //first test need for polyfill
-    {
-        test: window.matchMedia,
-        nope: "/path/to/polyfill.js"
-    },
-
-    //and then load enquire
-    "/path/to/enquire.js",
-    "/path/to/your/script.js"
-]);
-</code></pre>
-                
-            <p>This is the approach that this site adopts.</p>
-        </section>
         
         <section class="block">
             <h2 id="changelog" class="block__title">Changelog</h2>
@@ -479,7 +451,6 @@ enquire.unregister(query2, handler2); // "handler 2 unmatched"
                 <li>Tinier than ever &mdash; now only 0.8kb minified &amp; gzipped</li>
                 <li>Improved performance &mdash; resize events replaced with <code>matchMedia.addListener</code></li>
                 <li>Simplified API &mdash; <code>listen</code> and <code>fire</code> no longer required</li>
-                <li>Streamlined conditional asset loading via Modernizr</li>
             </ul>
             <p>
                 If you are upgrading from v1, be aware that there are some small breaking changes. <code>listen</code> and <code>fire</code> are no longer needed in v2,so remove them from your code. Also, as enquire no longer relies on resize events you must add make sure your polyfill supports <code>matchMedia.addListener</code>. Details of this can be in the <a href="#legacy-browsers">legacy browser</a> section.
