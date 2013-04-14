@@ -150,7 +150,7 @@
     });
   });
 
-}(window.jQuery));
+}(window.jQuery || window.Zepto));
 
 /* ==========================================================
  * bootstrap-affix.js v2.1.0
@@ -171,11 +171,9 @@
  * limitations under the License.
  * ========================================================== */
 
-(function (window, document) {
+(function (window, document, $) {
 
   "use strict"; // jshint ;_;
-
-  var $ = window.jQuery;
 
  /* AFFIX CLASS DEFINITION
   * ====================== */
@@ -255,4 +253,4 @@
   });
 
 
-}(window, document));
+}(window, document, window.jQuery || window.Zepto));
