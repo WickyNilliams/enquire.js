@@ -10,8 +10,18 @@
 			mq;
 
 		beforeEach(function() {
-			mq      = new MediaQuery('max-width:1000px');
+			mq      = new MediaQuery('((max-width:1000px))');
 			handler = jasmine.createSpyObj('handler', ['match', 'unmatch', 'setup']);
+		});
+
+		it('will add a media query listener when constructed', function() {
+			var mql = jasmine.createSpyObj('mql', ['addListener']),
+				mq;
+			spyOn(global, 'matchMedia').andReturn(mql);
+
+			mq = new MediaQuery('(max-width: 1000px)');
+
+			expect(mql.addListener).toHaveBeenCalledWith(mq.listener);
 		});
 
 
@@ -30,7 +40,7 @@
 		it('will turn on handler when added if query is already matching', function() {
 			// Arrange
 			spyOn(global, 'matchMedia').andReturn({matches:true, addListener : function() {}});
-			mq = new MediaQuery('max-width:1000px');
+			mq = new MediaQuery('(max-width:1000px)');
 
 			// Act
 			mq.addHandler(handler);
@@ -73,6 +83,23 @@
 
 			// Assert
 			expect(handler.match).toHaveBeenCalled();
+		});
+
+		it('destroys all handlers and removes listener when cleared', function() {
+			var handler1 = jasmine.createSpyObj('handler', ['match', 'unmatch']),
+				handler2 = jasmine.createSpyObj('handler', ['match', 'unmatch']);
+
+			mq.mql = jasmine.createSpyObj('mql',['addListener', 'removeListener']);
+
+			mq.addHandler(handler1);
+			mq.addHandler(handler2);
+
+			mq.clear();
+
+			expect(handler1.unmatch).toHaveBeenCalled();
+			expect(handler2.unmatch).toHaveBeenCalled();
+			expect(mq.mql.removeListener).toHaveBeenCalledWith(mq.listener);
+			expect(mq.handlers.length).toBe(0);
 		});
 
 		xit('calls matchMedia every time to workaround polyfill issue', function() {

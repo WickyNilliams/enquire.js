@@ -12,10 +12,11 @@ function MediaQuery(query, isUnconditional) {
     this.mql = matchMedia(query);
 
     var self = this;
-    this.mql.addListener(function(mql) {
+    this.listener = function(mql) {
         self.mql = mql;
         self.assess();
-    });
+    };
+    this.mql.addListener(this.listener);
 }
 MediaQuery.prototype = {
 
@@ -56,6 +57,8 @@ MediaQuery.prototype = {
         each(this.handlers, function(handler) {
             handler.destroy();
         });
+        this.mql.removeListener(this.listener);
+        this.handlers.length = 0; //clear array
     },
 
     /*
