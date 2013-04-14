@@ -46,7 +46,7 @@
 			<p class="target">
 				If you click the button below, the media query will be unregistered, thereby calling it's destroy callback. This particular callback adds the class "destroy" to this paragraph, which is styled to have a strikethrough the text.
 			</p>
-			<button class="destroy-trigger">Destroy!</button>
+			<button class="btn btn--secondary btn--full btn--med destroy-trigger">Unregister!</button>
 			
 			<h3>State</h3>
 			<div class="example clearfix">
@@ -73,8 +73,7 @@
 
 
 <script>var example = new Example($(".example"));</script>
-<script id="blah">
-enquire.register("screen and (min-width: 500px)", {
+<script id="blah">enquire.register("screen and (min-width: 500px)", {
 	match : function() {
 		example.match();
 	},

@@ -319,7 +319,9 @@ h4 {
 		a:hover {
 			color: @bodyColor;
 		}
-		&.active a { color: @primaryColor; }
+		&.active a { 
+			color: @primaryColor; 
+		}
 	}
 }
 
@@ -333,34 +335,12 @@ h4 {
 	}
 }
 
-
-.counter-style {
-
-    counter-reset:li;
-
-    & > li {
-    	list-style-type: none;
-
-	    &:before {
-		    content:counter(li); 
-		    counter-increment:li;
-		}
-	}
-}
-
 .api-member {
 
 	margin-bottom: 1em;
 
 	.subdued { 
 		display: none;
-	}
-
-
-	&__signature {
-	}
-
-	&__parameters {
 	}
 
 	&__param-name {
