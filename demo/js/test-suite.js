@@ -43,8 +43,6 @@
 
 	}).register('screen and (max-width: 500px)', {
 
-		match : function(){},
-
 		setup : function() {
 			pass($tests.find('.deferred-setup'));
 		},
@@ -58,8 +56,6 @@
 				enquire.unregister('screen and (min-width: 1px)');
 			}, 500);
 		},
-
-		match : function() {},
 
 		destroy : function() {
 			pass($tests.find('.destroy'));
@@ -76,9 +72,7 @@
 				action($tests.find('.conditional-load'));
 			}
 		}],
-		deferSetup : true,
-
-		match : function() {}
+		deferSetup : true
 
 	}).register('screen and (max-width:1px)', {
 

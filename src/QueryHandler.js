@@ -63,7 +63,7 @@
          * @function
          */
         on : function() {
-            !this.initialised ? this.setup() : this.options.match();
+            !this.initialised ? this.setup() : this.options.match && this.options.match();
         },
 
         /**
