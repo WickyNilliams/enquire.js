@@ -62,19 +62,7 @@
 		}
 
 	})
-	.register('screen and (min-width: 625px)', {
-
-		setup : [{
-			load : 'timeout=2000!js/conditionally-loaded.js',
-			callback : function () {
-				//TODO: this should be moved into conditionally loaded file
-				var action = window.conditionallyLoaded ? pass : fail;
-				action($tests.find('.conditional-load'));
-			}
-		}],
-		deferSetup : true
-
-	}).register('screen and (max-width:1px)', {
+	.register('screen and (max-width:1px)', {
 
 		match : function() {
 			var $degrade = $tests.find('.should-degrade'),

@@ -16,45 +16,15 @@
     QueryHandler.prototype = {
 
         /**
-         * loads assets on setup, handles all Modernizr interaction
-         *
-         * @function
-         * @param {object || string || array} what an object that Modernizr.load can accept
-         */
-        load : function(what) {
-            var self = this;
-
-            if(Modernizr && Modernizr.load) {
-
-                //normalise to array
-                if(!isArray(what)) {
-                    what = [what];
-                }
-
-                //if setup is deferred, then we should have a callback to match
-                self.options.deferSetup && what.push({ callback : function() { self.on(); } });
-                Modernizr.load(what);
-            }
-        },
-
-        /**
          * coordinates setup of the handler
          *
          * @function
          */
         setup : function() {
-            var setup = this.options.setup;
-            this.initialised = true;
-
-            if(setup) {
-                if(isFunction(setup)) {
-                    setup();
-                    this.on();
-                }
-                else {
-                    this.load(setup);
-                }
+            if(this.options.setup) {
+                this.options.setup();
             }
+            this.initialised = true;
         },
 
         /**
@@ -63,7 +33,8 @@
          * @function
          */
         on : function() {
-            !this.initialised ? this.setup() : this.options.match && this.options.match();
+            !this.initialised && this.setup();
+            this.options.match && this.options.match();
         },
 
         /**

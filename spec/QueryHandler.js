@@ -1,6 +1,6 @@
-/*global describe: true, beforeEach: true, it: true, expect: true, jasmine:true, spyOn: true, QueryHandler:true */
+/*global describe: true, beforeEach: true, it: true, expect: true, jasmine:true, QueryHandler:true */
 
-(function(global) {
+(function() {
 
 	describe('QueryHandler', function() {
 
@@ -52,20 +52,6 @@
 			expect(handler.initialised).toBe(true);
 		});
 
-		it('will attempt to load anything that is not a function during setup', function() {
-			// Arrange
-			var handler;
-			options.setup = {};
-			spyOn(QueryHandler.prototype, 'load');
-			handler = new QueryHandler(options);
-
-			// Act
-			handler.setup();
-
-			// Assert
-			expect(handler.load).toHaveBeenCalled();
-		});
-
 		it('will call a setup function followed by on', function() {
 			// Arrange
 			var handler;
@@ -79,28 +65,6 @@
 			// Assert
 			expect(options.setup).toHaveBeenCalled();
 			expect(options.match).toHaveBeenCalled();
-		});
-
-		it('will push match as callback to Modernizr.load if setup is deferred', function() {
-			// Arrange
-			var modernizrSpy = jasmine.createSpyObj('Modernizr', ['load']),
-				modernizr,
-				setup = [],
-				handler;
-
-			options.deferSetup = true;
-			handler = new QueryHandler(options);
-			modernizr = global.Modernizr;
-			global.Modernizr = modernizrSpy;
-
-			// Act
-			handler.load(setup);
-
-			// Assert
-			expect(setup.length).toBe(1);
-			expect(modernizrSpy.load).toHaveBeenCalled();
-
-			global.Modernizr = modernizr;
 		});
 
 		it('calls match handler when turned on', function() {
@@ -163,8 +127,6 @@
 			expect(spy.unmatch).toHaveBeenCalled();
 		});
 
-
 	});
 
-}(this));
-
+}());
