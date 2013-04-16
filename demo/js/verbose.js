@@ -1,51 +1,59 @@
-/*jshint devel:true */
+/*jshint devel:true*/
 
-/**
- * verbose login mixin
- *
- * @function
- * @param {string} key unique identifier used when logging to console
- * @param {object || function} handler the handler to wrap
-*/
-function verbose(key, handler) {
 
-    var targets = ["match", "unmatch", "destroy", "setup"],
-        target, i;
+(function(global, targets) {
 
-    function wrap(method) {
 
-        var wrapped = handler[method];
+    function wrap(handler, target, key, callback) {
 
-        return function(e) {
-            console.log(key + " " + method);
-            if (e) {
-                console.dir(e);
-            }
+        var wrapped = handler[target];
 
-            wrapped.call(handler, e);
+        handler[target] = function() {
+            callback(key, target);
+            wrapped.call(handler);
         };
     }
 
-    if(!handler) {
-        return;
+    function log(key, target) {
+        console.log(key + ' - ' + target);
     }
 
-    // normalise to object if only match callback supplied
-    if (typeof handler === "function") {
-        handler = {
-            match: handler
-        };
-    }
+    /**
+     * verbose login mixin
+     *
+     * @function
+     * @param {string} key unique identifier used when logging to console
+     * @param {object || function} handler the handler to wrap
+    */
+    function verbose(key, handler) {
 
-    // wrap all our targets in a verbose function
-    for (target in targets) {
-        target = targets[target];
-        if (!handler[target]) {
-            continue;
+        var target;
+
+        if(!handler) {
+            return;
         }
 
-        handler[target] = wrap(target);
+        // normalise to object if only match callback supplied
+        if (typeof handler === 'function') {
+            handler = {
+                match: handler
+            };
+        }
+
+        // wrap all our targets in a verbose function
+        for (target in targets) {
+            target = targets[target];
+            if (!handler[target]) {
+                continue;
+            }
+
+            wrap(handler, target, key, log);
+        }
+
+        return handler;
     }
 
-    return handler;
-}
+    global.verbose = verbose;
+
+
+}(this, ['match', 'unmatch', 'destroy', 'setup']));

@@ -8,21 +8,17 @@
 function MediaQuery(query, isUnconditional) {
     this.query = query;
     this.isUnconditional = isUnconditional;
-    
     this.handlers = [];
-    this.matched = false;
+    this.mql = matchMedia(query);
+
+    var self = this;
+    this.listener = function(mql) {
+        self.mql = mql;
+        self.assess();
+    };
+    this.mql.addListener(this.listener);
 }
 MediaQuery.prototype = {
-
-    /**
-     * tests whether this media query is currently matching
-     *
-     * @function
-     * @returns {boolean} true if match, false otherwise
-     */
-    matchMedia : function() {
-        return matchMedia(this.query).matches;
-    },
 
     /**
      * add a handler for this query, triggering if already active
@@ -33,13 +29,12 @@ MediaQuery.prototype = {
      * @param {function} [handler.unmatch] callback for when query is deactivated
      * @param {function} [handler.setup] callback for immediate execution when a query handler is registered
      * @param {boolean} [handler.deferSetup=false] should the setup callback be deferred until the first time the handler is matched?
-     * @param {boolean} [turnOn=false] should the handler be turned on if the query is matching?
      */
-    addHandler : function(handler, turnOn) {
+    addHandler : function(handler) {
         var qh = new QueryHandler(handler);
         this.handlers.push(qh);
 
-        turnOn && this.matched && qh.on();
+        this.mql.matches && qh.on();
     },
 
     /**
@@ -58,53 +53,24 @@ MediaQuery.prototype = {
         });
     },
 
+    clear : function() {
+        each(this.handlers, function(handler) {
+            handler.destroy();
+        });
+        this.mql.removeListener(this.listener);
+        this.handlers.length = 0; //clear array
+    },
+
     /*
      * assesses the query, turning on all handlers if it matches, turning them off if it doesn't match
      *
      * @function
      */
-    assess : function(e) {
-        if(this.matchMedia() || this.isUnconditional) {
-            this.match(e);
-        }
-        else {
-            this.unmatch(e);
-        }
-    },
-
-    /**
-     * activates a query.
-     * callbacks are fired only if the query is currently unmatched
-     *
-     * @function
-     * @param {Event} [e] browser event if triggered as the result of a browser event
-     */
-    match : function(e) {
-        if(this.matched) {
-			return; //already on
-		}
+    assess : function() {
+        var action = (this.mql.matches || this.isUnconditional) ? 'on' : 'off';
 
         each(this.handlers, function(handler) {
-            handler.on(e);
+            handler[action]();
         });
-        this.matched = true;
-    },
-
-    /**
-     * deactivates a query.
-     * callbacks are fired only if the query is currently matched
-     *
-     * @function
-     * @param {Event} [e] browser event if triggered as the result of a browser event
-     */
-    unmatch : function(e) {
-        if(!this.matched) {
-			return; //already off
-        }
-
-        each(this.handlers, function(handler){
-			handler.off(e);
-        });
-        this.matched = false;
     }
 };

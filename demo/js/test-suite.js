@@ -11,7 +11,7 @@
 
 	'use strict';
 
-	enquire.listen(100);
+	//enquire.listen(100);
 
 	function pass($test) {
 		$test.is('.test') && $test.addClass('test-pass');
@@ -43,8 +43,6 @@
 
 	}).register('screen and (max-width: 500px)', {
 
-		match : function(){},
-
 		setup : function() {
 			pass($tests.find('.deferred-setup'));
 		},
@@ -53,13 +51,18 @@
 
 	}).register('screen and (min-width: 1px)', {
 
-		match : function() {},
+		setup : function() {
+			setTimeout(function() {
+				enquire.unregister('screen and (min-width: 1px)');
+			}, 500);
+		},
 
 		destroy : function() {
 			pass($tests.find('.destroy'));
 		}
 
-	}).register('screen and (max-width:1px)', {
+	})
+	.register('screen and (max-width:1px)', {
 
 		match : function() {
 			var $degrade = $tests.find('.should-degrade'),
@@ -69,11 +72,6 @@
 		}
 
 	}, true);
-
-	$('.destroy-trigger').one('click', function() {
-		enquire.unregister('screen and (min-width: 1px)');
-		$(this).remove();
-	});
 
 }(window.enquire, window.jQuery || window.Zepto));
 

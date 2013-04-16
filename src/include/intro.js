@@ -1,3 +1,3 @@
 window.enquire = (function(matchMedia) {
 
-    "use strict";
+    'use strict';

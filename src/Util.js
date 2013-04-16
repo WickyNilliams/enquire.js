@@ -1,4 +1,4 @@
-
+    /*jshint -W098 */
     /**
      * Helper function for iterating over a collection
      *
@@ -25,7 +25,7 @@
      * @return {Boolean} true if array, false otherwise
      */
     function isArray(target) {
-        return Object.prototype.toString.apply(target) === "[object Array]";
+        return Object.prototype.toString.apply(target) === '[object Array]';
     }
 
     /**
@@ -35,5 +35,5 @@
      * @return {Boolean} true if function, false otherwise
      */
     function isFunction(target) {
-        return typeof target === "function";
+        return typeof target === 'function';
     }

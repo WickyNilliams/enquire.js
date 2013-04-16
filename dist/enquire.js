@@ -1,12 +1,11 @@
-// enquire.js v1.5.6 - Awesome Media Queries in JavaScript
+// enquire.js v2.0.0a - Awesome Media Queries in JavaScript
 // Copyright (c) 2013 Nick Williams - http://wicky.nillia.ms/enquire.js
 // License: MIT (http://www.opensource.org/licenses/mit-license.php)
 
-
 window.enquire = (function(matchMedia) {
 
-    "use strict";
-
+    'use strict';
+    /*jshint -W098 */
     /**
      * Helper function for iterating over a collection
      *
@@ -33,7 +32,7 @@ window.enquire = (function(matchMedia) {
      * @return {Boolean} true if array, false otherwise
      */
     function isArray(target) {
-        return Object.prototype.toString.apply(target) === "[object Array]";
+        return Object.prototype.toString.apply(target) === '[object Array]';
     }
 
     /**
@@ -43,7 +42,7 @@ window.enquire = (function(matchMedia) {
      * @return {Boolean} true if function, false otherwise
      */
     function isFunction(target) {
-        return typeof target === "function";
+        return typeof target === 'function';
     }
 
     /**
@@ -57,12 +56,8 @@ window.enquire = (function(matchMedia) {
      * @constructor
      */
     function QueryHandler(options) {
-        this.initialised = false;
         this.options = options;
-
-        if(!options.deferSetup) {
-			this.setup();
-		}
+        !options.deferSetup && this.setup();
     }
     QueryHandler.prototype = {
 
@@ -71,9 +66,9 @@ window.enquire = (function(matchMedia) {
          *
          * @function
          */
-        setup : function(e) {
-            if(this.options.setup){
-                this.options.setup(e);
+        setup : function() {
+            if(this.options.setup) {
+                this.options.setup();
             }
             this.initialised = true;
         },
@@ -82,25 +77,19 @@ window.enquire = (function(matchMedia) {
          * coordinates setup and triggering of the handler
          *
          * @function
-         * @param [e] the browser event which triggered a match
          */
-        on : function(e) {
-            if(!this.initialised){
-                this.setup(e);
-            }
-            this.options.match(e);
+        on : function() {
+            !this.initialised && this.setup();
+            this.options.match && this.options.match();
         },
 
         /**
          * coordinates the unmatch event for the handler
          *
          * @function
-         * @param [e] the browser event which triggered a match
          */
-        off : function(e) {
-            if(this.options.unmatch){
-                this.options.unmatch(e);
-            }
+        off : function() {
+            this.options.unmatch && this.options.unmatch();
         },
 
         /**
@@ -110,12 +99,7 @@ window.enquire = (function(matchMedia) {
          * @function
          */
         destroy : function() {
-            if(this.options.destroy) {
-                this.options.destroy();
-            }
-            else {
-                this.off();
-            }
+            this.options.destroy ? this.options.destroy() : this.off();
         },
 
         /**
@@ -140,21 +124,17 @@ window.enquire = (function(matchMedia) {
 function MediaQuery(query, isUnconditional) {
     this.query = query;
     this.isUnconditional = isUnconditional;
-    
     this.handlers = [];
-    this.matched = false;
+    this.mql = matchMedia(query);
+
+    var self = this;
+    this.listener = function(mql) {
+        self.mql = mql;
+        self.assess();
+    };
+    this.mql.addListener(this.listener);
 }
 MediaQuery.prototype = {
-
-    /**
-     * tests whether this media query is currently matching
-     *
-     * @function
-     * @returns {boolean} true if match, false otherwise
-     */
-    matchMedia : function() {
-        return matchMedia(this.query).matches;
-    },
 
     /**
      * add a handler for this query, triggering if already active
@@ -165,13 +145,12 @@ MediaQuery.prototype = {
      * @param {function} [handler.unmatch] callback for when query is deactivated
      * @param {function} [handler.setup] callback for immediate execution when a query handler is registered
      * @param {boolean} [handler.deferSetup=false] should the setup callback be deferred until the first time the handler is matched?
-     * @param {boolean} [turnOn=false] should the handler be turned on if the query is matching?
      */
-    addHandler : function(handler, turnOn) {
+    addHandler : function(handler) {
         var qh = new QueryHandler(handler);
         this.handlers.push(qh);
 
-        turnOn && this.matched && qh.on();
+        this.mql.matches && qh.on();
     },
 
     /**
@@ -190,71 +169,40 @@ MediaQuery.prototype = {
         });
     },
 
+    clear : function() {
+        each(this.handlers, function(handler) {
+            handler.destroy();
+        });
+        this.mql.removeListener(this.listener);
+        this.handlers.length = 0; //clear array
+    },
+
     /*
      * assesses the query, turning on all handlers if it matches, turning them off if it doesn't match
      *
      * @function
      */
-    assess : function(e) {
-        if(this.matchMedia() || this.isUnconditional) {
-            this.match(e);
-        }
-        else {
-            this.unmatch(e);
-        }
-    },
-
-    /**
-     * activates a query.
-     * callbacks are fired only if the query is currently unmatched
-     *
-     * @function
-     * @param {Event} [e] browser event if triggered as the result of a browser event
-     */
-    match : function(e) {
-        if(this.matched) {
-			return; //already on
-		}
+    assess : function() {
+        var action = (this.mql.matches || this.isUnconditional) ? 'on' : 'off';
 
         each(this.handlers, function(handler) {
-            handler.on(e);
+            handler[action]();
         });
-        this.matched = true;
-    },
-
-    /**
-     * deactivates a query.
-     * callbacks are fired only if the query is currently matched
-     *
-     * @function
-     * @param {Event} [e] browser event if triggered as the result of a browser event
-     */
-    unmatch : function(e) {
-        if(!this.matched) {
-			return; //already off
-        }
-
-        each(this.handlers, function(handler){
-			handler.off(e);
-        });
-        this.matched = false;
     }
 };
     /**
-     * Allows for reigstration of query handlers.
-     * Manages the  query handler's state and is responsible for wiring up browser events
+     * Allows for registration of query handlers.
+     * Manages the query handler's state and is responsible for wiring up browser events
      *
      * @constructor
      */
     function MediaQueryDispatch () {
         if(!matchMedia) {
-            throw new Error('matchMedia is required');
+            throw new Error('matchMedia not present, legacy browsers require a polyfill');
         }
 
-        var capabilityTest = new MediaQuery('only all');
         this.queries = {};
-        this.listening = false;
-        this.browserIsIncapable = !capabilityTest.matchMedia();
+        this.browserIsIncapable = !matchMedia('only all').matches;
     }
 
     MediaQueryDispatch.prototype = {
@@ -273,27 +221,21 @@ MediaQuery.prototype = {
          */
         register : function(q, options, shouldDegrade) {
             var queries         = this.queries,
-                isUnconditional = shouldDegrade && this.browserIsIncapable,
-                listening       = this.listening;
+                isUnconditional = shouldDegrade && this.browserIsIncapable;
 
-            if(!queries.hasOwnProperty(q)) {
+            if(!queries[q]) {
                 queries[q] = new MediaQuery(q, isUnconditional);
-
-                this.listening && queries[q].assess();
             }
 
-            //normalise to object
+            //normalise to object in an array
             if(isFunction(options)) {
-                options = {
-                    match : options
-                };
+                options = { match : options };
             }
-            //normalise to array
             if(!isArray(options)) {
                 options = [options];
             }
             each(options, function(handler) {
-                queries[q].addHandler(handler, listening);
+                queries[q].addHandler(handler);
             });
 
             return this;
@@ -307,84 +249,18 @@ MediaQuery.prototype = {
          * @param {object || function} [handler] specific handler to unregister
          */
         unregister : function(q, handler) {
-            var queries = this.queries;
+            var query = this.queries[q];
 
-            if(!queries.hasOwnProperty(q)) {
-                return this;
-            }
-            
-            if(!handler) {
-                each(this.queries[q].handlers, function(handler) {
-                    handler.destroy();
-                });
-                delete queries[q];
-            }
-            else {
-                queries[q].removeHandler(handler);
+            if(query) {
+                if(handler) {
+                    query.removeHandler(handler);
+                }
+                else {
+                    query.clear();
+                    delete this.queries[q];
+                }
             }
 
-            return this;
-        },
-
-        /**
-         * Tests all media queries and calls relevant methods depending whether
-         * transitioning from unmatched->matched or matched->unmatched
-         *
-         * @function
-         * @param {Event} [e] if fired as a result of a browser event,
-         * an event can be supplied to propagate to the various media query handlers
-         */
-        fire : function(e) {
-            var queries = this.queries,
-                mediaQuery;
-
-            for(mediaQuery in queries) {
-                if(queries.hasOwnProperty(mediaQuery)) {
-                    queries[mediaQuery].assess(e);
-				}
-            }
-            return this;
-        },
-
-        /**
-         * sets up listeners for resize and orientation events
-         *
-         * @function
-         * @param {int} [timeout=500] the time (in milliseconds) after which the queries should be handled
-         */
-        listen : function(timeout) {
-            var self = this;
-
-            timeout = timeout || 500;
-
-            //creates closure for separate timed events
-            function wireFire(event) {
-                var timer;
-
-                window.addEventListener(event, function(e) {
-                    timer && clearTimeout(timer);
-
-                    timer = setTimeout(function() {
-                        self.fire(e);
-                    }, timeout);
-                }, false);
-            }
-
-            //prevent multiple event handlers
-            if(this.listening) {
-                return this;
-            }
-
-            // any browser that doesn't implement this
-            // will not have media query support
-            if(window.addEventListener) {
-                wireFire('resize');
-                wireFire('orientationChange');
-            }
-
-            self.fire();
-            this.listening = true;
-            
             return this;
         }
     };
