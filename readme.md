@@ -32,10 +32,6 @@ If you want build from source (and run all unit tests etc):
 
 Booya!
 
-##Full Details
-
-Visit the [enquire.js project page](http://wickynilliams.github.com/enquire.js/) for full details of the API.
-
 ##Quick Start
 
 The main method you will be dealing with is `register`. It's basic signature is as follows:
