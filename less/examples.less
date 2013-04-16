@@ -6,22 +6,29 @@
 
 .example {
 
+    @tick : "\2714";
+    @cross : "\2718";
+
     &__state {
 
         background: darken(@bgColor, 3);
         .transition(~"background-color, color");
 
-            font-size: 1.1em;
+        font-size: 1.1em;
+        color: lighten(@bgColor, 30);
 
         &:before {
             color: inherit;
             margin-right: 1em;
 
-            content: "\2714";
+            content: @cross;
         }
 
         &--on {
             color: @tertiaryColor;
+            &:before {
+                content: @tick;
+            }
         }
 
 
@@ -29,7 +36,7 @@
             color: @primaryColor;
 
             &:before {
-                content: "\2718";
+                content: @cross;
             }
         }
 

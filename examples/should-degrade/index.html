@@ -2,11 +2,14 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<title>shouldDegrade example | enquire.js</title>
-	<link href="http://fonts.googleapis.com/css?family=Lato:300|Yesteryear" rel="stylesheet" type="text/css">
-	<link rel="stylesheet" href="../../css/enquire.css">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 	
     <meta name="viewport" content="width=device-width">
+    <meta name="description" content="An example of using enquire.js' shouldDegrade flag to deal with incapable legacy browsers.">
+    
+	<title>shouldDegrade example - enquire.js</title>
+	<link href="http://fonts.googleapis.com/css?family=Lato:300|Yesteryear" rel="stylesheet" type="text/css">
+	<link rel="stylesheet" href="../../css/enquire.css">
 </head>
 <body>
 
@@ -41,15 +44,18 @@
 		<div class="block">
 			<h2 class="block__title">shouldDegrade Example</h2>
 			<p>
-				This example shows how you can use enquire.js' <code>shouldDegrade</code> flag to deal with incapable legacy browsers. <code>shoudlDegrade</code> will cause any legacy browser that enquire deems to be incapable to have the match callback always run, regardless of whether the media query has actually matched.
+				This example shows how you can use enquire.js' <code>shouldDegrade</code> flag to deal with incapable legacy browsers.
 			</p>
-			<p class="target">
-				This "short circuit" of the media query allows you to use a mobile-first approach whilst still delivering a desktop experience to legacy browsers. For this reason, it's typical that this flag will be set on queries targetting larger viewports. Here the particular media query will only match if the viewport is 500000px wide. It's unlikely you have a viewport that wide (congratulations if you do!!!) so will never see the effects, but if you come here with IE8, for example, you will see that the match callback is executed.
+			<p>
+				<code>shouldDegrade</code> will cause any legacy browser that enquire.js deems to be incapable to have the <code>match</code> callback always be executed, <em>regardless of whether the media query has actually matched</em>. This allows you to follow a mobile-first approach whilst still delivering a desktop experience to legacy browsers. For this reason, this flag is typically set on queries targetting larger viewports.
+			</p>
+			<p>
+				As the media query is in this example is testing for <em>huge</em> viewports, it should never match on any modern browser, but because of the <code>shouldDegrade</code> flag, it will be considered a match on incapable browsers.
 			</p>
 			
 			<h3>State</h3>
 			<div class="example clearfix">
-				<div data-example-match class="box example__state example__state--matched">Not yet matched</div>
+				<div data-example-match class="box example__state example__state--matched">Unmatched</div>
 			</div>
 			
 			<h3>Code</h3>

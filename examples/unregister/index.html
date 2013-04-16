@@ -2,11 +2,14 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<title>Unregister example | enquire.js</title>
-	<link href="http://fonts.googleapis.com/css?family=Lato:300|Yesteryear" rel="stylesheet" type="text/css">
-	<link rel="stylesheet" href="../../css/enquire.css">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 	
     <meta name="viewport" content="width=device-width">
+    <meta name="description" content="An example of using enquire.js' unregister method to remove media queries.">
+    
+	<title>Unregister example - enquire.js</title>
+	<link href="http://fonts.googleapis.com/css?family=Lato:300|Yesteryear" rel="stylesheet" type="text/css">
+	<link rel="stylesheet" href="../../css/enquire.css">
 </head>
 <body>
 
@@ -41,17 +44,17 @@
 		<div class="block">
 			<h2 class="block__title">Unregister Example</h2>
 			<p>
-				This example shows how you can use enquire.js' unregister method to remove media queries. You can either remove an entire query and all handlers, or you can remove individual handlers. Here we will remove an entire query.
+				This example shows how you can use enquire.js' unregister method to remove media queries.
 			</p>
-			<p class="target">
-				If you click the button below, the media query will be unregistered, thereby calling it's destroy callback. This particular callback adds the class "destroy" to this paragraph, which is styled to have a strikethrough the text.
+			<p>
+				You can either remove an entire query and all handlers, or you can remove individual handlers on by one. Here we will remove an entire query. If you click the button below, the media query will be unregistered, thereby calling it's <code>destroy</code> callback.
 			</p>
 			<button class="btn btn--secondary btn--full btn--med destroy-trigger">Unregister!</button>
 			
 			<h3>State</h3>
 			<div class="example clearfix">
-				<div data-example-match class="box example__state example__state--secondary example__state--matched">Not yet matched</div>
-				<div data-example-destroy class="box example__state example__state--secondary example__state--destroy">Destroy</div>
+				<div data-example-match class="box example__state example__state--secondary example__state--matched">Unmatched</div>
+				<div data-example-destroy class="box example__state example__state--secondary example__state--destroyed">Destroyed</div>
 			</div>
 			
 			<h3>Code</h3>
@@ -82,13 +85,12 @@
 	},
 	destroy : function() {
 		example.destroy();
+		$(".destroy-trigger").remove();
 	}
 });
 
-
 $(".destroy-trigger").click(function() {
 	enquire.unregister("screen and (orientation: landscape)");
-	$(this).attr("disabled", "disabled");
 });
 </script>
 <script type="text/javascript">

@@ -2,11 +2,14 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<title>Setup example | enquire.js</title>
-	<link href="http://fonts.googleapis.com/css?family=Lato:300|Yesteryear" rel="stylesheet" type="text/css">
-	<link rel="stylesheet" href="../../css/enquire.css">
-	
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    
     <meta name="viewport" content="width=device-width">
+    <meta name="description" content="An example of using enquire.js to register a setup callback against a media query in javascript.">
+    
+	<title>Setup example - enquire.js</title>
+	<link href="http://fonts.googleapis.com/css?family=Lato:300|Yesteryear" rel="stylesheet" type="text/css">
+	<link rel="stylesheet" href="../../css/enquire.css">	
 </head>
 <body>
 
@@ -41,15 +44,15 @@
 		<div class="block">
 			<h2 class="block__title">Setup Example</h2>
 			<p>
-				This example shows how setup works. Setup is run as soon as a query is registered. Put all your expensive one-time operations in this callback. 
+				This example shows how you can use enquire.js to register a <code>setup</code> callback against a media query in javascript. 
 			</p>
 			<p>
-				The setup callback here adds some content to the page dynamically. If you inspect the page with your developer tools you will notice that the content is added before the query is ever matched.
+				The setup callback is executeded as soon as a media query is registered, and only ever executed once. For this reason, you should put all your expensive one-time operations in the <code>setup</code> callback.
 			</p>
 			
 			<h3>State</h3>
 			<div class="example clearfix">
-				<div data-example-match class="box example__state example__state--secondary example__state--matched">Not yet matched</div>
+				<div data-example-match class="box example__state example__state--secondary example__state--matched">Unmatched</div>
 				<div data-example-setup class="box example__state example__state--secondary example__state--setup">Setup</div>
 			</div>
 			
@@ -57,7 +60,6 @@
 			<pre class="code-view code-view--inactive" data-code-view="#blah"><code class="language-javascript"></code></pre>
 		</div>	
 	</article>
-	
 	
 	<footer class="footer" role="contentinfo">
         <small>Copyright &copy; <a href="http://wicky.nillia.ms" rel="author">Nick Williams</a> 2013</small>
@@ -69,7 +71,6 @@
 <script src="https://raw.github.com/WickyNilliams/enquire.js/experimental/dist/enquire.js"></script>
 <script src="../js/code-view.js"></script>
 <script src="../js/example.js"></script>
-
 
 <script>var example = new Example($(".example"));</script>
 <script id="blah">enquire.register("screen and (orientation: landscape)", {

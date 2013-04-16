@@ -2,11 +2,14 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<title>deferSetup example | enquire.js</title>
-	<link href="http://fonts.googleapis.com/css?family=Lato:300|Yesteryear" rel="stylesheet" type="text/css">
-	<link rel="stylesheet" href="../../css/enquire.css">
-	
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    
     <meta name="viewport" content="width=device-width">
+    <meta name="description" content="An example of using the enquire.js deferSetup flag to postpone your setup callback until the first time a media query is matched">
+    
+	<title>deferSetup example - enquire.js</title>
+	<link href="http://fonts.googleapis.com/css?family=Lato:300|Yesteryear" rel="stylesheet" type="text/css">
+	<link rel="stylesheet" href="../../css/enquire.css">	
 </head>
 <body>
 
@@ -41,15 +44,12 @@
 		<div class="block">
 			<h2 class="block__title">deferSetup Example</h2>
 			<p>
-				This example shows how you can use <code>deferSetup</code> to postpone your setup function until the first time a query is matched. 
-			</p>
-			<p>
-				The setup callback here adds some content to the page dynamically. If you inspect the page with your developer tools you will notice that the content is <em>not</em> added before the query is matched.
+				This example shows how you can use the <code>deferSetup</code> flag to postpone your <code>setup</code> callback until the first time a media query is matched.
 			</p>
 			
 			<h3>State</h3>
 			<div class="example clearfix">
-				<div data-example-match class="box example__state example__state--secondary example__state--matched">Not yet matched</div>
+				<div data-example-match class="box example__state example__state--secondary example__state--matched">Unmatched</div>
 				<div data-example-setup class="box example__state example__state--secondary example__state--setup">Setup</div>
 			</div>
 			
