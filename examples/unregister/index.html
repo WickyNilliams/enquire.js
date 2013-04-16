@@ -73,7 +73,7 @@
 
 
 <script>var example = new Example($(".example"));</script>
-<script id="blah">enquire.register("screen and (min-width: 500px)", {
+<script id="blah">enquire.register("screen and (orientation: landscape)", {
 	match : function() {
 		example.match();
 	},
@@ -87,7 +87,7 @@
 
 
 $(".destroy-trigger").click(function() {
-	enquire.unregister("screen and (min-width: 500px)");
+	enquire.unregister("screen and (orientation: landscape)");
 	$(this).attr("disabled", "disabled");
 });
 </script>
