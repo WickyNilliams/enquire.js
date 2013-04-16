@@ -4,10 +4,6 @@
 
 `enquire.js` is a lightweight, pure javascript library (with **no dependencies**) for programmatically responding to media queries. 
 
-**Now with a full suite of unit tests! Huzzah!**
-
-**Now with an automated functional test suite! Joy!**
-
 ##Getting enquire.js
 
 ###Download
@@ -53,8 +49,8 @@ enquire.register(query /* string */, handler /* object || array  || function */)
 ```javascript
 enquire.register("screen and (max-width:1000px)", {
 
-    match : function() {},      // REQUIRED
-                                // Triggered when the media query transitions 
+    match : function() {},      // OPTIONAL
+                                // If supplied, triggered when the media query transitions 
                                 // *from an unmatched to a matched state*
 
     unmatch : function() {},    // OPTIONAL
@@ -71,7 +67,7 @@ enquire.register("screen and (max-width:1000px)", {
     deferSetup : true           // OPTIONAL, defaults to false
                                 // If set to true, defers execution the setup function 
                                 // until the media query is first matched. still triggered just once
-}).fire();
+});
 ```
 
 This should be enough to get you going, but **please read the full [enquire.js documentation](http://wickynilliams.github.com/enquire.js/)** if you wish to learn about the other cool features.
