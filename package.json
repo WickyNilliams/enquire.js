@@ -1,5 +1,5 @@
 {
-  "name": "enquire.js documentation",
+  "name": "enquire-docs",
   "description": "Awesome documentation for awesome media queries in javascript",
   "version": "0.2.0",
   "homepage": "http://wicky.nillia.ms/enquire.js/",
@@ -9,6 +9,8 @@
   "devDependencies": {
     "grunt": "~0.4.1",
     "grunt-contrib-less": "~0.5.0",
-    "grunt-contrib-watch": "~0.3.1"
+    "grunt-contrib-watch": "~0.3.1",
+    "grunt-contrib-uglify": "~0.2.0",
+    "grunt-contrib-concat": "~0.3.0"
   }
 }

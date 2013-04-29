@@ -8,20 +8,20 @@
 
 	load = [
 		{
-			load : "js/vendor/zepto.js",
+			load : "js/vendor/zepto.min.js",
 			callback : function() {
 				$toc  = $("<nav class='nav sidebar' data-spy='affix' data-offset-top='75' role='navigation'><h2 class='toc__title section-title'>Jump To&hellip;</h2></nav>");
 				$main = $("[role=main], .main");
 			}
 		},
 		{
-			load: "js/jquery.toc.js",
+			load: "js/toc.min.js",
 			callback : function() {
 				$main.toc({ destination: $toc, targets : ["h2"] });
 				$("body").prepend($toc);
 			}
 		},
-		"js/vendor/bootstrap.js"
+		"js/vendor/bootstrap.min.js"
 	];
 
 	enquire.register("screen and (min-width:75em)", {
