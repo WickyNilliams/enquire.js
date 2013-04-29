@@ -1,5 +1,5 @@
 /*jshint laxbreak:true */
-/*global enquire:true, $:true, Modernizr:true */
+/*global enquire:false, $:false, Modernizr:false */
 
 
 (function() {

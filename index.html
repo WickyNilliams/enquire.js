@@ -22,7 +22,7 @@
     <![endif]-->
 
 <a class="github-ribbon hide-for-print" href="https://github.com/WickyNilliams/enquire.js">
-    <img src="https://s3.amazonaws.com/github/ribbons/forkme_right_red_aa0000.png" alt="Fork me on GitHub">
+    <img src="img/fork-me.png" alt="Fork me on GitHub">
 </a>
     
 <div class="container">
@@ -453,8 +453,13 @@ enquire.unregister(query2, handler2); // "handler 2 unmatched"
                 <li>Simplified API &mdash; <code>listen</code> and <code>fire</code> no longer required</li>
             </ul>
             <p>
-                If you are upgrading from v1, be aware that there are some small breaking changes. <code>listen</code> and <code>fire</code> are no longer needed in v2,so remove them from your code. Also, as enquire no longer relies on resize events you must add make sure your polyfill supports <code>matchMedia.addListener</code>. Details of this can be in the <a href="#legacy-browsers">legacy browser</a> section.
+                If you are upgrading from v1, be aware that there are some small breaking changes.
+            <p> 
+            <p>
+                <code>listen</code> and <code>fire</code> are no longer needed as of v2, and have been dropped from the API. Removing any usage of them in your code is all that is required.
+                Also, as enquire no longer relies on resize events you must make sure your polyfill supports <code>matchMedia.addListener</code>. Details of this can be found in the <a href="#legacy-browsers">legacy browser</a> section.
             </p>
+            
             <h3 id="v1.5.6">v1.5.6 <span class="subdued">(2013-01-30)</span></h3>
             <ul>
                 <li>Fix bug with missing <code>useCapture</code> parameter on <code>addEventListener</code></li>
