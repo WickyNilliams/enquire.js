@@ -18,7 +18,6 @@
         /**
          * Registers a handler for the given media query
          *
-         * @function
          * @param {string} q the media query
          * @param {object || Array || Function} options either a single query handler object, a function, or an array of query handlers
          * @param {function} options.match fired when query matched
@@ -52,7 +51,6 @@
         /**
          * unregisters a query and all it's handlers, or a specific handler for a query
          *
-         * @function
          * @param {string} q the media query to target
          * @param {object || function} [handler] specific handler to unregister
          */

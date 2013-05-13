@@ -1,10 +1,12 @@
-// enquire.js v2.0.0 - Awesome Media Queries in JavaScript
+// enquire.js v2.0.1 - Awesome Media Queries in JavaScript
 // Copyright (c) 2013 Nick Williams - http://wicky.nillia.ms/enquire.js
 // License: MIT (http://www.opensource.org/licenses/mit-license.php)
 
-window.enquire = (function(matchMedia) {
+;(function(global) {
 
     'use strict';
+
+    var matchMedia = global.matchMedia;
     /*jshint -W098 */
     /**
      * Helper function for iterating over a collection
@@ -139,7 +141,6 @@ MediaQuery.prototype = {
     /**
      * add a handler for this query, triggering if already active
      *
-     * @function
      * @param {object} handler
      * @param {function} handler.match callback for when query is activated
      * @param {function} [handler.unmatch] callback for when query is deactivated
@@ -150,13 +151,12 @@ MediaQuery.prototype = {
         var qh = new QueryHandler(handler);
         this.handlers.push(qh);
 
-        this.mql.matches && qh.on();
+        this.matches() && qh.on();
     },
 
     /**
      * removes the given handler from the collection, and calls it's destroy methods
-     *
-     * @function
+     * 
      * @param {object || function} handler the handler to remove
      */
     removeHandler : function(handler) {
@@ -169,6 +169,18 @@ MediaQuery.prototype = {
         });
     },
 
+    /**
+     * Determine whether the media query should be considered a match
+     * 
+     * @return {Boolean} true if media query can be considered a match, false otherwise
+     */
+    matches : function() {
+        return this.mql.matches || this.isUnconditional;
+    },
+
+    /**
+     * Clears all handlers and unbinds events
+     */
     clear : function() {
         each(this.handlers, function(handler) {
             handler.destroy();
@@ -178,12 +190,10 @@ MediaQuery.prototype = {
     },
 
     /*
-     * assesses the query, turning on all handlers if it matches, turning them off if it doesn't match
-     *
-     * @function
+     * Assesses the query, turning on all handlers if it matches, turning them off if it doesn't match
      */
     assess : function() {
-        var action = (this.mql.matches || this.isUnconditional) ? 'on' : 'off';
+        var action = this.matches() ? 'on' : 'off';
 
         each(this.handlers, function(handler) {
             handler[action]();
@@ -210,7 +220,6 @@ MediaQuery.prototype = {
         /**
          * Registers a handler for the given media query
          *
-         * @function
          * @param {string} q the media query
          * @param {object || Array || Function} options either a single query handler object, a function, or an array of query handlers
          * @param {function} options.match fired when query matched
@@ -244,7 +253,6 @@ MediaQuery.prototype = {
         /**
          * unregisters a query and all it's handlers, or a specific handler for a query
          *
-         * @function
          * @param {string} q the media query to target
          * @param {object || function} [handler] specific handler to unregister
          */
@@ -266,6 +274,6 @@ MediaQuery.prototype = {
     };
 
 
-    return new MediaQueryDispatch();
+    global.enquire = global.enquire || new MediaQueryDispatch();
 
-}(window.matchMedia));
+}(this));

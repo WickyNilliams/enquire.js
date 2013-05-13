@@ -1,4 +1,4 @@
-/*global describe: true, beforeEach: true, it: true, xit: true, expect: true, jasmine:true, spyOn:true, MediaQuery:true */
+/*global describe: true, beforeEach: true, it: true, expect: true, jasmine:true, spyOn:true, MediaQuery:true */
 
 (function(global) {
 
@@ -7,18 +7,20 @@
 	describe('MediaQuery', function() {
 
 		var handler,
-			mq;
+			mq,
+			mm;
 
 		beforeEach(function() {
 			mq      = new MediaQuery('((max-width:1000px))');
 			handler = jasmine.createSpyObj('handler', ['match', 'unmatch', 'setup']);
+			mm      = spyOn(global, 'matchMedia');
 		});
 
 		it('will add a media query listener when constructed', function() {
 			var mql = jasmine.createSpyObj('mql', ['addListener']),
 				mq;
-			spyOn(global, 'matchMedia').andReturn(mql);
 
+			mm.andReturn(mql);
 			mq = new MediaQuery('(max-width: 1000px)');
 
 			expect(mql.addListener).toHaveBeenCalledWith(mq.listener);
@@ -39,7 +41,7 @@
 
 		it('will turn on handler when added if query is already matching', function() {
 			// Arrange
-			spyOn(global, 'matchMedia').andReturn({matches:true, addListener : function() {}});
+			mm.andReturn({matches:true, addListener : function() {}});
 			mq = new MediaQuery('(max-width:1000px)');
 
 			// Act
@@ -70,7 +72,6 @@
 			expect(equals.calls.length).not.toBe(length); // ensure early exit
 			expect(destroy.calls.length).toBe(1); // destroy called just once
 			expect(splice.calls.length).toBe(1); // splice called just once
-			expect(splice).toHaveBeenCalledWith(0,1); // splice called with correct args
 		});
 
 		it('can be short-circuited with isUnconditional flag', function() {
@@ -79,36 +80,47 @@
 
 			// Act
 			mq.addHandler(handler);
-			mq.assess();
 
 			// Assert
-			expect(handler.match).toHaveBeenCalled();
+			expect(mq.matches()).toBe(true);
 		});
 
 		it('destroys all handlers and removes listener when cleared', function() {
+			// Arrange
 			var handler1 = jasmine.createSpyObj('handler', ['match', 'unmatch']),
-				handler2 = jasmine.createSpyObj('handler', ['match', 'unmatch']);
+				handler2 = jasmine.createSpyObj('handler', ['match', 'destroy']);
 
 			mq.mql = jasmine.createSpyObj('mql',['addListener', 'removeListener']);
 
 			mq.addHandler(handler1);
 			mq.addHandler(handler2);
 
+			// Act
 			mq.clear();
 
+			// Assert
 			expect(handler1.unmatch).toHaveBeenCalled();
-			expect(handler2.unmatch).toHaveBeenCalled();
+			expect(handler2.destroy).toHaveBeenCalled();
 			expect(mq.mql.removeListener).toHaveBeenCalledWith(mq.listener);
 			expect(mq.handlers.length).toBe(0);
 		});
 
-		xit('calls matchMedia every time to workaround polyfill issue', function() {
-			spyOn(global, 'matchMedia').andReturn({matches:true});
+		it('will consider a match if unconditional flag set or if media query matches', function() {
+			// Arrange
+			var unconditionalMatch,
+				mediaQueryMatch;
 
-			mq.matchMedia();
-			mq.matchMedia();
+			mq.isUnconditional = true;
+			unconditionalMatch = mq.matches();
 
-			expect(global.matchMedia.calls.length).toBe(2);
+			mq.isUnconditional = false;
+			mq.mql = { matches : true };
+
+			mediaQueryMatch = mq.matches();
+
+			// Assert
+			expect(unconditionalMatch).toBe(true);
+			expect(mediaQueryMatch).toBe(true);
 		});
 
 	});

@@ -1,4 +1,4 @@
 
-    return new MediaQueryDispatch();
+    global.enquire = global.enquire || new MediaQueryDispatch();
 
-}(window.matchMedia));
+}(this));
