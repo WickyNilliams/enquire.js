@@ -27,22 +27,29 @@
          * @param {boolean} [shouldDegrade=false] whether this particular media query should always run on incapable browsers
          */
         register : function(q, options, shouldDegrade) {
-            var queries         = this.queries,
+            var key = q,
+                queries = this.queries,
                 isUnconditional = shouldDegrade && this.browserIsIncapable;
 
-            if(!queries[q]) {
-                queries[q] = new MediaQuery(q, isUnconditional);
+			//The collection that kept track of event handlers did not take in account the value "showDegrade".
+			//We are now storing event handlers on separate keys according to the value of this parameter.
+            if(isUnconditional){
+                key = key + '-isUnconditional';
             }
 
-            //normalise to object in an array
-            if(isFunction(options)) {
-                options = { match : options };
+            if (!queries[key]) {
+                queries[key] = new MediaQuery(key, isUnconditional);
             }
-            if(!isArray(options)) {
+
+            //normalise to object in an array            
+            if (isFunction(options)) {
+                options = { match: options };
+            }
+            if (!isArray(options)) {
                 options = [options];
             }
-            each(options, function(handler) {
-                queries[q].addHandler(handler);
+            each(options, function (handler) {
+                queries[key].addHandler(handler);
             });
 
             return this;
@@ -55,17 +62,25 @@
          * @param {object || function} [handler] specific handler to unregister
          */
         unregister : function(q, handler) {
-            var query = this.queries[q];
 
-            if(query) {
-                if(handler) {
-                    query.removeHandler(handler);
-                }
-                else {
-                    query.clear();
-                    delete this.queries[q];
+			var self = this;
+
+            function _unregister(q, handler) {
+                var query = self.queries[q];
+
+                if (query) {
+                    if (handler) {
+                        query.removeHandler(handler);
+                    }
+                    else {
+                        query.clear();
+                        delete self.queries[q];
+                    }
                 }
             }
+
+            _unregister(q, handler);
+            _unregister(q + '-isUnconditional', handler);
 
             return this;
         }
