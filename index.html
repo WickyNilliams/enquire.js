@@ -128,7 +128,7 @@ grunt
                 The main method you will be dealing with is register. Its signature is as follows:
             </p>
             
-<pre class="language-javascript"><code>enquire.register("screen and (max-width:1000px)", {
+<pre class="language-javascript"><code>enquire.register("screen and (max-width:45em)", {
 
     // OPTIONAL
     // If supplied, triggered when a media query matches.
@@ -267,13 +267,13 @@ grunt
             </p>
 
 <pre class="language-javascript"><code>// You can pass an array containing your handlers
-enquire.register("screen and (min-width: 40em)", [
+enquire.register("screen and (min-width: 45em)", [
     { match : function() { console.log("handler 1 matched"); } },
     { match : function() { console.log("handler 2 matched"); } }
 ]);
  
 // Or you can make multiple calls to register
-var query = "screen and (min-width:50em)";
+var query = "screen and (min-width:45em)";
 enquire.register(query, function() { console.log("handler 3 matched"); });
 
 // then later in code...
@@ -286,10 +286,10 @@ enquire.register(query, function() { console.log("handler 4 matched"); });
             </p> 
 
 <pre class="language-javascript"><code>enquire
-.register("screen and (max-width:1000px)", function() { 
+.register("screen and (max-width:50em)", function() { 
     console.log("handler 1 matched");
 })
-.register("screen and (max-width:500px)", function() {
+.register("screen and (max-width:40em)", function() {
     console.log("handler 2 matched");
 });
 </code></pre>
