@@ -179,7 +179,7 @@ grunt
                 enquire.js makes solving this problem trivial. Let's say that we want the sidebar displayed at 45em. A simple solution would be as follows:
             </p>
 
-<pre class="language-javascript"><code>enquire.register('screen and (min-width:45em)', function() {
+<pre class="language-javascript"><code>enquire.register("screen and (min-width:45em)", function() {
     // Load sidebar content in via AJAX.
     // Show sidebar
 });
@@ -194,7 +194,7 @@ grunt
                 We also need to handle the case where the query goes from a matched state to an unmatched state. For this we can supply an object to <code>register</code>, instead of a function. This gives us a lot more power and allows us to handle unmatching:
             </p>
             
-<pre class="language-javascript"><code>enquire.register("screen and (min-width: 40em"), {
+<pre class="language-javascript"><code>enquire.register("screen and (min-width: 40em)", {
     match : function() {
         // Load sidebar content in via AJAX.
         // Show sidebar
@@ -215,7 +215,7 @@ grunt
                 There's a problem with the above solution. What happens if the query gets matched a second time? We needlessly make a second AJAX request. We could put a check in our <code>match</code> callback to see if the content has already been loaded, but that sucks because match no longer has a single responsibility. This is where <code>setup</code> comes in.
             </p>
             
-<pre class="language-javascript"><code>enquire.register('screen and (min-width: 45em)', {
+<pre class="language-javascript"><code>enquire.register("screen and (min-width: 45em)", {
     setup : function() {
         // Load in content via AJAX (just the once)
     },
@@ -236,7 +236,7 @@ grunt
             <p>
                 So now we've got to a point were our task is almost complete. Content is dynamically loaded in at setup, and the sidebar shown and hidden on match and unmatch respectively. But we can still make one further improvement! By default <code>setup</code> is executed <em>as soon as the query is registered</em>. What this means is that our AJAX request is being made even for small viewports  - where it will never be needed because the content will never be shown! The solution to this problem is simple: <code>deferSetup</code>.
             </p>
-<pre class="language-javascript"><code>enquire.register('screen and (min-width: 45em)', {
+<pre class="language-javascript"><code>enquire.register("screen and (min-width: 45em)", {
 
     deferSetup : true,
     setup : function() {
