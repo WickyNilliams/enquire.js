@@ -1,4 +1,4 @@
-/* global define */
+/* global define, enquire */
 /**
  * UMD amdWeb template from
  * https://github.com/umdjs/umd
@@ -18,4 +18,5 @@
 //= MediaQuery.js
 //= MediaQueryDispatch.js
 //= include/outro.js
+return enquire;
 }));
