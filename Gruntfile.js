@@ -32,7 +32,8 @@ module.exports = function(grunt) {
                     'src/MediaQueryDispatch.js',
                     'src/include/outro.js'
                 ],
-                dest: 'dist/<%= pkg.name %>'
+                dir: 'dist',
+                dest: '<%= concat.dist.dir %>/<%= pkg.name %>'
             }
         },
 
@@ -43,7 +44,8 @@ module.exports = function(grunt) {
             },
             dist: {
                 files : {
-                    'dist/<%= pkg.name.replace("js", "min.js") %>'  : '<%= concat.dist.dest %>'
+                    '<%= concat.dist.dir %>/<%= pkg.name.replace("js", "min.js") %>'  : '<%= concat.dist.dest %>',
+                    '<%= concat.dist.dir %>/amd/<%= pkg.name.replace("js", "min.js") %>'  : '<%= concat.dist.dir %>/amd/<%= pkg.name %>'
                 }
             }
         },
@@ -59,8 +61,16 @@ module.exports = function(grunt) {
                 'demo/js/*.js'
             ],
             postbuild : [
-                '<%= concat.dist.dest %>'
+                ['<%= concat.dist.dest %>', '<%= concat.dist.dir %>/amd/<%= pkg.name %>']
             ]
+        },
+
+        rig: {
+            amd: {
+                files: {
+                    '<%= concat.dist.dir %>/amd/<%= pkg.name %>' : ['src/amd.js']
+                }
+            }
         },
 
         watch: {
@@ -74,7 +84,8 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-concat');
     grunt.loadNpmTasks('grunt-contrib-jshint');
     grunt.loadNpmTasks('grunt-contrib-watch');
+    grunt.loadNpmTasks('grunt-rigger');
 
     grunt.registerTask('test', ['jshint:prebuild', 'jasmine']);
-    grunt.registerTask('default', ['test', 'concat', 'jshint:postbuild', 'uglify']);
+    grunt.registerTask('default', ['test', 'concat', 'rig', 'jshint:postbuild', 'uglify']);
 };
