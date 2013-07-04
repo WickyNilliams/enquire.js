@@ -5,10 +5,6 @@ module.exports = function(grunt) {
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
 
-    meta : {
-      banner : ""
-    },
-
     less : {
       all : {
         options :{
@@ -32,8 +28,17 @@ module.exports = function(grunt) {
 
     uglify: {
       options : {
-        banner : '<%= meta.banner %>',
         report: 'gzip'
+      },
+      base : {
+        files : {
+          'js/base.js' : [
+            'js/vendor/matchMedia.js',
+            'js/vendor/matchMedia.addListener.js',
+            'js/vendor/prism.js',
+            'js/enquire.min.js'
+          ]
+        }
       },
       examples: {
         files : {
@@ -48,11 +53,6 @@ module.exports = function(grunt) {
       zepto: {
         files : {
             'js/vendor/zepto.min.js' : 'js/vendor/zepto.js'
-        }
-      },
-      prism: {
-        files : {
-            'js/vendor/prism.min.js' : 'js/vendor/prism.js'
         }
       },
       bootstrap: {
