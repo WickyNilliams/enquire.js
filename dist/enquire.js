@@ -4,9 +4,10 @@
 
 ;(function(global) {
 
-    'use strict';
+'use strict';
 
-    var matchMedia = global.matchMedia;
+var matchMedia = global.matchMedia;
+
     /*jshint -W098 */
     /**
      * Helper function for iterating over a collection
@@ -47,75 +48,75 @@
         return typeof target === 'function';
     }
 
+/**
+ * Delegate to handle a media query being matched and unmatched.
+ *
+ * @param {object} options
+ * @param {function} options.match callback for when the media query is matched
+ * @param {function} [options.unmatch] callback for when the media query is unmatched
+ * @param {function} [options.setup] one-time callback triggered the first time a query is matched
+ * @param {boolean} [options.deferSetup=false] should the setup callback be run immediately, rather than first time query is matched?
+ * @constructor
+ */
+function QueryHandler(options) {
+    this.options = options;
+    !options.deferSetup && this.setup();
+}
+QueryHandler.prototype = {
+
     /**
-     * Delegate to handle a media query being matched and unmatched.
+     * coordinates setup of the handler
      *
-     * @param {object} options
-     * @param {function} options.match callback for when the media query is matched
-     * @param {function} [options.unmatch] callback for when the media query is unmatched
-     * @param {function} [options.setup] one-time callback triggered the first time a query is matched
-     * @param {boolean} [options.deferSetup=false] should the setup callback be run immediately, rather than first time query is matched?
-     * @constructor
+     * @function
      */
-    function QueryHandler(options) {
-        this.options = options;
-        !options.deferSetup && this.setup();
-    }
-    QueryHandler.prototype = {
-
-        /**
-         * coordinates setup of the handler
-         *
-         * @function
-         */
-        setup : function() {
-            if(this.options.setup) {
-                this.options.setup();
-            }
-            this.initialised = true;
-        },
-
-        /**
-         * coordinates setup and triggering of the handler
-         *
-         * @function
-         */
-        on : function() {
-            !this.initialised && this.setup();
-            this.options.match && this.options.match();
-        },
-
-        /**
-         * coordinates the unmatch event for the handler
-         *
-         * @function
-         */
-        off : function() {
-            this.options.unmatch && this.options.unmatch();
-        },
-
-        /**
-         * called when a handler is to be destroyed.
-         * delegates to the destroy or unmatch callbacks, depending on availability.
-         *
-         * @function
-         */
-        destroy : function() {
-            this.options.destroy ? this.options.destroy() : this.off();
-        },
-
-        /**
-         * determines equality by reference.
-         * if object is supplied compare options, if function, compare match callback
-         *
-         * @function
-         * @param {object || function} [target] the target for comparison
-         */
-        equals : function(target) {
-            return this.options === target || this.options.match === target;
+    setup : function() {
+        if(this.options.setup) {
+            this.options.setup();
         }
+        this.initialised = true;
+    },
 
-    };
+    /**
+     * coordinates setup and triggering of the handler
+     *
+     * @function
+     */
+    on : function() {
+        !this.initialised && this.setup();
+        this.options.match && this.options.match();
+    },
+
+    /**
+     * coordinates the unmatch event for the handler
+     *
+     * @function
+     */
+    off : function() {
+        this.options.unmatch && this.options.unmatch();
+    },
+
+    /**
+     * called when a handler is to be destroyed.
+     * delegates to the destroy or unmatch callbacks, depending on availability.
+     *
+     * @function
+     */
+    destroy : function() {
+        this.options.destroy ? this.options.destroy() : this.off();
+    },
+
+    /**
+     * determines equality by reference.
+     * if object is supplied compare options, if function, compare match callback
+     *
+     * @function
+     * @param {object || function} [target] the target for comparison
+     */
+    equals : function(target) {
+        return this.options === target || this.options.match === target;
+    }
+
+};
 /**
  * Represents a single media query, manages it's state and registered handlers for this query
  *
@@ -200,80 +201,79 @@ MediaQuery.prototype = {
         });
     }
 };
-    /**
-     * Allows for registration of query handlers.
-     * Manages the query handler's state and is responsible for wiring up browser events
-     *
-     * @constructor
-     */
-    function MediaQueryDispatch () {
-        if(!matchMedia) {
-            throw new Error('matchMedia not present, legacy browsers require a polyfill');
-        }
-
-        this.queries = {};
-        this.browserIsIncapable = !matchMedia('only all').matches;
+/**
+ * Allows for registration of query handlers.
+ * Manages the query handler's state and is responsible for wiring up browser events
+ *
+ * @constructor
+ */
+function MediaQueryDispatch () {
+    if(!matchMedia) {
+        throw new Error('matchMedia not present, legacy browsers require a polyfill');
     }
 
-    MediaQueryDispatch.prototype = {
+    this.queries = {};
+    this.browserIsIncapable = !matchMedia('only all').matches;
+}
 
-        /**
-         * Registers a handler for the given media query
-         *
-         * @param {string} q the media query
-         * @param {object || Array || Function} options either a single query handler object, a function, or an array of query handlers
-         * @param {function} options.match fired when query matched
-         * @param {function} [options.unmatch] fired when a query is no longer matched
-         * @param {function} [options.setup] fired when handler first triggered
-         * @param {boolean} [options.deferSetup=false] whether setup should be run immediately or deferred until query is first matched
-         * @param {boolean} [shouldDegrade=false] whether this particular media query should always run on incapable browsers
-         */
-        register : function(q, options, shouldDegrade) {
-            var queries         = this.queries,
-                isUnconditional = shouldDegrade && this.browserIsIncapable;
+MediaQueryDispatch.prototype = {
 
-            if(!queries[q]) {
-                queries[q] = new MediaQuery(q, isUnconditional);
-            }
+    /**
+     * Registers a handler for the given media query
+     *
+     * @param {string} q the media query
+     * @param {object || Array || Function} options either a single query handler object, a function, or an array of query handlers
+     * @param {function} options.match fired when query matched
+     * @param {function} [options.unmatch] fired when a query is no longer matched
+     * @param {function} [options.setup] fired when handler first triggered
+     * @param {boolean} [options.deferSetup=false] whether setup should be run immediately or deferred until query is first matched
+     * @param {boolean} [shouldDegrade=false] whether this particular media query should always run on incapable browsers
+     */
+    register : function(q, options, shouldDegrade) {
+        var queries         = this.queries,
+            isUnconditional = shouldDegrade && this.browserIsIncapable;
 
-            //normalise to object in an array
-            if(isFunction(options)) {
-                options = { match : options };
-            }
-            if(!isArray(options)) {
-                options = [options];
-            }
-            each(options, function(handler) {
-                queries[q].addHandler(handler);
-            });
-
-            return this;
-        },
-
-        /**
-         * unregisters a query and all it's handlers, or a specific handler for a query
-         *
-         * @param {string} q the media query to target
-         * @param {object || function} [handler] specific handler to unregister
-         */
-        unregister : function(q, handler) {
-            var query = this.queries[q];
-
-            if(query) {
-                if(handler) {
-                    query.removeHandler(handler);
-                }
-                else {
-                    query.clear();
-                    delete this.queries[q];
-                }
-            }
-
-            return this;
+        if(!queries[q]) {
+            queries[q] = new MediaQuery(q, isUnconditional);
         }
-    };
 
+        //normalise to object in an array
+        if(isFunction(options)) {
+            options = { match : options };
+        }
+        if(!isArray(options)) {
+            options = [options];
+        }
+        each(options, function(handler) {
+            queries[q].addHandler(handler);
+        });
 
-    global.enquire = global.enquire || new MediaQueryDispatch();
+        return this;
+    },
+
+    /**
+     * unregisters a query and all it's handlers, or a specific handler for a query
+     *
+     * @param {string} q the media query to target
+     * @param {object || function} [handler] specific handler to unregister
+     */
+    unregister : function(q, handler) {
+        var query = this.queries[q];
+
+        if(query) {
+            if(handler) {
+                query.removeHandler(handler);
+            }
+            else {
+                query.clear();
+                delete this.queries[q];
+            }
+        }
+
+        return this;
+    }
+};
+
+global.enquire = global.enquire || new MediaQueryDispatch();
 
 }(this));

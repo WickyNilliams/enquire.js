@@ -9,7 +9,10 @@ module.exports = function(grunt) {
         meta: {
             banner: '// <%= pkg.name %> v<%= pkg.version %> - <%= pkg.description %>\n' +
             '// Copyright (c) <%= grunt.template.today("yyyy") %> <%= pkg.author.name %> - <%= pkg.homepage %>\n' +
-            '// License: <%= _.map(pkg.licenses, function(x) {return x.type + " (" + x.url + ")";}).join(", ") %>\n\n'
+            '// License: <%= _.map(pkg.licenses, function(x) {return x.type + " (" + x.url + ")";}).join(", ") %>\n\n',
+            outputDir: 'dist',
+            output : '<%= meta.outputDir %>/<%= pkg.name %>',
+            outputMin : '<%= meta.outputDir %>/<%= pkg.name.replace("js", "min.js") %>'
         },
 
         jasmine : {
@@ -19,20 +22,14 @@ module.exports = function(grunt) {
             src : 'src/*.js'
         },
 
-        concat: {
+        rig: {
             options : {
                 banner : '<%= meta.banner %>'
             },
             dist: {
-                src: [
-                    'src/include/intro.js',
-                    'src/Util.js',
-                    'src/QueryHandler.js',
-                    'src/MediaQuery.js',
-                    'src/MediaQueryDispatch.js',
-                    'src/include/outro.js'
-                ],
-                dest: 'dist/<%= pkg.name %>'
+                files: {
+                    '<%= meta.output %>' : ['src/include/wrap.js']
+                }
             }
         },
 
@@ -43,7 +40,7 @@ module.exports = function(grunt) {
             },
             dist: {
                 files : {
-                    'dist/<%= pkg.name.replace("js", "min.js") %>'  : '<%= concat.dist.dest %>'
+                    '<%= meta.outputMin %>'  : '<%= meta.output %>'
                 }
             }
         },
@@ -59,7 +56,7 @@ module.exports = function(grunt) {
                 'demo/js/*.js'
             ],
             postbuild : [
-                '<%= concat.dist.dest %>'
+                '<%= meta.output %>'
             ]
         },
 
@@ -72,9 +69,10 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-jasmine');
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-contrib-concat');
+    grunt.loadNpmTasks('grunt-rigger');
     grunt.loadNpmTasks('grunt-contrib-jshint');
     grunt.loadNpmTasks('grunt-contrib-watch');
 
     grunt.registerTask('test', ['jshint:prebuild', 'jasmine']);
-    grunt.registerTask('default', ['test', 'concat', 'jshint:postbuild', 'uglify']);
+    grunt.registerTask('default', ['test', 'rig', 'jshint:postbuild', 'uglify']);
 };
