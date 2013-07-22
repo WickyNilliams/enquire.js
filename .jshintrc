@@ -18,15 +18,15 @@
     "unused": true,
     "trailing": true,
     "smarttabs": true,
-    "undef": true,
     "globals": {
-        "matchMedia": true,
+        "matchMedia": false,
         "each": true,
         "isArray": true,
         "isFunction": true,
-        "QueryHandler": true,
-        "MediaQuery": true,
-        "MediaQueryDispatch": true,
-        "Modernizr" : false
+        "QueryHandler": false,
+        "MediaQuery": false,
+        "MediaQueryDispatch": false,
+        "define" : false,
+        "require" : false
     }
 }

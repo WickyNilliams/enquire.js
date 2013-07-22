@@ -2,51 +2,63 @@
 // Copyright (c) 2013 Nick Williams - http://wicky.nillia.ms/enquire.js
 // License: MIT (http://www.opensource.org/licenses/mit-license.php)
 
-;(function(global) {
+;(function (name, context, factory) {
+	if (typeof module !== 'undefined' && module.exports) {
+		module.exports = factory(context);
+	}
+	else if (typeof define === 'function' && define.amd) {
+		define([], function() {
+			factory(context);
+		});
+	}
+	else {
+		context[name] = factory(context);
+	}
+}('enquire', this, function (global) {
 
 'use strict';
 
 var matchMedia = global.matchMedia;
 
-    /*jshint -W098 */
-    /**
-     * Helper function for iterating over a collection
-     *
-     * @param collection
-     * @param fn
-     */
-    function each(collection, fn) {
-        var i      = 0,
-            length = collection.length,
-            cont;
+/*jshint unused:false */
+/**
+ * Helper function for iterating over a collection
+ *
+ * @param collection
+ * @param fn
+ */
+function each(collection, fn) {
+    var i      = 0,
+        length = collection.length,
+        cont;
 
-        for(i; i < length; i++) {
-            cont = fn(collection[i], i);
-            if(cont === false) {
-                break; //allow early exit
-            }
+    for(i; i < length; i++) {
+        cont = fn(collection[i], i);
+        if(cont === false) {
+            break; //allow early exit
         }
     }
+}
 
-    /**
-     * Helper function for determining whether target object is an array
-     *
-     * @param target the object under test
-     * @return {Boolean} true if array, false otherwise
-     */
-    function isArray(target) {
-        return Object.prototype.toString.apply(target) === '[object Array]';
-    }
+/**
+ * Helper function for determining whether target object is an array
+ *
+ * @param target the object under test
+ * @return {Boolean} true if array, false otherwise
+ */
+function isArray(target) {
+    return Object.prototype.toString.apply(target) === '[object Array]';
+}
 
-    /**
-     * Helper function for determining whether target object is a function
-     *
-     * @param target the object under test
-     * @return {Boolean} true if function, false otherwise
-     */
-    function isFunction(target) {
-        return typeof target === 'function';
-    }
+/**
+ * Helper function for determining whether target object is a function
+ *
+ * @param target the object under test
+ * @return {Boolean} true if function, false otherwise
+ */
+function isFunction(target) {
+    return typeof target === 'function';
+}
 
 /**
  * Delegate to handle a media query being matched and unmatched.
@@ -273,7 +285,7 @@ MediaQueryDispatch.prototype = {
         return this;
     }
 };
+//
+return new MediaQueryDispatch();
 
-global.enquire = global.enquire || new MediaQueryDispatch();
-
-}(this));
+}));
