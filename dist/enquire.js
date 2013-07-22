@@ -153,6 +153,7 @@ MediaQuery.prototype = {
         this.handlers.push(qh);
 
         this.matches() && qh.on();
+        !this.matches() && qh.off();
     },
 
     /**
