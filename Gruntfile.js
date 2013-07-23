@@ -57,9 +57,19 @@ module.exports = function(grunt) {
                 'spec/*.js',
                 'demo/js/*.js'
             ],
-            postbuild : [
-                '<%= meta.output %>'
-            ]
+            postbuild : {
+                options : {
+                    boss : true,
+                    globals : {
+                        'module' : false,
+                        'define' : false,
+                        'require' : false
+                    }
+                },
+                files : {
+                    src : ['<%= meta.output %>']
+                }
+            }
         },
 
         watch: {

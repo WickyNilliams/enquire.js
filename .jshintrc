@@ -1,5 +1,4 @@
 {
-    "node": true,
     "browser": true,
     "es5": true,
     "esnext": true,
@@ -25,8 +24,6 @@
         "isFunction": true,
         "QueryHandler": false,
         "MediaQuery": false,
-        "MediaQueryDispatch": false,
-        "define" : false,
-        "require" : false
+        "MediaQueryDispatch": false
     }
 }
