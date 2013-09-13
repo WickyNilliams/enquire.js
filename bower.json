@@ -2,5 +2,12 @@
   "name": "enquire",
   "description" : "Awesome Media Queries in JavaScript",
   "version": "2.0.3",
-  "main": ["./dist/enquire.js"]
+  "main": ["./dist/enquire.js"],
+  "ignore": [
+    "functional-test/",
+    "spec",
+    "src/",
+    "Gruntfile.js",
+    ".travis.yml"
+  ]
 }
