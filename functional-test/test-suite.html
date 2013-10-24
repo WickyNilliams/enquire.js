@@ -3,7 +3,6 @@
 <head>
     <title>Media Query test</title>
     <meta name="viewport" content="width=device-width">
-    <script type="text/javascript" src="js/libs/modernizr.js"></script>
     <link rel="stylesheet" href="css/test-suite.css">
 </head>
 <body>
@@ -37,7 +36,7 @@
             
             <div class="test box destroy">
                 <div class="test-condition">
-                    <p>Destroy</p>                    
+                    <p>Destroy</p>
                 </div>
             </div>
             
@@ -47,21 +46,13 @@
                 </div>
             </div>
             
-        </div>   
+        </div>
             
     </div>
     
-    <script>
-        Modernizr.load([
-            {
-                test: window.matchMedia,
-                nope: 'js/libs/matchMedia.js'
-            },
-            'js/libs/jquery.1.7.1.js',
-            '../dist/enquire.js',
-            'js/test-suite.js'
-        ]);
-    </script>
+    <script src="js/libs/jquery.1.7.1.js"></script>
+    <script src="../dist/enquire.js"></script>
+    <script src="js/test-suite.js"></script>
 
 </body>
 </html>

@@ -9,69 +9,69 @@
 
 (function(enquire, $){
 
-	'use strict';
+  'use strict';
 
-	//enquire.listen(100);
 
-	function pass($test) {
-		$test.is('.test') && $test.addClass('test-pass');
-	}
+  function pass($test) {
+    $test.classList.contains('test') && $test.classList.add('test-pass');
+  }
 
-	function fail($test) {
-		$test.is('.test') && $test.addClass('test-fail');
-	}
+  function fail($test) {
+    $test.classList.contains('test') && $test.classList.add('test-fail');
+  }
 
-	if(enquire.browserIsIncapable) {
-		$(document.body).addClass('incapable');
-	}
+  if(enquire.browserIsIncapable) {
+    document.body.classList.add('incapable');
+  }
 
-	var $tests = $('.test-group');
+  var tests = document.querySelector('.test-group');
+  //var $tests = $('.test-group');
 
-	enquire.register('screen and (min-width:600px)', {
+  enquire.register('screen and (min-width:600px)', {
 
-		match : function() {
-			pass($tests.find('.match'));
-		},
+    match : function() {
+      pass(tests.querySelector('.match'));
+    },
 
-		unmatch : function() {
-			pass($tests.find('.unmatch'));
-		},
+    unmatch : function() {
+      pass(tests.querySelector('.unmatch'));
+    },
 
-		setup : function() {
-			pass($tests.find('.setup'));
-		}
+    setup : function() {
+      pass(tests.querySelector('.setup'));
+    }
 
-	}).register('screen and (max-width: 500px)', {
+  }).register('screen and (max-width: 500px)', {
 
-		setup : function() {
-			pass($tests.find('.deferred-setup'));
-		},
+    setup : function() {
+      pass(tests.querySelector('.deferred-setup'));
+    },
 
-		deferSetup : true
+    deferSetup : true
 
-	}).register('screen and (min-width: 1px)', {
+  }).register('screen and (min-width: 1px)', {
 
-		setup : function() {
-			setTimeout(function() {
-				enquire.unregister('screen and (min-width: 1px)');
-			}, 500);
-		},
+    setup : function() {
+      setTimeout(function() {
+        enquire.unregister('screen and (min-width: 1px)');
+      }, 500);
+    },
 
-		destroy : function() {
-			pass($tests.find('.destroy'));
-		}
+    destroy : function() {
+      pass(tests.querySelector('.destroy'));
+    }
 
-	})
-	.register('screen and (max-width:1px)', {
+  })
+  .register('screen and (max-width:1px)', {
 
-		match : function() {
-			var $degrade = $tests.find('.should-degrade'),
-				action = enquire.browserIsIncapable ? pass : fail;
+    match : function() {
+      var degrade = tests.querySelector('.should-degrade'),
+        action = enquire.browserIsIncapable ? pass : fail;
 
-			action($degrade);
-		}
+      action(degrade);
+    }
 
-	}, true);
+  }, true);
 
 }(window.enquire, window.jQuery || window.Zepto));
 
