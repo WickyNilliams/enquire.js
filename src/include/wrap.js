@@ -12,7 +12,7 @@
 	else {
 		context[name] = factory(matchMedia);
 	}
-}('enquire', this, function (matchMedia) {
+}('enquire', window, function (matchMedia) {
 
 	'use strict';
 
