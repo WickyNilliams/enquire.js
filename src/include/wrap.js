@@ -1,5 +1,5 @@
 ;(function (name, context, factory) {
-	var matchMedia = context.matchMedia;
+	var matchMedia = window.matchMedia;
 
 	if (typeof module !== 'undefined' && module.exports) {
 		module.exports = factory(matchMedia);
