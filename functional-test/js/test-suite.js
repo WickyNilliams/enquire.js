@@ -41,7 +41,7 @@
       pass(tests.querySelector('.setup'));
     }
 
-  }).register('screen and (max-width: 500px)', {
+  }).register('screen and (min-width: 600px)', {
 
     setup : function() {
       pass(tests.querySelector('.deferred-setup'));
