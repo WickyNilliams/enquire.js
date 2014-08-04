@@ -1,7 +1,7 @@
 {
   "name": "enquire",
   "description" : "Awesome Media Queries in JavaScript",
-  "version": "2.1.1",
+  "version": "2.1.2",
   "main": ["./dist/enquire.js"],
   "ignore": [
     "functional-test/",
