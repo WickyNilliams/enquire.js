@@ -42,6 +42,9 @@
                 options = [options];
             }
             each(options, function(handler) {
+                if (isFunction(handler)) {
+                    handler = { match : handler };
+                }
                 queries[q].addHandler(handler);
             });
 
