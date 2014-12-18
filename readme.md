@@ -13,6 +13,13 @@ Get the latest build, ready to go:
  * [Development](https://github.com/WickyNilliams/enquire.js/raw/master/dist/enquire.js) - unminified
  * [Production](https://github.com/WickyNilliams/enquire.js/raw/master/dist/enquire.min.js) - minified
 
+### Using enquire.js with a CDN
+
+CDN provided by [cdnjs](https://cdnjs.com/libraries/enquire.js)
+```
+<script src="https://cdnjs.cloudflare.com/ajax/libs/enquire.js/2.1.2/enquire.min.js"></script>
+```
+
 ###Install via Bower
 
 To install via the [bower](http://twitter.github.com/bower/) package repository, enter the following at the command line:
