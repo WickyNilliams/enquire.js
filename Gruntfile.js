@@ -75,6 +75,28 @@ module.exports = function(grunt) {
         watch: {
             files: '<%= jshint.prebuild %>',
             tasks: 'test'
+        },
+
+        exec: {
+            'meteor-init': {
+                command: [
+                    // Make sure Meteor is installed, per https://meteor.com/install.
+                    // The curl'ed script is safe; takes 2 minutes to read source & check.
+                    'type meteor >/dev/null 2>&1 || { curl https://install.meteor.com/ | sh; }',
+                    // Meteor expects package.js to be in the root directory
+                    'cp meteor/package.js .'
+                ].join(';')
+            },
+            'meteor-cleanup': {
+                // remove build files and restore Dojo's package.js
+                command: 'rm -rf ".build.*" versions.json; rm package.js'
+            },
+            'meteor-test': {
+                command: 'spacejam --mongo-url mongodb:// test-packages ./'
+            },
+            'meteor-publish': {
+                command: 'meteor publish'
+            }
         }
     });
 
@@ -83,7 +105,10 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-rigger');
     grunt.loadNpmTasks('grunt-contrib-jshint');
     grunt.loadNpmTasks('grunt-contrib-watch');
+    grunt.loadNpmTasks('grunt-exec');
 
     grunt.registerTask('test', ['jshint:prebuild', 'jasmine']);
+    grunt.registerTask('test:meteor', ['exec:meteor-init', 'exec:meteor-test', 'exec:meteor-cleanup']);
     grunt.registerTask('default', ['test', 'rig', 'jshint:postbuild', 'uglify']);
+    grunt.registerTask('release:meteor', ['exec:meteor-init', 'exec:meteor-publish', 'exec:meteor-cleanup']);
 };
