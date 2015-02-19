@@ -1,5 +1,5 @@
 /*!
- * enquire.js v2.1.3 - Awesome Media Queries in JavaScript
+ * enquire.js v2.2.0 - Awesome Media Queries in JavaScript
  * Copyright (c) 2015 Nick Williams - http://wicky.nillia.ms/enquire.js
  * License: MIT (http://www.opensource.org/licenses/mit-license.php)
  */

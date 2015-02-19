@@ -89,7 +89,7 @@ module.exports = function(grunt) {
             },
             'meteor-cleanup': {
                 // remove build files and restore Dojo's package.js
-                command: 'rm -rf ".build.*" versions.json; rm package.js'
+                command: 'rm -rf ".build.*" versions.json; rm -rf package.js'
             },
             'meteor-test': {
                 command: 'spacejam --mongo-url mongodb:// test-packages ./'
