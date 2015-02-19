@@ -1,4 +1,4 @@
-Packaging [Moment](momentjs.org) for [Meteor.js](http://meteor.com).
+Packaging [enquire.js](http://wicky.nillia.ms/enquire.js/) for [Meteor.js](http://meteor.com).
 
 
 # Meteor
@@ -12,7 +12,7 @@ development framework. Read more at [Why Meteor](http://www.meteorpedia.com/read
 
 # Issues
 
-If you encounter an issue while using this package, please CC @dandv when you file it in this repo.
+If you encounter an issue while using this package, please CC @patrickleet when you file it in this repo.
 
 
 # DONE
@@ -22,4 +22,4 @@ If you encounter an issue while using this package, please CC @dandv when you fi
 
 # TODO
 
-* Add other tests; however, that is overkill, and the responsibiity of Moment, not of the Meteor integration.
+* Add other tests; however, that is overkill, and the responsibiity of enquire.js tests, not of the Meteor integration.
