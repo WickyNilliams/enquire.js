@@ -26,7 +26,7 @@ Easy as that :-)
 
 ### Install via Meteor
 
-To install via the [bower](http://twitter.github.com/bower/) package repository, enter the following at the command line:
+To install via [meteor](http://www.meteor.com/) package repository, enter the following at the command line:
 
     meteor add patrickleet:enquire
 
