@@ -1,4 +1,5 @@
-# enquire.js - Awesome Media Queries in JavaScript
+enquire.js - Awesome Media Queries in JavaScript
+=============================================================
 
 `enquire.js` is a lightweight, pure javascript library (with **no dependencies**) for programmatically responding to media queries. 
 
@@ -6,16 +7,16 @@ View [enquire.js on GitHub](http://wickynilliams.github.com/enquire.js/)
 
 [![Build Status](https://travis-ci.org/WickyNilliams/enquire.js.png)](https://travis-ci.org/WickyNilliams/enquire.js)
 
-##Getting enquire.js
+## Getting enquire.js
 
-###Download
+### Download
 
 Get the latest build, ready to go:
  
  * [Development](https://github.com/WickyNilliams/enquire.js/raw/master/dist/enquire.js) - unminified
  * [Production](https://github.com/WickyNilliams/enquire.js/raw/master/dist/enquire.min.js) - minified
 
-###Install via Bower
+### Install via Bower
 
 To install via the [bower](http://twitter.github.com/bower/) package repository, enter the following at the command line:
 
@@ -23,7 +24,7 @@ To install via the [bower](http://twitter.github.com/bower/) package repository,
 
 Easy as that :-)
 
-###Install via Meteor
+### Install via Meteor
 
 To install via the [bower](http://twitter.github.com/bower/) package repository, enter the following at the command line:
 
@@ -31,7 +32,7 @@ To install via the [bower](http://twitter.github.com/bower/) package repository,
 
 Easy as that :-)
 
-###Build From Source
+### Build From Source
 
 If you want build from source (and run all unit tests etc):
 
@@ -42,7 +43,7 @@ If you want build from source (and run all unit tests etc):
 
 Booya!
 
-##Quick Start
+## Quick Start
 
 The main method you will be dealing with is `register`. It's basic signature is as follows:
 
@@ -78,7 +79,7 @@ enquire.register("screen and (max-width:1000px)", {
 
 This should be enough to get you going, but **please read the full [enquire.js documentation](http://wickynilliams.github.com/enquire.js/)** if you wish to learn about the other cool features.
 
-##Contributing
+## Contributing
 
 * Got an awesome idea? 
 * Found a *not-so*-awesome bug? 
@@ -88,7 +89,7 @@ Then please don't hesitate to raise an issue, they will *all* be looked at and t
 
 And for all the cool cats who are prepared to give their time to contribute code, feel free to open a pull request. If you could write unit tests to accompany your pull request that would be pretty sweet, but no worries if not - if it's good enough to be merged in, it's good enough for me to spend a little time to write tests on your behalf :-)
 
-##License
+## License
 
 License: MIT (http://www.opensource.org/licenses/mit-license.php)
 

@@ -6,7 +6,7 @@ Package.describe({
   // Optional.  Default is package directory name.
   name: "patrickleet:enquire",
   // Optional github URL to your source repository.
-  git: "https://github.com/WickyNilliams/enquire.js.git"
+  git: "https://github.com/patrickleet/enquire.js.git"
 });
 
 /* This defines your actual package */
