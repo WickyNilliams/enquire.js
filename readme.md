@@ -1,8 +1,10 @@
-#[enquire.js](http://wickynilliams.github.com/enquire.js/) - Awesome Media Queries in JavaScript
-
-[![Build Status](https://travis-ci.org/WickyNilliams/enquire.js.png)](https://travis-ci.org/WickyNilliams/enquire.js)
+# enquire.js - Awesome Media Queries in JavaScript
 
 `enquire.js` is a lightweight, pure javascript library (with **no dependencies**) for programmatically responding to media queries. 
+
+View [enquire.js on GitHub](http://wickynilliams.github.com/enquire.js/)
+
+[![Build Status](https://travis-ci.org/WickyNilliams/enquire.js.png)](https://travis-ci.org/WickyNilliams/enquire.js)
 
 ##Getting enquire.js
 
@@ -18,6 +20,14 @@ Get the latest build, ready to go:
 To install via the [bower](http://twitter.github.com/bower/) package repository, enter the following at the command line:
 
     bower install enquire
+
+Easy as that :-)
+
+###Install via Meteor
+
+To install via the [bower](http://twitter.github.com/bower/) package repository, enter the following at the command line:
+
+    meteor add patrickleet:enquire
 
 Easy as that :-)
 
