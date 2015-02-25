@@ -65,6 +65,31 @@
          */
         equals : function(target) {
             return this.options === target || this.options.match === target;
+        },
+
+        /**
+         * determines if namespace starts with search string
+         *
+         * @function
+         * @param {string} searchString
+         */
+        startsWith : function(searchString) {
+            return this.options.namespace ? this.options.namespace.lastIndexOf(searchString, 0) === 0 : false;
+        },
+
+        /**
+         * determines if namespace ends with search string
+         *
+         * @function
+         * @param {string} searchString
+         */
+        endsWith : function(searchString) {
+            if(this.options.namespace) {
+                var position = this.options.namespace.length-searchString.length;
+                var lastIndex = this.options.namespace.indexOf(searchString, position);
+                return lastIndex !== -1 && lastIndex === position;
+            }
+            return false;
         }
 
     };

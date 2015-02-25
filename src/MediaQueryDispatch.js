@@ -71,5 +71,29 @@
             }
 
             return this;
+        },
+
+        /**
+         * unregisters all handlers by its namespace
+         *
+         * @param {string} the namespace to unregister
+         * @param {string} [q=null] the media query to target, search all if not set
+         */
+        unregisterNamespace : function(namespace, q) {
+            var queries = this.queries;
+
+            if(queries) {
+                if(q) {
+                    queries[q] && queries[q].removeHandlerByNamespace(namespace);
+                } else {
+                    for (var key in queries) {
+                        if (queries.hasOwnProperty(key)) {
+                            queries[key].removeHandlerByNamespace(namespace);
+                        }
+                    }
+                }
+            }
+
+            return this;
         }
     };

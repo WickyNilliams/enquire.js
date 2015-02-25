@@ -52,6 +52,27 @@
         },
 
         /**
+         * remove the handler by its namespace
+         *
+         * @param {string} namespace of the handler
+         */
+        removeHandlerByNamespace : function(namespace) {
+            var handlers = this.handlers;
+            this.handlers = handlers.filter(function (h) {
+                if(
+                    namespace === '*' ||
+                    namespace === h.options.namespace ||
+                    namespace[0] === '*' && h.endsWith(namespace.substr(1)) ||
+                    namespace[namespace.length-1] === '*' && h.startsWith(namespace.substr(0, namespace.length-1))
+                ) {
+                    h.destroy();
+                    return false;
+                }
+                return true;
+            });
+        },
+
+        /**
          * Determine whether the media query should be considered a match
          * 
          * @return {Boolean} true if media query can be considered a match, false otherwise
