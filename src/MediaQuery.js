@@ -34,6 +34,8 @@
             this.handlers.push(qh);
 
             this.matches() && qh.on();
+
+            qh.after();
         },
 
         /**

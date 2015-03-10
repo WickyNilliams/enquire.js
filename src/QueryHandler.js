@@ -47,6 +47,15 @@
         },
 
         /**
+         * called once after the handler has been added
+         *
+         * @function
+         */
+        after : function() {
+            this.options.after && this.options.after();
+        },
+
+        /**
          * called when a handler is to be destroyed.
          * delegates to the destroy or unmatch callbacks, depending on availability.
          *
