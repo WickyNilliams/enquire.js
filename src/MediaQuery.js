@@ -33,7 +33,7 @@
             var qh = new QueryHandler(handler);
             this.handlers.push(qh);
 
-            this.matches() && qh.on();
+            this.matches() && qh.on() || qh.off();
         },
 
         /**
