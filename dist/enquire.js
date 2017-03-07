@@ -1,6 +1,6 @@
 /*!
  * enquire.js v2.1.2 - Awesome Media Queries in JavaScript
- * Copyright (c) 2014 Nick Williams - http://wicky.nillia.ms/enquire.js
+ * Copyright (c) 2015 Nick Williams - http://wicky.nillia.ms/enquire.js
  * License: MIT (http://www.opensource.org/licenses/mit-license.php)
  */
 
@@ -110,6 +110,15 @@
         },
 
         /**
+         * called once after the handler has been added
+         *
+         * @function
+         */
+        after : function() {
+            this.options.after && this.options.after();
+        },
+
+        /**
          * called when a handler is to be destroyed.
          * delegates to the destroy or unmatch callbacks, depending on availability.
          *
@@ -167,6 +176,8 @@
             this.handlers.push(qh);
 
             this.matches() && qh.on();
+
+            qh.after();
         },
 
         /**

@@ -12,7 +12,7 @@
 
 		beforeEach(function() {
 			mq      = new MediaQuery('((max-width:1000px))');
-			handler = jasmine.createSpyObj('handler', ['match', 'unmatch', 'setup']);
+			handler = jasmine.createSpyObj('handler', ['match', 'unmatch', 'setup', 'after']);
 			mm      = spyOn(global, 'matchMedia');
 		});
 
@@ -49,6 +49,14 @@
 
 			// Assert
 			expect(handler.match).toHaveBeenCalled();
+		});
+
+		it('will call the after function as the last step of addHandler', function() {
+			// Act
+			mq.addHandler(handler);
+
+			// Assert
+			expect(handler.after).toHaveBeenCalled();
 		});
 
 		it('can remove handlers', function() {
