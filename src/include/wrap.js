@@ -1,7 +1,7 @@
 ;(function (name, context, factory) {
 	var matchMedia = window.matchMedia;
 
-	if (typeof module !== 'undefined' && module.exports) {
+	if (typeof module !== 'undefined' && typeof exports === 'object') {
 		module.exports = factory(matchMedia);
 	}
 	else if (typeof define === 'function' && define.amd) {
