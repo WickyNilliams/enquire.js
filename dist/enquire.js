@@ -1,6 +1,6 @@
 /*!
  * enquire.js v2.1.2 - Awesome Media Queries in JavaScript
- * Copyright (c) 2014 Nick Williams - http://wicky.nillia.ms/enquire.js
+ * Copyright (c) 2015 Nick Williams - http://wicky.nillia.ms/enquire.js
  * License: MIT (http://www.opensource.org/licenses/mit-license.php)
  */
 
@@ -128,6 +128,31 @@
          */
         equals : function(target) {
             return this.options === target || this.options.match === target;
+        },
+
+        /**
+         * determines if namespace starts with search string
+         *
+         * @function
+         * @param {string} searchString
+         */
+        startsWith : function(searchString) {
+            return this.options.namespace ? this.options.namespace.lastIndexOf(searchString, 0) === 0 : false;
+        },
+
+        /**
+         * determines if namespace ends with search string
+         *
+         * @function
+         * @param {string} searchString
+         */
+        endsWith : function(searchString) {
+            if(this.options.namespace) {
+                var position = this.options.namespace.length-searchString.length;
+                var lastIndex = this.options.namespace.indexOf(searchString, position);
+                return lastIndex !== -1 && lastIndex === position;
+            }
+            return false;
         }
 
     };
@@ -181,6 +206,27 @@
                     h.destroy();
                     return !handlers.splice(i,1); //remove from array and exit each early
                 }
+            });
+        },
+
+        /**
+         * remove the handler by its namespace
+         *
+         * @param {string} namespace of the handler
+         */
+        removeHandlerByNamespace : function(namespace) {
+            var handlers = this.handlers;
+            this.handlers = handlers.filter(function (h) {
+                if(
+                    namespace === '*' ||
+                    namespace === h.options.namespace ||
+                    namespace[0] === '*' && h.endsWith(namespace.substr(1)) ||
+                    namespace[namespace.length-1] === '*' && h.startsWith(namespace.substr(0, namespace.length-1))
+                ) {
+                    h.destroy();
+                    return false;
+                }
+                return true;
             });
         },
 
@@ -284,6 +330,30 @@
                 else {
                     query.clear();
                     delete this.queries[q];
+                }
+            }
+
+            return this;
+        },
+
+        /**
+         * unregisters all handlers by its namespace
+         *
+         * @param {string} the namespace to unregister
+         * @param {string} [q=null] the media query to target, search all if not set
+         */
+        unregisterNamespace : function(namespace, q) {
+            var queries = this.queries;
+
+            if(queries) {
+                if(q) {
+                    queries[q] && queries[q].removeHandlerByNamespace(namespace);
+                } else {
+                    for (var key in queries) {
+                        if (queries.hasOwnProperty(key)) {
+                            queries[key].removeHandlerByNamespace(namespace);
+                        }
+                    }
                 }
             }
 
