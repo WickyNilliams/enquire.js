@@ -1,4 +1,16 @@
 ;(function (name, context, factory) {
+	if (typeof window !== 'undefined') {
+	    var matchMediaPolyfill = function matchMediaPolyfill(mediaQuery) {
+	      return {
+		media: mediaQuery,
+		matches: false,
+		addListener: function addListener() {},
+		removeListener: function removeListener() {}
+	      };
+	    };
+	    window.matchMedia = window.matchMedia || matchMediaPolyfill;
+	}
+	
 	var matchMedia = window.matchMedia;
 
 	if (typeof module !== 'undefined' && module.exports) {
