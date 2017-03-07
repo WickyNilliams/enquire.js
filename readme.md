@@ -1,4 +1,4 @@
-#[enquire.js](http://wickynilliams.github.com/enquire.js/) - Awesome Media Queries in JavaScript
+# [enquire.js](http://wickynilliams.github.com/enquire.js/) - Awesome Media Queries in JavaScript
 
 [![Build Status](https://travis-ci.org/WickyNilliams/enquire.js.svg)](https://travis-ci.org/WickyNilliams/enquire.js)
 
