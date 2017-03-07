@@ -4,22 +4,26 @@
 
 `enquire.js` is a lightweight, pure javascript library (with **no dependencies**) for programmatically responding to media queries. 
 
-##Getting enquire.js
+## Getting enquire.js
 
-###Download
+### Download
 
 Get the latest build, ready to go:
- 
+
  * [Development](https://github.com/WickyNilliams/enquire.js/raw/master/dist/enquire.js) - unminified
  * [Production](https://github.com/WickyNilliams/enquire.js/raw/master/dist/enquire.min.js) - minified
 
-###Install via Bower
+### Install via Bower
 
-To install via the [bower](http://twitter.github.com/bower/) package repository, enter the following at the command line:
+To install via bower, enter the following at the command line:
 
     bower install enquire
 
-Easy as that :-)
+### Install via npm
+
+To install via npm, enter the following at the command line:
+
+    npm install enquire.js
 
 ###Build From Source
 
