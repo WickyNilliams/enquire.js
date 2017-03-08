@@ -61,11 +61,11 @@ pre, code {
 	text-align: left;
 	white-space: pre;
 	word-spacing: normal;
-	
+
 	-moz-tab-size: 4;
 	-o-tab-size: 4;
 	tab-size: 4;
-	
+
 	-webkit-hyphens: none;
 	-moz-hyphens: none;
 	-ms-hyphens: none;
@@ -87,7 +87,7 @@ pre,
 }
 
 pre {
-	overflow: auto;	
+	overflow: auto;
 	word-wrap: normal;
 	padding: 1em;
 	margin: 1em 0;
@@ -98,9 +98,9 @@ ul { padding: 0 0 0 1.2em; }
 li { margin-bottom : 0.5em; }
 
 .no-bullets {
-	margin: 0; 
-	padding: 0; 
-	list-style:none; 
+	margin: 0;
+	padding: 0;
+	list-style:none;
 }
 
 
@@ -127,7 +127,7 @@ h2 {
 	font-size: 2.5em;
 }
 
-h3 {	
+h3 {
 	font-size: 1.8em;
 }
 
@@ -136,9 +136,9 @@ h4 {
 }
 
 .github-ribbon {
-	position: absolute; 
-	top: 0; 
-	right: 0; 
+	position: absolute;
+	top: 0;
+	right: 0;
 	border: 0;
 	z-index: 1;
 
@@ -153,12 +153,12 @@ h4 {
 /// ENQUIRE
 /////////////////////////////
 
-.container {  
+.container {
 	#pos > .fluid-center(45em);
 }
 
 .header {
-	
+
 	position: relative;
 	text-align: center;
 
@@ -166,17 +166,29 @@ h4 {
 		#fonts > .title;
 		color: @primaryColor;
 		font-size: 6em;
-		text-shadow:1px 1px 0 @bodyColor, 
-					2px 2px 0 @bodyColor, 
-					3px 3px 0 @bodyColor, 
+		text-shadow:1px 1px 0 @bodyColor,
+					2px 2px 0 @bodyColor,
+					3px 3px 0 @bodyColor,
 					4px 4px 0 @bodyColor;
+	}
+
+	&__title a:hover,
+	&__title a:visited {
+		color: inherit !important;
+	}
+
+	&__title a:focus {
+		background: inherit !important;
+		color: inherit !important;
+		outline: none;
+		text-shadow: inherit !important;
 	}
 
 	&__strapline {
 		display: block;
 		margin-bottom: 0;
 
-		#fonts > .heading; 
+		#fonts > .heading;
 		color: @bodyColor;
 		font-size: 0.25em;
 		text-shadow:none;
@@ -238,7 +250,7 @@ h4 {
 	margin-bottom: 1em;
 	border-bottom: 1px dashed @fadedBodyColor;
 
-	&:last-child, 
+	&:last-child,
 	&--final {
 		border-bottom: none;
 	}
@@ -248,8 +260,8 @@ h4 {
 	}
 
 	&__title {
-		text-shadow:1px 1px 0 @fadedPrimaryColor, 
-					2px 2px 0 @fadedPrimaryColor, 
+		text-shadow:1px 1px 0 @fadedPrimaryColor,
+					2px 2px 0 @fadedPrimaryColor,
 					3px 3px 0 @fadedPrimaryColor;
 	}
 }
@@ -291,8 +303,8 @@ h4 {
 
 	&__title {
 		font-size: 2em;
-		text-shadow:1px 1px 0 @fadedPrimaryColor, 
-					2px 2px 0 @fadedPrimaryColor, 
+		text-shadow:1px 1px 0 @fadedPrimaryColor,
+					2px 2px 0 @fadedPrimaryColor,
 					3px 3px 0 @fadedPrimaryColor;
 	}
 
@@ -308,7 +320,7 @@ h4 {
 			color: @fadedBodyColor;
 		}
 
-		a { 
+		a {
 			color: @bodyColor;
 			color: @fadedBodyColor;
 			.text-overflow();
@@ -319,8 +331,8 @@ h4 {
 		a:hover {
 			color: @bodyColor;
 		}
-		&.active a { 
-			color: @primaryColor; 
+		&.active a {
+			color: @primaryColor;
 		}
 	}
 }
@@ -339,7 +351,7 @@ h4 {
 
 	margin-bottom: 1em;
 
-	.subdued { 
+	.subdued {
 		display: none;
 	}
 
@@ -353,11 +365,11 @@ h4 {
 		margin-left:0;
 		margin-bottom: 0.5em;
 
-		&--type { 
-			display:inline-block; 
+		&--type {
+			display:inline-block;
 		}
-		&--description { 
-			margin-left: 1em; 
+		&--description {
+			margin-left: 1em;
 		}
 	}
 }

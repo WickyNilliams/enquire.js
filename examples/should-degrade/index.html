@@ -3,10 +3,10 @@
 <head>
 	<meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-	
+
     <meta name="viewport" content="width=device-width">
     <meta name="description" content="An example of using enquire.js' shouldDegrade flag to deal with incapable legacy browsers.">
-    
+
 	<title>shouldDegrade example - enquire.js</title>
 	<link href="http://fonts.googleapis.com/css?family=Lato:300|Yesteryear" rel="stylesheet" type="text/css">
 	<link rel="stylesheet" href="../../css/enquire.css">
@@ -19,9 +19,9 @@
 
 <div class="container">
 	<header class="header block block--primary" role="banner">
-	    
-	    <h1 class="header__title">  
-	        enquire.js <span class="header__strapline">Awesome Media Queries in JavaScript</span>        
+
+	    <h1 class="header__title">
+	        <a href="http://wicky.nillia.ms/enquire.js">enquire.js <span class="header__strapline">Awesome Media Queries in JavaScript</span></a>
 	    </h1>
 
 	    <div class="buttons hide-for-print">
@@ -29,17 +29,17 @@
 	            <a href="https://twitter.com/share" class="twitter-share-button" data-counturl="http://wickynilliams.github.com/enquire.js" data-via="WickyNilliams">Tweet</a>
 	        <script>
 	            !function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");
-	        </script>    
+	        </script>
 	        </div>
 	        <div class="buttons__btn">
 	            <iframe src="http://ghbtns.com/github-btn.html?user=wickynilliams&amp;repo=enquire.js&amp;type=watch&amp;count=true"
 	                    allowtransparency="true" frameborder="0" scrolling="0" width="110" height="20"></iframe>
 	        </div>
-	        
+
 	    </div>
-	    
+
 	</header>
-	
+
 	<article class="main block block--primary" role="main">
 		<div class="block">
 			<h2 class="block__title">shouldDegrade Example</h2>
@@ -52,18 +52,18 @@
 			<p>
 				As the media query is in this example is testing for <em>huge</em> viewports, it should never match on any modern browser, but because of the <code>shouldDegrade</code> flag, it will be considered a match on incapable browsers.
 			</p>
-			
+
 			<h3>State</h3>
 			<div class="example clearfix">
 				<div data-example-match class="box example__state example__state--matched">Unmatched</div>
 			</div>
-			
+
 			<h3>Code</h3>
 			<pre class="code-view code-view--inactive" data-code-view="#example"><code class="language-javascript"></code></pre>
-		</div>	
+		</div>
 	</article>
-	
-	
+
+
 	<footer class="footer" role="contentinfo">
         <small>Copyright &copy; <a href="http://wicky.nillia.ms" rel="author">Nick Williams</a> 2013</small>
     </footer>
