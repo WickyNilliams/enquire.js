@@ -24,9 +24,11 @@
   },
   "license": "MIT",
   "scripts": {
-    "build": "grunt build",
     "start": "grunt",
-    "test": "grunt test --verbose"
+    "test": "grunt test",
+    "preversion" : "npm test",
+    "version": "grunt build",
+    "postversion": "git push origin master --tags && npm publish"
   },
   "devDependencies": {
     "grunt": "^1.0.1",

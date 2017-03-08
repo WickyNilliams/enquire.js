@@ -35,8 +35,7 @@ module.exports = function(grunt) {
             prebuild : [
                 'Gruntfile.js',
                 'src/*.js',
-                'spec/*.js',
-                'demo/js/*.js'
+                'spec/*.js'
             ]
         },
 
@@ -83,12 +82,12 @@ module.exports = function(grunt) {
                     debug : true
                 },
                 browsers : ['PhantomJS'],
-                reporters : ['progress'],
+                reporters : ['progress']
             },
 
             continuous : {
                 options : {
-                    singleRun: true,
+                    singleRun: true
                 }
             },
 
@@ -117,7 +116,7 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-karma');
 
+    grunt.registerTask('default', ['karma:unit:start', 'watch']);
     grunt.registerTask('test', ['jshint', 'karma:continuous']);
-    grunt.registerTask('default', ['browserify:dev', 'karma:unit:start', 'watch']);
-    grunt.registerTask('build', ['test', 'browserify:dist', 'uglify']);
+    grunt.registerTask('build', ['browserify:dist', 'uglify']);
 };
