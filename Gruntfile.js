@@ -28,7 +28,8 @@ module.exports = function(grunt) {
 
     uglify: {
       options : {
-        report: 'gzip'
+        // TODO: find out why this was causing build to fail
+        // report: 'gzip'
       },
       base : {
         files : {
