@@ -58,6 +58,7 @@ module.exports = function(grunt) {
                     '<%= meta.output %>' : 'src/index.js',
                 },
                 options : {
+                    banner : '<%= meta.banner %>',
                     plugin: [
                         require('bundle-collapser/plugin')
                     ],
