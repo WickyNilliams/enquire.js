@@ -31,7 +31,7 @@ module.exports = function(grunt) {
 
         jshint: {
             options: {
-                jshintrc : '.jshintrc'
+                jshintrc : true,
             },
             prebuild : [
                 'Gruntfile.js',
