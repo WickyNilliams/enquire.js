@@ -1,128 +1,103 @@
-/*global describe: true, beforeEach: true, it: true, expect: true, jasmine:true, spyOn:true, MediaQuery:true */
+var MediaQuery = require('../src/MediaQuery');
+var QueryHandler = require('../src/QueryHandler');
 
-(function(global) {
+describe('MediaQuery', function() {
 
-	'use strict';
+  var handler;
+  var matchMedia;
+  var mq;
+  var mm;
 
-	describe('MediaQuery', function() {
+  beforeEach(function() {
+    mq      = new MediaQuery('((max-width:1000px))');
+    handler = jasmine.createSpyObj('handler', ['match', 'unmatch', 'setup']);
 
-		var handler,
-			mq,
-			mm;
+    matchMedia = window.matchMedia;
+    window.matchMedia = mm = jasmine.createSpy('matchMedia');
+  });
 
-		beforeEach(function() {
-			mq      = new MediaQuery('((max-width:1000px))');
-			handler = jasmine.createSpyObj('handler', ['match', 'unmatch', 'setup']);
-			mm      = spyOn(global, 'matchMedia');
-		});
+  afterEach(function() {
+    window.matchMedia = matchMedia;
+  });
 
-		it('will add a media query listener when constructed', function() {
-			var mql = jasmine.createSpyObj('mql', ['addListener']),
-				mq;
+  it('will add a media query listener when constructed', function() {
+    var mql = jasmine.createSpyObj('mql', ['addListener']);
 
-			mm.andReturn(mql);
-			mq = new MediaQuery('(max-width: 1000px)');
+    mm.and.returnValue(mql);
+    var mq = new MediaQuery('(max-width: 1000px)');
 
-			expect(mql.addListener).toHaveBeenCalledWith(mq.listener);
-		});
+    expect(mql.addListener).toHaveBeenCalledWith(mq.listener);
+  });
 
 
-		it('can accept new handlers', function() {
-			// Arrange
-			var originalLength = mq.handlers.length;
+  it('can accept new handlers', function() {
+    var originalLength = mq.handlers.length;
 
-			// Act
-			mq.addHandler(handler);
+    mq.addHandler(handler);
 
-			// Assert
-			expect(originalLength).toBe(0);
-			expect(mq.handlers.length).toBe(1);
-		});
+    expect(originalLength).toBe(0);
+    expect(mq.handlers.length).toBe(1);
+  });
 
-		it('will turn on handler when added if query is already matching', function() {
-			// Arrange
-			mm.andReturn({matches:true, addListener : function() {}});
-			mq = new MediaQuery('(max-width:1000px)');
+  it('will turn on handler when added if query is already matching', function() {
+    mm.and.returnValue({matches:true, addListener : function() {}});
+    mq = new MediaQuery('(max-width:1000px)');
 
-			// Act
-			mq.addHandler(handler);
+    mq.addHandler(handler);
 
-			// Assert
-			expect(handler.match).toHaveBeenCalled();
-		});
+    expect(handler.match).toHaveBeenCalled();
+  });
 
-		it('can remove handlers', function() {
-			// Arrange
-			var handler2 = jasmine.createSpyObj('handler', ['match', 'unmatch']),
-				splice   = spyOn(Array.prototype, 'splice').andCallThrough(),
-				equals   = spyOn(global.QueryHandler.prototype, 'equals').andCallThrough(),
-				destroy  = spyOn(global.QueryHandler.prototype, 'destroy'),
-				length;
+  it('can remove handlers', function() {
+    var handler2 = jasmine.createSpyObj('handler', ['match', 'unmatch']);
+    var equals   = spyOn(QueryHandler.prototype, 'equals').and.callThrough();
+    var destroy  = spyOn(QueryHandler.prototype, 'destroy');
 
-			mq.addHandler(handler);
-			mq.addHandler(handler2);
+    mq.addHandler(handler);
+    mq.addHandler(handler2);
 
-			length = mq.handlers.length;
+    var length = mq.handlers.length;
 
-			// Act
-			mq.removeHandler(handler);
+    mq.removeHandler(handler);
 
-			// Assert
-			expect(mq.handlers.length).toBe(length-1);
-			expect(equals.calls.length).not.toBe(length); // ensure early exit
-			expect(destroy.calls.length).toBe(1); // destroy called just once
-			expect(splice.calls.length).toBe(1); // splice called just once
-		});
+    expect(mq.handlers.length).toBe(length - 1);
+    expect(equals.calls.count()).not.toBe(length); // ensure early exit
+    expect(destroy.calls.count()).toBe(1); // destroy called just once
+  });
 
-		it('can be short-circuited with isUnconditional flag', function() {
-			// Arrange
-			mq.isUnconditional = true;
+  it('can be short-circuited with isUnconditional flag', function() {
+    mq.isUnconditional = true;
+    mq.addHandler(handler);
 
-			// Act
-			mq.addHandler(handler);
+    expect(mq.matches()).toBe(true);
+  });
 
-			// Assert
-			expect(mq.matches()).toBe(true);
-		});
+  it('destroys all handlers and removes listener when cleared', function() {
+    var handler1 = jasmine.createSpyObj('handler1', ['match', 'unmatch']);
+    var handler2 = jasmine.createSpyObj('handler2', ['match', 'destroy']);
+    mq.mql = jasmine.createSpyObj('mql',['addListener', 'removeListener']);
 
-		it('destroys all handlers and removes listener when cleared', function() {
-			// Arrange
-			var handler1 = jasmine.createSpyObj('handler', ['match', 'unmatch']),
-				handler2 = jasmine.createSpyObj('handler', ['match', 'destroy']);
+    mq.addHandler(handler1);
+    mq.addHandler(handler2);
+    mq.clear();
 
-			mq.mql = jasmine.createSpyObj('mql',['addListener', 'removeListener']);
+    expect(handler1.unmatch).toHaveBeenCalled();
+    expect(handler2.destroy).toHaveBeenCalled();
+    expect(mq.mql.removeListener).toHaveBeenCalledWith(mq.listener);
+    expect(mq.handlers.length).toBe(0);
+  });
 
-			mq.addHandler(handler1);
-			mq.addHandler(handler2);
+  it('will consider a match if unconditional flag set or if media query matches', function() {
+    mq.isUnconditional = true;
+    var unconditionalMatch = mq.matches();
 
-			// Act
-			mq.clear();
+    mq.isUnconditional = false;
+    mq.mql = { matches : true };
 
-			// Assert
-			expect(handler1.unmatch).toHaveBeenCalled();
-			expect(handler2.destroy).toHaveBeenCalled();
-			expect(mq.mql.removeListener).toHaveBeenCalledWith(mq.listener);
-			expect(mq.handlers.length).toBe(0);
-		});
+    var mediaQueryMatch = mq.matches();
 
-		it('will consider a match if unconditional flag set or if media query matches', function() {
-			// Arrange
-			var unconditionalMatch,
-				mediaQueryMatch;
+    expect(unconditionalMatch).toBe(true);
+    expect(mediaQueryMatch).toBe(true);
+  });
 
-			mq.isUnconditional = true;
-			unconditionalMatch = mq.matches();
-
-			mq.isUnconditional = false;
-			mq.mql = { matches : true };
-
-			mediaQueryMatch = mq.matches();
-
-			// Assert
-			expect(unconditionalMatch).toBe(true);
-			expect(mediaQueryMatch).toBe(true);
-		});
-
-	});
-
-}(this));
+});

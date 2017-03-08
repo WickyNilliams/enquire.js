@@ -1,6 +1,4 @@
-/*global module:false*/
 module.exports = function(grunt) {
-
     'use strict';
 
     grunt.initConfig({
@@ -10,29 +8,11 @@ module.exports = function(grunt) {
             banner: '/*!\n' +
             ' * <%= pkg.name %> v<%= pkg.version %> - <%= pkg.description %>\n' +
             ' * Copyright (c) <%= grunt.template.today("yyyy") %> <%= pkg.author.name %> - <%= pkg.homepage %>\n' +
-            ' * License: <%= _.map(pkg.licenses, function(x) {return x.type + " (" + x.url + ")";}).join(", ") %>\n' +
+            ' * License: MIT' +
             ' */\n\n',
             outputDir: 'dist',
             output : '<%= meta.outputDir %>/<%= pkg.name %>',
             outputMin : '<%= meta.outputDir %>/<%= pkg.name.replace("js", "min.js") %>'
-        },
-
-        jasmine : {
-            options : {
-                specs : 'spec/*.js'
-            },
-            src : 'src/*.js'
-        },
-
-        rig: {
-            options : {
-                banner : '<%= meta.banner %>'
-            },
-            dist: {
-                files: {
-                    '<%= meta.output %>' : ['src/include/wrap.js']
-                }
-            }
         },
 
         uglify: {
@@ -49,41 +29,95 @@ module.exports = function(grunt) {
 
         jshint: {
             options: {
-                jshintrc : '.jshintrc'
+                jshintrc : true,
+                reporter: require('jshint-stylish')
             },
             prebuild : [
                 'Gruntfile.js',
                 'src/*.js',
                 'spec/*.js',
                 'demo/js/*.js'
-            ],
-            postbuild : {
-                options : {
-                    boss : true,
-                    globals : {
-                        'module' : false,
-                        'define' : false,
-                        'require' : false
-                    }
+            ]
+        },
+
+        browserify : {
+            dev: {
+                files: {
+                    '<%= meta.output %>' : 'src/index.js',
                 },
-                files : {
-                    src : ['<%= meta.output %>']
+                options : {
+                    watch : true,
+                    browserifyOptions : {
+                        debug : true,
+                        standalone : 'enquire'
+                    }
+                }
+            },
+
+            dist : {
+                files: {
+                    '<%= meta.output %>' : 'src/index.js',
+                },
+                options : {
+                    plugin: [
+                        require('bundle-collapser/plugin')
+                    ],
+                    browserifyOptions : {
+                        standalone : 'enquire'
+                    }
+                }
+            }
+        },
+
+        karma : {
+            options : {
+                frameworks : ['browserify', 'jasmine'],
+                files : [
+                    'spec/*.js'
+                ],
+                preprocessors : {
+                    'spec/*.js': 'browserify'
+                },
+                browserify: {
+                    extensions: ['.js'],
+                    debug : true
+                },
+                browsers : ['PhantomJS'],
+                reporters : ['progress'],
+            },
+
+            continuous : {
+                options : {
+                    singleRun: true,
+                }
+            },
+
+            unit : {
+                options : {
+                    background: true,
+                    singleRun: false
                 }
             }
         },
 
         watch: {
-            files: '<%= jshint.prebuild %>',
-            tasks: 'test'
+            test : {
+                options : {
+                    atBegin : true
+                },
+                files: '<%= jshint.prebuild %>',
+                tasks: ['jshint', 'karma:unit:run']
+            }
         }
     });
 
-    grunt.loadNpmTasks('grunt-contrib-jasmine');
     grunt.loadNpmTasks('grunt-contrib-uglify');
-    grunt.loadNpmTasks('grunt-rigger');
+    grunt.loadNpmTasks('grunt-browserify');
     grunt.loadNpmTasks('grunt-contrib-jshint');
     grunt.loadNpmTasks('grunt-contrib-watch');
+    grunt.loadNpmTasks('grunt-karma');
 
-    grunt.registerTask('test', ['jshint:prebuild', 'jasmine']);
-    grunt.registerTask('default', ['test', 'rig', 'jshint:postbuild', 'uglify']);
+    grunt.registerTask('test', ['jshint', 'karma:continuous']);
+    grunt.registerTask('default', ['browserify:dev', 'karma:unit:start', 'watch']);
+    grunt.registerTask('build', ['test', 'browserify:dist', 'uglify']);
 };

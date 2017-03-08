@@ -1,156 +1,116 @@
-/*global describe: true, it: true, expect: true, spyOn:true, jasmine: true, MediaQueryDispatch:true */
+var MediaQueryDispatch = require('../src/MediaQueryDispatch');
+var MediaQuery = require('../src/MediaQuery');
+var QueryHandler = require('../src/QueryHandler');
 
-(function(global) {
+describe('MediaQueryDispatch', function() {
 
-	'use strict';
+  var query = 'max-width:1000px';
+  var matchMedia;
 
-	describe('MediaQueryDispatch', function() {
+  beforeEach(function() {
+    matchMedia = window.matchMedia;
+  });
 
-		var query = 'max-width:1000px';
+  afterEach(function() {
+    window.matchMedia = matchMedia;
+  });
 
-		it('throws if matchMedia is not present', function() {
-			// Arrange
-			var matchMedia    = global.matchMedia;
-			global.matchMedia = undefined;
+  it('throws if matchMedia is not present', function() {
+    window.matchMedia = undefined;
 
-			// Act & assert
-			expect(function() {
-				new MediaQueryDispatch();
-			}).toThrow('matchMedia not present, legacy browsers require a polyfill');
+    expect(function() {
+      new MediaQueryDispatch();
+    }).toThrowError('matchMedia not present, legacy browsers require a polyfill');
+  });
 
-			// Cleanup
-			global.matchMedia = matchMedia;
-		});
+  it('tests for browser capability', function() {
+    window.matchMedia = jasmine.createSpy('matchMedia').and.returnValue({ matches: true });
 
-		it('tests for browser capability', function() {
-			// Arrange
-			var browserIsCapable = true,
-				mqd;
+    var mqd = new MediaQueryDispatch();
 
-			spyOn(global, 'matchMedia').andReturn({matches: browserIsCapable});
+    expect(window.matchMedia).toHaveBeenCalled();
+    expect(mqd.browserIsIncapable).toBe(false);
+  });
 
-			// Act
-			mqd = new MediaQueryDispatch();
+  //TODO: test for isUnconditional
 
-			// Assert
-			expect(global.matchMedia).toHaveBeenCalled();
-			expect(mqd.browserIsIncapable).toBe(!browserIsCapable);
-		});
+  it('allows a match function to be registered', function() {
+    var mqd = new MediaQueryDispatch();
+    mqd.register(query, function(){});
 
-		//TODO: test for isUnconditional
+    var mediaQuery = mqd.queries[query];
+    expect(mediaQuery).not.toBe(undefined);
+    expect(mediaQuery.handlers.length).toBe(1);
 
-		it('allows a match function to be registered', function() {
-			// Arrange
-			var mqd = new MediaQueryDispatch(),
-				mediaQuery;
+  });
 
-			// Act
-			mqd.register(query, function(){});
+  it('allows handler objects to be registered', function() {
+    var mqd = new MediaQueryDispatch();
+    mqd.register(query, {});
 
-			// Assert
-			mediaQuery = mqd.queries[query];
-			expect(mediaQuery).not.toBe(undefined);
-			expect(mediaQuery.handlers.length).toBe(1);
+    expect(mqd.queries[query].handlers.length).toBe(1);
+  });
 
-		});
+  it('allows arrays of handlers to be registered', function() {
+    var mqd      = new MediaQueryDispatch();
+    var handlers = [{}, {}, {}];
 
-		it('allows handler objects to be registered', function() {
-			// Arrange
-			var mqd = new MediaQueryDispatch(),
-				mediaQuery;
+    mqd.register(query, handlers);
 
-			// Act
-			mqd.register(query, {});
+    expect(mqd.queries[query].handlers.length).toBe(handlers.length);
+  });
 
-			// Assert
-			mediaQuery = mqd.queries[query];
-			expect(mediaQuery.handlers.length).toBe(1);
-		});
+  it('allows multiple handlers for same query to be registered at different times', function() {
+    var mqd = new MediaQueryDispatch();
+    var spy = spyOn(MediaQuery.prototype, 'addHandler');
 
-		it('allows arrays of handlers to be registered', function() {
-			// Arrange
-			var mqd      = new MediaQueryDispatch(),
-				handlers = [{}, {}, {}],
-				mediaQuery;
+    mqd.register(query, {});
+    mqd.register(query, {});
 
-			// Act
-			mqd.register(query, handlers);
+    expect(spy.calls.count()).toBe(2);
+  });
 
-			// Assert
-			mediaQuery = mqd.queries[query];
-			expect(mediaQuery.handlers.length).toBe(handlers.length);
-		});
+  it('allows entire queries to be unregistered', function() {
+    var mqd      = new MediaQueryDispatch();
+    var destroy  = spyOn(QueryHandler.prototype, 'destroy');
+    var handlers = [
+      jasmine.createSpyObj('handler1', ['match']),
+      jasmine.createSpyObj('handler2', ['match'])
+    ];
 
-		it('allows multiple handlers for same query to be registered at different times', function() {
-			// Arrange
-			var mqd            = new MediaQueryDispatch(),
-				instanceSpy    = jasmine.createSpyObj('mediaQueryInstance', ['addHandler']),
-				constructorSpy = spyOn(global, 'MediaQuery').andReturn(instanceSpy);
+    mqd.register(query, handlers);
+    mqd.unregister(query);
 
-			// Act
-			mqd.register(query, {});
-			mqd.register(query, {});
+    expect(destroy.calls.count()).toBe(handlers.length);
+    expect(mqd.queries[query]).toBe(undefined);
+  });
 
-			// Assert
-			expect(constructorSpy.calls.length).toBe(1);
-			expect(instanceSpy.addHandler.calls.length).toBe(2);
-		});
+  it('allows individual handlers to be unregistered', function() {
+    var mqd       = new MediaQueryDispatch();
+    var removeSpy = spyOn(MediaQuery.prototype, 'removeHandler');
+    var handlers  = [
+      jasmine.createSpyObj('handler1', ['match']),
+      jasmine.createSpyObj('handler2', ['match'])
+    ];
 
-		it('allows entire queries to be unregistered', function() {
-			// Arrange
-			var mqd      = new MediaQueryDispatch(),
-				destroy  = spyOn(global.QueryHandler.prototype, 'destroy'),
-				handlers = [
-					jasmine.createSpyObj('handler1', ['match']),
-					jasmine.createSpyObj('handler2', ['match'])
-				];
+    mqd.register(query, handlers);
+    mqd.unregister(query, handlers[1]);
 
-			mqd.register(query, handlers);
+    expect(removeSpy.calls.count()).toBe(1);
+  });
 
-			// Act
-			mqd.unregister(query);
+  it('returns if unregistering unrecognised media query', function() {
+    var mqd        = new MediaQueryDispatch();
+    var removeSpy  = spyOn(MediaQuery.prototype, 'removeHandler');
+    var destroySpy = spyOn(QueryHandler.prototype, 'destroy');
+    var handler    = jasmine.createSpyObj('handler1', ['match']);
 
-			// Assert
-			expect(destroy.calls.length).toBe(handlers.length);
-			expect(mqd.queries[query]).toBe(undefined);
-		});
+    mqd.register(query, handler);
+    var result = mqd.unregister('klgfjglkfdsajflkj', handler);
 
-		it('allows individual handlers to be unregistered', function() {
-			// Arrange
-			var mqd       = new MediaQueryDispatch(),
-				removeSpy = spyOn(global.MediaQuery.prototype, 'removeHandler'),
-				handlers  = [
-					jasmine.createSpyObj('handler1', ['match']),
-					jasmine.createSpyObj('handler2', ['match'])
-				];
+    expect(removeSpy).not.toHaveBeenCalled();
+    expect(destroySpy).not.toHaveBeenCalled();
+    expect(result).toBe(mqd);
+  });
 
-			// Act
-			mqd.register(query, handlers);
-			mqd.unregister(query, handlers[1]);
-
-			// Assert
-			expect(removeSpy.calls.length).toBe(1);
-		});
-
-		it('returns if unregistering unrecognised media query', function() {
-			// Arrange
-			var mqd        = new MediaQueryDispatch(),
-				removeSpy  = spyOn(global.MediaQuery.prototype, 'removeHandler'),
-				destroySpy = spyOn(global.QueryHandler.prototype, 'destroy'),
-				handler    = jasmine.createSpyObj('handler1', ['match']),
-				result;
-
-			// Act
-			mqd.register(query, handler);
-			result = mqd.unregister('klgfjglkfdsajflkj', handler);
-
-			// Assert
-			expect(removeSpy).not.toHaveBeenCalled();
-			expect(destroySpy).not.toHaveBeenCalled();
-			expect(result).toBe(mqd);
-		});
-
-	});
-
-}(this));
-
+});
