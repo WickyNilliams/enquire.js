@@ -1,5 +1,3 @@
-/*global describe: false, beforeEach: false, afterEach: false, it: false, expect: false, jasmine:false, spyOn:false */
-
 var MediaQuery = require('../src/MediaQuery');
 var QueryHandler = require('../src/QueryHandler');
 

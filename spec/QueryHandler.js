@@ -1,5 +1,3 @@
-/*global describe: true, beforeEach: true, it: true, expect: true, jasmine:true */
-
 var QueryHandler = require('../src/QueryHandler');
 
 describe('QueryHandler', function() {
