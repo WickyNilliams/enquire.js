@@ -19,11 +19,7 @@
     "smarttabs": true,
     "globals": {
         "matchMedia": false,
-        "each": true,
-        "isArray": true,
-        "isFunction": true,
-        "QueryHandler": false,
-        "MediaQuery": false,
-        "MediaQueryDispatch": false
+        "module": false,
+        "require": false
     }
 }

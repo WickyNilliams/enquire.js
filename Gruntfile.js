@@ -24,17 +24,6 @@ module.exports = function(grunt) {
             src : 'src/*.js'
         },
 
-        rig: {
-            options : {
-                banner : '<%= meta.banner %>'
-            },
-            dist: {
-                files: {
-                    '<%= meta.output %>' : ['src/include/wrap.js']
-                }
-            }
-        },
-
         uglify: {
             options : {
                 banner : '<%= meta.banner %>',
@@ -72,18 +61,50 @@ module.exports = function(grunt) {
             }
         },
 
+        browserify : {
+            dev: {
+                files: {
+                    '<%= meta.output %>' : 'src/index.js',
+                },
+                options : {
+                    watch : true,
+                    browserifyOptions : {
+                        debug : true,
+                        standalone : 'enquire'
+                    }
+                }
+            },
+
+            dist : {
+                files: {
+                    '<%= meta.output %>' : 'src/index.js',
+                },
+                options : {
+                    plugin: [
+                        require('bundle-collapser/plugin')
+                    ],
+                    browserifyOptions : {
+                        standalone : 'enquire'
+                    }
+                }
+            }
+        },
+
         watch: {
-            files: '<%= jshint.prebuild %>',
-            tasks: 'test'
+            test : {
+                files: '<%= jshint.prebuild %>',
+                tasks: 'test'
+            }
         }
     });
 
     grunt.loadNpmTasks('grunt-contrib-jasmine');
     grunt.loadNpmTasks('grunt-contrib-uglify');
-    grunt.loadNpmTasks('grunt-rigger');
+    grunt.loadNpmTasks('grunt-browserify');
     grunt.loadNpmTasks('grunt-contrib-jshint');
     grunt.loadNpmTasks('grunt-contrib-watch');
 
     grunt.registerTask('test', ['jshint:prebuild', 'jasmine']);
-    grunt.registerTask('default', ['test', 'rig', 'jshint:postbuild', 'uglify']);
+    grunt.registerTask('default', ['test', 'browserify:dev', 'watch']);
+    grunt.registerTask('build', ['test', 'browserify:dist']);
 };
