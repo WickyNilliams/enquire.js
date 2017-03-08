@@ -10,18 +10,11 @@ module.exports = function(grunt) {
             banner: '/*!\n' +
             ' * <%= pkg.name %> v<%= pkg.version %> - <%= pkg.description %>\n' +
             ' * Copyright (c) <%= grunt.template.today("yyyy") %> <%= pkg.author.name %> - <%= pkg.homepage %>\n' +
-            ' * License: <%= _.map(pkg.licenses, function(x) {return x.type + " (" + x.url + ")";}).join(", ") %>\n' +
+            ' * License: MIT' +
             ' */\n\n',
             outputDir: 'dist',
             output : '<%= meta.outputDir %>/<%= pkg.name %>',
             outputMin : '<%= meta.outputDir %>/<%= pkg.name.replace("js", "min.js") %>'
-        },
-
-        jasmine : {
-            options : {
-                specs : 'spec/*.js'
-            },
-            src : 'src/*.js'
         },
 
         uglify: {
@@ -45,20 +38,7 @@ module.exports = function(grunt) {
                 'src/*.js',
                 'spec/*.js',
                 'demo/js/*.js'
-            ],
-            postbuild : {
-                options : {
-                    boss : true,
-                    globals : {
-                        'module' : false,
-                        'define' : false,
-                        'require' : false
-                    }
-                },
-                files : {
-                    src : ['<%= meta.output %>']
-                }
-            }
+            ]
         },
 
         browserify : {
@@ -90,21 +70,55 @@ module.exports = function(grunt) {
             }
         },
 
+        karma : {
+            options : {
+                frameworks : ['browserify', 'jasmine'],
+                files : [
+                    'spec/*.js'
+                ],
+                preprocessors : {
+                    'spec/*.js': 'browserify'
+                },
+                browserify: {
+                    extensions: ['.js'],
+                    debug : true
+                },
+                browsers : ['PhantomJS'],
+                reporters : ['progress'],
+            },
+
+            continuous : {
+                options : {
+                    singleRun: true,
+                }
+            },
+
+            unit : {
+                options : {
+                    background: true,
+                    singleRun: false
+                }
+            }
+        },
+
         watch: {
             test : {
+                options : {
+                    atBegin : true
+                },
                 files: '<%= jshint.prebuild %>',
-                tasks: 'test'
+                tasks: ['jshint', 'karma:unit:run']
             }
         }
     });
 
-    grunt.loadNpmTasks('grunt-contrib-jasmine');
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-browserify');
     grunt.loadNpmTasks('grunt-contrib-jshint');
     grunt.loadNpmTasks('grunt-contrib-watch');
+    grunt.loadNpmTasks('grunt-karma');
 
-    grunt.registerTask('test', ['jshint:prebuild', 'jasmine']);
-    grunt.registerTask('default', ['test', 'browserify:dev', 'watch']);
-    grunt.registerTask('build', ['test', 'browserify:dist']);
+    grunt.registerTask('test', ['jshint', 'karma:continuous']);
+    grunt.registerTask('default', ['browserify:dev', 'karma:unit:start', 'watch']);
+    grunt.registerTask('build', ['test', 'browserify:dist', 'uglify']);
 };

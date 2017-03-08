@@ -1,132 +1,127 @@
-/*global describe: true, beforeEach: true, it: true, expect: true, jasmine:true, QueryHandler:true */
+/*global describe: true, beforeEach: true, it: true, expect: true, jasmine:true */
 
-(function() {
+var QueryHandler = require('../src/QueryHandler');
 
-	describe('QueryHandler', function() {
+describe('QueryHandler', function() {
+  var options;
 
-		'use strict';
+  beforeEach(function() {
+    options = jasmine.createSpyObj('options', ['match', 'unmatch', 'setup', 'destroy']);
+  });
 
-		var options;
+  it('is initialised if setup not deferred', function() {
+    // Arrange & act
+    var handler = new QueryHandler(options);
 
-		beforeEach(function() {
-			options = jasmine.createSpyObj('options', ['match', 'unmatch', 'setup', 'destroy']);
-		});
+    // Assert
+    expect(handler.initialised).toBe(true);
+  });
 
-		it('is initialised if setup not deferred', function() {
-			// Arrange & act
-			var handler = new QueryHandler(options);
+  it('is not initialised if setup deferred', function () {
+    // Arrange
+    options.deferSetup = true;
 
-			// Assert
-			expect(handler.initialised).toBe(true);
-		});
+    // Act
+    var handler = new QueryHandler(options);
 
-		it('is not initialised if setup deferred', function () {
-			// Arrange
-			options.deferSetup = true;
+    // Assert
+    expect(handler.initialised).toBeFalsy();
+  });
 
-			// Act
-			var handler = new QueryHandler(options);
+  it('stores supplied handler', function() {
+    // Arrange & act
+    var handler = new QueryHandler(options);
 
-			// Assert
-			expect(handler.initialised).toBeFalsy();
-		});
+    // Assert
+    expect(handler.options).toBe(options);
+  });
 
-		it('stores supplied handler', function() {
-			// Arrange & act
-			var handler = new QueryHandler(options);
+  it('calls setup handler and sets to initialised during setup', function() {
+    // Arrange
+    options.deferSetup = true;
+    var handler = new QueryHandler(options);
 
-			// Assert
-			expect(handler.options).toBe(options);
-		});
+    // Act
+    handler.setup();
 
-		it('calls setup handler and sets to initialised during setup', function() {
-			// Arrange
-			options.deferSetup = true;
-			var handler = new QueryHandler(options);
+    // Assert
+    expect(options.setup).toHaveBeenCalled();
+    expect(handler.initialised).toBe(true);
+  });
 
-			// Act
-			handler.setup();
+  it('will call a setup function followed by on', function() {
+    // Arrange
+    var handler;
 
-			// Assert
-			expect(options.setup).toHaveBeenCalled();
-			expect(handler.initialised).toBe(true);
-		});
+    options.deferSetup = true;
+    handler = new QueryHandler(options);
 
-		it('will call a setup function followed by on', function() {
-			// Arrange
-			var handler;
+    // Act
+    handler.on();
 
-			options.deferSetup = true;
-			handler = new QueryHandler(options);
+    // Assert
+    expect(options.setup).toHaveBeenCalled();
+    expect(options.match).toHaveBeenCalled();
+  });
 
-			// Act
-			handler.on();
+  it('calls match handler when turned on', function() {
+    // Arrange
+    var handler = new QueryHandler(options);
 
-			// Assert
-			expect(options.setup).toHaveBeenCalled();
-			expect(options.match).toHaveBeenCalled();
-		});
+    // Act
+    handler.on();
 
-		it('calls match handler when turned on', function() {
-			// Arrange
-			var handler = new QueryHandler(options);
+    // Assert
+    expect(options.match).toHaveBeenCalled();
+  });
 
-			// Act
-			handler.on();
+  it('calls unmatch handler when turned off', function() {
+    // Arrange
+    var handler = new QueryHandler(options);
 
-			// Assert
-			expect(options.match).toHaveBeenCalled();
-		});
+    // Act
+    handler.off();
 
-		it('calls unmatch handler when turned off', function() {
-			// Arrange
-			var handler = new QueryHandler(options);
+    // Assert
+    expect(options.unmatch).toHaveBeenCalled();
+  });
 
-			// Act
-			handler.off();
+  it('can test for equality', function() {
+    // Arrange
+    var handler = new QueryHandler(options),
+      equalityByObject,
+      equalityByFunction;
 
-			// Assert
-			expect(options.unmatch).toHaveBeenCalled();
-		});
+    // Act
+    equalityByObject = handler.equals(options);
+    equalityByFunction = handler.equals(options.match);
 
-		it('can test for equality', function() {
-			// Arrange
-			var handler = new QueryHandler(options),
-				equalityByObject,
-				equalityByFunction;
+    // Assert
+    expect(equalityByObject).toBe(true);
+    expect(equalityByFunction).toBe(true);
+  });
 
-			// Act
-			equalityByObject = handler.equals(options);
-			equalityByFunction = handler.equals(options.match);
+  it('calls through to destroy if supplied', function() {
+    // Arrange
+    var handler = new QueryHandler(options);
 
-			// Assert
-			expect(equalityByObject).toBe(true);
-			expect(equalityByFunction).toBe(true);
-		});
+    // Act
+    handler.destroy();
 
-		it('calls through to destroy if supplied', function() {
-			// Arrange
-			var handler = new QueryHandler(options);
+    // Assert
+    expect(options.destroy).toHaveBeenCalled();
+  });
 
-			// Act
-			handler.destroy();
+  it('calls through to unmatch if destroy not available', function() {
+    // Arrange
+    var spy     = jasmine.createSpyObj('options', ['match', 'unmatch']),
+      handler = new QueryHandler(spy);
 
-			// Assert
-			expect(options.destroy).toHaveBeenCalled();
-		});
+    // Act
+    handler.destroy();
 
-		it('calls through to unmatch if destroy not available', function() {
-			// Arrange
-			var spy     = jasmine.createSpyObj('options', ['match', 'unmatch']),
-				handler = new QueryHandler(spy);
+    // Assert
+    expect(spy.unmatch).toHaveBeenCalled();
+  });
 
-			// Act
-			handler.destroy();
-
-			// Assert
-			expect(spy.unmatch).toHaveBeenCalled();
-		});
-
-	});
-
-}());
+});
