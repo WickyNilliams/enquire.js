@@ -27,7 +27,7 @@
     "start": "grunt",
     "test": "grunt test",
     "preversion" : "npm test",
-    "version": "grunt build",
+    "version": "grunt build && git add .",
     "postversion": "git push origin master --tags && npm publish"
   },
   "devDependencies": {
