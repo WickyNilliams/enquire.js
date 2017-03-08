@@ -354,24 +354,6 @@ enquire.unregister(query2, handler2); // "handler 2 unmatched"
             <p>
                 If you wish to give full support to incapable browsers you can use David Knight's <a href="https://github.com/weblinc/media-match">media-match polyfill</a>. With this you do not need to use <code>shouldDegrade</code>, everything will work exactly as you would expect in more capable browsers. This has been tested with enquire and works <strong>all the way back to IE6</strong>.
             </p>
-            <p>
-                If you are using <a href="http://modernizr.com">Modernizr</a> (and you should be!) it's as easy as this to asynchronously load your polyfills:
-            </p>
-
-<pre class="language-javascript"><code>Modernizr.load([
-    //first test need for polyfill
-    {
-        test: window.matchMedia,
-        nope: "/path/to/polyfill.js"
-    },
-
-    //and then load enquire
-    "/path/to/enquire.js",
-    "/path/to/your/script.js"
-]);
-</code></pre>
-
-            <p>This is the approach that this site adopts.</p>
         </section>
 
         <section class="block">
