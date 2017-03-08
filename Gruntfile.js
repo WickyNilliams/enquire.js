@@ -82,7 +82,7 @@ module.exports = function(grunt) {
                     debug : true
                 },
                 browsers : ['PhantomJS'],
-                reporters : ['progress']
+                reporters : ['dots']
             },
 
             continuous : {
