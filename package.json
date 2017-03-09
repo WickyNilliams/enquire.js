@@ -31,6 +31,7 @@
     "postversion": "git push origin master --tags && npm publish"
   },
   "devDependencies": {
+    "bundle-collapser": "^1.2.1",
     "grunt": "^1.0.1",
     "grunt-browserify": "^5.0.0",
     "grunt-contrib-jshint": "^1.1.0",
