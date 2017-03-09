@@ -44,5 +44,9 @@
     "karma-browserify": "^5.1.1",
     "karma-jasmine": "^1.1.0",
     "karma-phantomjs-launcher": "^1.0.2"
-  }
+  },
+  "files": [
+    "src",
+    "dist"
+  ]
 }
