@@ -1,6 +1,6 @@
 {
   "name": "enquire.js",
-  "version": "2.1.5",
+  "version": "2.1.6",
   "main": "./src",
   "description": "Awesome Media Queries in JavaScript",
   "homepage": "http://wicky.nillia.ms/enquire.js",

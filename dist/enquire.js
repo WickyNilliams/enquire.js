@@ -1,5 +1,5 @@
 /*!
- * enquire.js v2.1.5 - Awesome Media Queries in JavaScript
+ * enquire.js v2.1.6 - Awesome Media Queries in JavaScript
  * Copyright (c) 2017 Nick Williams - http://wicky.nillia.ms/enquire.js
  * License: MIT */
 
@@ -19,7 +19,7 @@ function MediaQuery(query, isUnconditional) {
     this.query = query;
     this.isUnconditional = isUnconditional;
     this.handlers = [];
-    this.mql = matchMedia(query);
+    this.mql = window.matchMedia(query);
 
     var self = this;
     this.listener = function(mql) {
@@ -113,12 +113,12 @@ var isArray = Util.isArray;
  * @constructor
  */
 function MediaQueryDispatch () {
-    if(!matchMedia) {
-        throw new Error('matchMedia not present, legacy browsers require a polyfill');
+    if(!window.matchMedia) {
+        throw new Error('window.matchMedia not present, legacy browsers require a polyfill');
     }
 
     this.queries = {};
-    this.browserIsIncapable = !matchMedia('only all').matches;
+    this.browserIsIncapable = !window.matchMedia('only all').matches;
 }
 
 MediaQueryDispatch.prototype = {
