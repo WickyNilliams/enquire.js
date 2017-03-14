@@ -11,12 +11,12 @@ var isArray = Util.isArray;
  * @constructor
  */
 function MediaQueryDispatch () {
-    if(!matchMedia) {
+    if(!window.matchMedia) {
         throw new Error('matchMedia not present, legacy browsers require a polyfill');
     }
 
     this.queries = {};
-    this.browserIsIncapable = !matchMedia('only all').matches;
+    this.browserIsIncapable = !window.matchMedia('only all').matches;
 }
 
 MediaQueryDispatch.prototype = {
