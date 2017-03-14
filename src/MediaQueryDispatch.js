@@ -12,7 +12,7 @@ var isArray = Util.isArray;
  */
 function MediaQueryDispatch () {
     if(!window.matchMedia) {
-        throw new Error('window.matchMedia not present, legacy browsers require a polyfill');
+        throw new Error('matchMedia not present, legacy browsers require a polyfill');
     }
 
     this.queries = {};
