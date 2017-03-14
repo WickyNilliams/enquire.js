@@ -12,7 +12,7 @@ function MediaQuery(query, isUnconditional) {
     this.query = query;
     this.isUnconditional = isUnconditional;
     this.handlers = [];
-    this.mql = matchMedia(query);
+    this.mql = window.matchMedia(query);
 
     var self = this;
     this.listener = function(mql) {
