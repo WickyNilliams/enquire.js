@@ -3,7 +3,7 @@
   "version": "2.1.6",
   "main": "./src",
   "description": "Awesome Media Queries in JavaScript",
-  "homepage": "http://wicky.nillia.ms/enquire.js",
+  "homepage": "github.com/jojo5716/enquire.js",
   "author": {
     "name": "Nick Williams",
     "url": "http://wicky.nillia.ms"
@@ -20,7 +20,7 @@
     "url": "git://github.com/jojo5716/enquire.js"
   },
   "bugs": {
-    "url": "https://github.com/WickyNilliams/enquire.js/issues"
+    "url": "github.com/jojo5716/enquire.js"
   },
   "license": "MIT",
   "scripts": {
