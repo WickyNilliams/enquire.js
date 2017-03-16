@@ -2,6 +2,11 @@
 
 [![Build Status](https://travis-ci.org/WickyNilliams/enquire.js.svg)](https://travis-ci.org/WickyNilliams/enquire.js)
 
+## Fork of original lib enquire.js
+`enquire.js-unittest-fix` is a fix to pass test with Mocha and Jest unittest. The original lib have an error with matchMedia window attribute.
+error: uncaughtException: matchMedia not present, legacy browsers require a polyfill 
+* [Issue link](https://github.com/akiran/react-slick/issues/348) 
+
 `enquire.js` is a lightweight, pure javascript library (with **no dependencies**) for programmatically responding to media queries.
 
 ## Getting enquire.js
