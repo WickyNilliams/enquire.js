@@ -1,9 +1,9 @@
 {
   "name": "enquire.js",
-  "version": "2.1.6",
+  "version": "2.1.8",
   "main": "./src",
   "description": "Awesome Media Queries in JavaScript",
-  "homepage": "http://wicky.nillia.ms/enquire.js",
+  "homepage": "github.com/jojo5716/enquire.js",
   "author": {
     "name": "Nick Williams",
     "url": "http://wicky.nillia.ms"
@@ -17,10 +17,10 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git://github.com/WickyNilliams/enquire.js.git"
+    "url": "git://github.com/jojo5716/enquire.js"
   },
   "bugs": {
-    "url": "https://github.com/WickyNilliams/enquire.js/issues"
+    "url": "github.com/jojo5716/enquire.js"
   },
   "license": "MIT",
   "scripts": {
@@ -29,6 +29,9 @@
     "preversion": "npm test",
     "version": "grunt build && git add .",
     "postversion": "git push origin master --tags && npm publish"
+  },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/"
   },
   "devDependencies": {
     "bundle-collapser": "^1.2.1",

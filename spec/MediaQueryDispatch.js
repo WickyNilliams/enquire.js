@@ -15,13 +15,6 @@ describe('MediaQueryDispatch', function() {
     window.matchMedia = matchMedia;
   });
 
-  it('throws if matchMedia is not present', function() {
-    window.matchMedia = undefined;
-
-    expect(function() {
-      new MediaQueryDispatch();
-    }).toThrowError('matchMedia not present, legacy browsers require a polyfill');
-  });
 
   it('tests for browser capability', function() {
     window.matchMedia = jasmine.createSpy('matchMedia').and.returnValue({ matches: true });
