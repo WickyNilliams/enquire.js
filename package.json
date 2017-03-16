@@ -30,6 +30,9 @@
     "version": "grunt build && git add .",
     "postversion": "git push origin master --tags && npm publish"
   },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/"
+  },
   "devDependencies": {
     "bundle-collapser": "^1.2.1",
     "grunt": "^1.0.1",
