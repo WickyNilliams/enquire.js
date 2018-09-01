@@ -23,13 +23,13 @@ To install via bower, enter the following at the command line:
 
 To install via npm, enter the following at the command line:
 
-    npm install enquire.js
+    npm install universal-enquire
 
 ### Build From Source
 
 If you want build from source (and run all unit tests etc):
 
-    git clone git://github.com/WickyNilliams/enquire.js.git
+    git clone git://github.com/mohitmayank/enquire.js.git
     cd enquire.js
     npm install
     grunt
