@@ -4,7 +4,7 @@
 
 # TEAM
 
-    Nick Williams -- Developer -- @WickyNilliams -- http://wicky.nillia.ms
+    Nick Williams -- Developer -- @WickyNilliams -- https://wicky.nillia.ms
 
 
 # TECHNOLOGY COLOPHON

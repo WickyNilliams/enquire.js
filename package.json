@@ -2,10 +2,10 @@
   "name": "enquire-docs",
   "description": "Awesome documentation for awesome media queries in javascript",
   "version": "2.0.0",
-  "homepage": "http://wicky.nillia.ms/enquire.js/",
+  "homepage": "https://wicky.nillia.ms/enquire.js/",
   "author": {
     "name": "Nick Williams",
-    "url": "http://wicky.nillia.ms"
+    "url": "https://wicky.nillia.ms"
   },
   "devDependencies": {
     "grunt": "~0.4.1",
