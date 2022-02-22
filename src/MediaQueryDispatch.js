@@ -11,6 +11,11 @@ var isArray = Util.isArray;
  * @constructor
  */
 function MediaQueryDispatch () {
+    // Support SSR
+    if (typeof window === 'undefined') {
+        return;
+    }
+
     if(!window.matchMedia) {
         throw new Error('matchMedia not present, legacy browsers require a polyfill');
     }
